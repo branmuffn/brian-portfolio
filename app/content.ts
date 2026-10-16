@@ -24,10 +24,38 @@ export type Project = {
   todo?: string[];
   status?: string;
   featured?: boolean;
-  link?: { href: string; label: string };
+  award?: string;
+  role?: string;
+  team?: string;
+  links?: { href: string; label: string }[];
 };
 
 export const projects: Project[] = [
+  {
+    title: "OnBoard",
+    context: "Gloo AI Hackathon 2026 · Team project",
+    featured: true,
+    award: "Winner, Best of the Ministry Track · $20,000 team prize",
+    status: "Ongoing",
+    summary:
+      "A mobile web app that helps solo missionaries and one-person ministries turn small moments from the field into prayer requests and newsletters in their own words, without exposing the people they serve.",
+    details: [
+      "Capture: type or talk a moment, and AI tags it so it's easy to find later.",
+      "Write: AI finds themes across chosen moments and drafts only from your words. No added facts, quotes, or verses.",
+      "Privacy Check: flags full names and locations and blurs faces in photos. Nothing publishes without approval.",
+      "Partner side: a two-way prayer board and Journeys that let supporters follow one story over time.",
+      "Still testing and improving with missionaries and campus ministers.",
+    ],
+    metric: { value: "5 of 7", label: "testers said sending an update felt faster than what they do now" },
+    role: "Helped lead the team, contributed ideas, built the prototype, and helped with the initial pitch.",
+    team: "Christopher Lee, Javier Soto, Jedidiah Gabrielle Santos, Rita Dong, Thanh Tran, and me",
+    tools: ["React", "TypeScript", "Vite", "Fastify", "Drizzle", "PostgreSQL", "Gloo AI Studio", "Gemini", "Whisper", "MediaPipe", "FastAPI"],
+    links: [
+      { href: "https://nano-payment-thermal-gnome.trycloudflare.com/", label: "Try OnBoard" },
+      { href: "https://github.com/thanizmy/OnBoard", label: "GitHub" },
+      { href: "https://gloo.com/ai/hackathon/2026-winners", label: "Hackathon winners" },
+    ],
+  },
   {
     title: "Synthetic identity fraud analysis",
     context: "TD Bank · Summer 2026",
@@ -40,14 +68,6 @@ export const projects: Project[] = [
     ],
     metric: { value: "~7%", label: "of loss dollars came from ~0.25% of accounts" },
     tools: ["Python", "SQL", "SAS"],
-  },
-  {
-    title: "OnBoard",
-    context: "Gloo AI Hackathon · Team project",
-    summary: "My team's hackathon project, tested by 8 missionaries and field staff.",
-    metric: { value: "8", label: "missionaries and field staff tested it" },
-    link: { href: "https://nano-payment-thermal-gnome.trycloudflare.com/capture?mode=voice", label: "Try OnBoard" },
-    todo: ["What OnBoard does", "My role on the team", "Tools used"],
   },
   {
     title: "Splitwise clone",

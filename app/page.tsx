@@ -32,6 +32,7 @@ function ProjectCard({ p }: { p: Project }) {
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-mono text-xs uppercase tracking-wider text-neutral-500">{p.context}</p>
+        <div className="flex gap-2">
         {p.featured && (
           <span className="rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-white">
             Featured
@@ -42,8 +43,10 @@ function ProjectCard({ p }: { p: Project }) {
             {p.status}
           </span>
         )}
+        </div>
       </div>
       <h3 className="mt-3 text-xl font-bold tracking-tight sm:text-2xl">{p.title}</h3>
+      {p.award && <p className="mt-2 font-semibold text-accent">{p.award}</p>}
 
       <div className={p.featured ? "mt-4 grid gap-6 md:grid-cols-[auto_1fr] md:items-start" : "mt-3"}>
         {p.metric && (
@@ -69,15 +72,37 @@ function ProjectCard({ p }: { p: Project }) {
         </div>
       </div>
 
-      {p.link && (
-        <a
-          href={p.link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
-        >
-          {p.link.label} ↗
-        </a>
+      {(p.role || p.team) && (
+        <dl className="mt-4 space-y-1 text-sm text-neutral-600">
+          {p.role && (
+            <div>
+              <dt className="inline font-semibold text-neutral-900">My role: </dt>
+              <dd className="inline">{p.role}</dd>
+            </div>
+          )}
+          {p.team && (
+            <div>
+              <dt className="inline font-semibold text-neutral-900">Team: </dt>
+              <dd className="inline">{p.team}</dd>
+            </div>
+          )}
+        </dl>
+      )}
+
+      {p.links && (
+        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+          {p.links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold text-accent hover:underline"
+            >
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
       )}
 
       {p.todo && <Todo items={p.todo} />}
