@@ -1,3 +1,5 @@
+import Image from "next/image";
+import headshot from "../public/headshot.jpg";
 import { profile, projects, timeline, skills, type Project } from "./content";
 
 const nav = [
@@ -142,32 +144,41 @@ export default function Home() {
 
       <main id="top" className="mx-auto max-w-5xl px-5 sm:px-8">
         {/* Hero */}
-        <section className="py-20 sm:py-28">
-          <p className="font-mono text-sm text-accent">{profile.location}</p>
-          <h1 className="mt-4 text-5xl font-extrabold leading-[0.95] tracking-tighter sm:text-7xl md:text-8xl">
-            {profile.name}
-          </h1>
-          <p className="mt-6 max-w-3xl text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
-            {profile.headline}
-          </p>
-          <div className="mt-6 max-w-2xl space-y-1 text-lg leading-relaxed text-neutral-600">
-            {profile.intro.map((s) => (
-              <p key={s}>{s}</p>
-            ))}
-          </div>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href="#projects"
-              className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-            >
-              See my work
-            </a>
-            <a
-              href="#contact"
-              className="rounded-full border border-neutral-900 px-6 py-3 text-sm font-semibold hover:bg-neutral-900 hover:text-white"
-            >
-              Get in touch
-            </a>
+        <section className="grid items-center gap-10 py-16 sm:py-24 md:grid-cols-[1fr_auto] md:gap-14">
+          <Image
+            src={headshot}
+            alt="Headshot of Brian Tea"
+            priority
+            sizes="(min-width: 768px) 288px, 160px"
+            className="aspect-[4/5] w-40 rounded-2xl object-cover object-top md:order-last md:w-72"
+          />
+          <div>
+            <p className="font-mono text-sm text-accent">{profile.location}</p>
+            <h1 className="mt-4 text-5xl font-extrabold leading-[0.95] tracking-tighter sm:text-7xl lg:text-8xl">
+              {profile.name}
+            </h1>
+            <p className="mt-6 max-w-3xl text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
+              {profile.headline}
+            </p>
+            <div className="mt-6 max-w-2xl space-y-1 text-lg leading-relaxed text-neutral-600">
+              {profile.intro.map((s) => (
+                <p key={s}>{s}</p>
+              ))}
+            </div>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <a
+                href="#projects"
+                className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+              >
+                See my work
+              </a>
+              <a
+                href="#contact"
+                className="rounded-full border border-neutral-900 px-6 py-3 text-sm font-semibold hover:bg-neutral-900 hover:text-white"
+              >
+                Get in touch
+              </a>
+            </div>
           </div>
         </section>
 
