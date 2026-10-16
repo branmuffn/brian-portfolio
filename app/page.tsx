@@ -69,6 +69,17 @@ function ProjectCard({ p }: { p: Project }) {
         </div>
       </div>
 
+      {p.link && (
+        <a
+          href={p.link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
+        >
+          {p.link.label} ↗
+        </a>
+      )}
+
       {p.todo && <Todo items={p.todo} />}
 
       {p.tools && (

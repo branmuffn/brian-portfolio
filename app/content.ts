@@ -24,6 +24,7 @@ export type Project = {
   todo?: string[];
   status?: string;
   featured?: boolean;
+  link?: { href: string; label: string };
 };
 
 export const projects: Project[] = [
@@ -45,7 +46,8 @@ export const projects: Project[] = [
     context: "Gloo AI Hackathon · Team project",
     summary: "My team's hackathon project, tested by 8 missionaries and field staff.",
     metric: { value: "8", label: "missionaries and field staff tested it" },
-    todo: ["What OnBoard does", "My role on the team", "Tools used", "Link or demo"],
+    link: { href: "https://nano-payment-thermal-gnome.trycloudflare.com/capture?mode=voice", label: "Try OnBoard" },
+    todo: ["What OnBoard does", "My role on the team", "Tools used"],
   },
   {
     title: "Splitwise clone",
