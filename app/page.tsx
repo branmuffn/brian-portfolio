@@ -8,14 +8,6 @@ const nav = [
   { href: "#contact", label: "Contact" },
 ];
 
-function Todo({ items }: { items: string[] }) {
-  return (
-    <p className="mt-4 rounded-md border border-dashed border-neutral-300 px-3 py-2 font-mono text-xs text-neutral-500">
-      TODO: {items.join(" · ")}
-    </p>
-  );
-}
-
 function SectionHeading({ index, title }: { index: string; title: string }) {
   return (
     <div className="mb-10 flex items-baseline gap-4 border-b border-neutral-900 pb-3">
@@ -106,8 +98,6 @@ function ProjectCard({ p }: { p: Project }) {
           ))}
         </div>
       )}
-
-      {p.todo && <Todo items={p.todo} />}
 
       {p.tools && (
         <ul className="mt-auto flex flex-wrap gap-1.5 pt-5">
@@ -259,7 +249,15 @@ export default function Home() {
       </main>
 
       <footer className="mx-auto w-full max-w-5xl border-t border-neutral-200 px-5 py-8 text-sm text-neutral-500 sm:px-8">
-        Built by Brian Tea with Next.js
+        Built by Brian Tea with Next.js ·{" "}
+        <a
+          href="https://github.com/branmuffn/brian-portfolio"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-accent"
+        >
+          Source on GitHub ↗
+        </a>
       </footer>
     </>
   );
