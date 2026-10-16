@@ -84,6 +84,10 @@ export const projects: Project[] = [
     summary:
       "Built a pandas data reconciliation pipeline and a Streamlit dashboard to evaluate transaction history against pledges.",
     tools: ["Python", "pandas", "Streamlit"],
+    links: [
+      { href: "https://klrju2rpjcgffbf5yktsqp.streamlit.app/", label: "Live app" },
+      { href: "https://github.com/branmuffn/fc-dashboard", label: "GitHub" },
+    ],
   },
   {
     title: "Cloud-based AI vendor risk assessment",
