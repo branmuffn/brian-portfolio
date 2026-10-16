@@ -1,5 +1,4 @@
-// All facts below come from resume.pdf and about-me.md.
-// Anything missing is marked with a `todo` so it shows on the page.
+// All site copy lives here. Edit this file to update the page.
 
 export const profile = {
   name: "Brian Tea, P.E.",
@@ -21,7 +20,6 @@ export type Project = {
   details?: string[];
   metric?: { value: string; label: string };
   tools?: string[];
-  todo?: string[];
   status?: string;
   featured?: boolean;
   award?: string;
@@ -51,7 +49,6 @@ export const projects: Project[] = [
     team: "Christopher Lee, Javier Soto, Jedidiah Gabrielle Santos, Rita Dong, Thanh Tran, and me",
     tools: ["React", "TypeScript", "Vite", "Fastify", "Drizzle", "PostgreSQL", "Gloo AI Studio", "Gemini", "Whisper", "MediaPipe", "FastAPI"],
     links: [
-      { href: "https://nano-payment-thermal-gnome.trycloudflare.com/", label: "Try OnBoard" },
       { href: "https://github.com/thanizmy/OnBoard", label: "GitHub" },
       { href: "https://gloo.com/ai/hackathon/2026-winners", label: "Hackathon winners" },
     ],
@@ -71,9 +68,15 @@ export const projects: Project[] = [
   },
   {
     title: "Splitwise clone",
-    context: "In progress",
-    status: "Link coming",
-    todo: ["One-line description", "Tools used"],
+    context: "Frontier Commons Build Bootcamp",
+    status: "Live",
+    summary: "A working Splitwise clone: create or join a group, add shared expenses, and see who owes whom.",
+    details: ["Create an account to try it."],
+    tools: ["Next.js", "TypeScript", "Tailwind", "Supabase", "Vercel"],
+    links: [
+      { href: "https://splitwise-clone-three-theta.vercel.app", label: "Live" },
+      { href: "https://github.com/branmuffn/splitwise-clone", label: "GitHub" },
+    ],
   },
   {
     title: "Pledge reconciliation dashboard",
@@ -81,7 +84,6 @@ export const projects: Project[] = [
     summary:
       "Built a pandas data reconciliation pipeline and a Streamlit dashboard to evaluate transaction history against pledges.",
     tools: ["Python", "pandas", "Streamlit"],
-    todo: ["Outcome or link"],
   },
   {
     title: "Cloud-based AI vendor risk assessment",
@@ -104,7 +106,6 @@ export const projects: Project[] = [
       "Compared Gemini, ChatGPT, Grok, Claude, and Nemotron on generating working n8n workflow code.",
     ],
     tools: ["n8n", "Docker", "Python", "APIs", "Ollama", "MLX", "llama.cpp"],
-    todo: ["Time saved per workflow"],
   },
 ];
 

@@ -40,3 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /Headshot.jpg
+
+# private source files
+/resume.pdf
+/about-me.md
