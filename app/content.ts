@@ -91,6 +91,19 @@ export const projects: Project[] = [
     tools: ["Python", "SQL", "SAS"],
   },
   {
+    title: "Downstream",
+    context: "Concept · Proposed OMSA capstone with Frontier Commons and IFI",
+    status: "Prototype",
+    summary:
+      "When a currency crashes, a flood hits, or conflict breaks out abroad, students from that country are often studying here. Downstream connects news signals from abroad with data on where international students study, so IFI can see which U.S. places may need attention, and why.",
+    details: [
+      "Clickable prototype with mock data, a guided tour, and a no-signup demo mode.",
+      "Map, weekly digest, and a transparent explanation of how each place is scored.",
+    ],
+    tools: ["JavaScript", "D3", "Supabase", "Vercel"],
+    links: [{ href: "https://downstream-map.vercel.app/?demo=1", label: "Try the demo" }],
+  },
+  {
     title: "Scribe Bot",
     context: "Self-hosted app · Personal project",
     status: "Coming soon",
