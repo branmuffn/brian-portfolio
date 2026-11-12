@@ -90,15 +90,17 @@ function ProjectCard({ p }: { p: Project }) {
         // areas from overlapping if the links wrap to a second row.
         <div className="mt-4 flex flex-wrap gap-x-5 gap-y-6">
           {p.links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative -my-3 py-3 text-sm font-semibold text-accent hover:underline"
-            >
-              {l.label} ↗
-            </a>
+            <span key={l.href} className="flex flex-wrap items-baseline gap-x-1.5">
+              <a
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative -my-3 py-3 text-sm font-semibold text-accent hover:underline"
+              >
+                {l.label} ↗
+              </a>
+              {l.note && <span className="text-xs text-neutral-500">({l.note})</span>}
+            </span>
           ))}
         </div>
       )}
