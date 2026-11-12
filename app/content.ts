@@ -31,7 +31,7 @@ export type Project = {
   award?: string;
   role?: string;
   team?: string;
-  links?: { href: string; label: string }[];
+  links?: { href: string; label: string; note?: string }[]; // note: short hint shown next to the link
 };
 
 export const projects: Project[] = [
@@ -137,7 +137,7 @@ export const projects: Project[] = [
       "Built a pandas data reconciliation pipeline and a Streamlit dashboard to evaluate transaction history against pledges.",
     tools: ["Python", "pandas", "Streamlit"],
     links: [
-      { href: "https://klrju2rpjcgffbf5yktsqp.streamlit.app/", label: "Live app" },
+      { href: "https://klrju2rpjcgffbf5yktsqp.streamlit.app/", label: "Live app", note: "may take ~30 s to wake" },
       { href: "https://github.com/branmuffn/fc-dashboard", label: "GitHub" },
     ],
   },
