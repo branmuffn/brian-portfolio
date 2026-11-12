@@ -10,7 +10,7 @@ A plain-language guide to stopping, restarting, and finding everything for your 
 |---|---|---|---|
 | **This folder** | All the code, plus your private `resume.pdf` and `about-me.md` | `~/fc/brian-portfolio` on this Mac | Every time. Always start Claude here. |
 | **GitHub** | Public copy of the code. Pushing to it publishes the site | https://github.com/branmuffn/brian-portfolio | Rarely. Claude pushes for you. |
-| **Vercel** | Hosts the live website | https://brian-portfolio-amber.vercel.app (dashboard: https://vercel.com, project `brian-portfolio`) | Only if a deploy fails or you add a custom domain. |
+| **Vercel** | Hosts the live website | https://briantea.vercel.app (dashboard: https://vercel.com, project `brian-portfolio`) | Only if a deploy fails or you add a custom domain. |
 
 How they connect: **code in this folder → pushed to GitHub → Vercel builds and publishes it automatically.**
 

@@ -10,7 +10,7 @@ Frontier Commons Build Bootcamp, Week 1. A one-page personal portfolio for Brian
 | Piece | Where | Notes |
 |---|---|---|
 | Code | this folder; GitHub `branmuffn/brian-portfolio` (`main`, **public**) | Push to `main` and Vercel deploys production automatically |
-| Live site | https://brian-portfolio-amber.vercel.app | Vercel project `branmuffn/brian-portfolio` (linked in `.vercel/`) |
+| Live site | https://briantea.vercel.app | Vercel project `branmuffn/brian-portfolio` (linked in `.vercel/`) |
 | Page text | `app/content.ts` | Profile, projects, timeline, skills, contact. Edit here first |
 | Layout / styles | `app/page.tsx`, `app/globals.css`, `app/layout.tsx` | Accent color token `--color-accent` (#1d4ed8) |
 | Headshot | `public/headshot.jpg` (resized 714×1000) | The full-size original `Headshot.jpg` is git- and Vercel-ignored |
@@ -46,7 +46,7 @@ git push                     # deploys to production (Vercel Git integration)
 npx vercel --prod --yes      # manual deploy fallback
 ```
 
-Verify a deploy: `curl -s "https://brian-portfolio-amber.vercel.app/?v=$RANDOM" | grep -c "<text>"`
+Verify a deploy: `curl -s "https://briantea.vercel.app/?v=$RANDOM" | grep -c "<text>"`
 (the query string avoids a cached copy).
 Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the page in a 390px
 `<iframe>` inside a local HTML file and screenshot that.
