@@ -9,6 +9,8 @@ export const profile = {
     "Now I'm finishing a Master's in Analytics at Georgia Tech and building with data, automation, and AI, because I don't just manage workflows, I build them to eliminate work.",
   ],
   location: "Boston, MA",
+  site: "https://briantea.vercel.app", // canonical URL for metadata, robots.txt and sitemap.xml
+  description: "Technical program manager and analyst. Data, automation, and AI.", // meta and link-preview text
   email: "briantea716@gmail.com",
   linkedin: "https://www.linkedin.com/in/brian-tea",
   linkedinLabel: "linkedin.com/in/brian-tea",
