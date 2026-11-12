@@ -2,7 +2,8 @@
 
 export const profile = {
   name: "Brian Tea, P.E.",
-  headline: "Technical program manager and analyst who builds the tools, not just the plan.",
+  tagline: "Engineer. Learner. Builder.",
+  headline: "Tinkering with AI to make games, tools, and things that (mostly) work.",
   intro: [
     "I spent six years at Dow Chemical leading engineering programs up to $55M, then spent this summer at TD Bank digging into synthetic identity fraud with Python, SQL, and SAS.",
     "Now I'm finishing a Master's in Analytics at Georgia Tech and building with data, automation, and AI, because I don't just manage workflows, I build them to eliminate work.",
@@ -11,6 +12,9 @@ export const profile = {
   email: "briantea716@gmail.com",
   linkedin: "https://www.linkedin.com/in/brian-tea",
   linkedinLabel: "linkedin.com/in/brian-tea",
+  github: "https://github.com/branmuffn",
+  githubLabel: "github.com/branmuffn",
+  resume: "/Brian-Tea-Resume.pdf",
 };
 
 export type Project = {
@@ -49,8 +53,28 @@ export const projects: Project[] = [
     team: "Christopher Lee, Javier Soto, Jedidiah Gabrielle Santos, Rita Dong, Thanh Tran, and me",
     tools: ["React", "TypeScript", "Vite", "Fastify", "Drizzle", "PostgreSQL", "Gloo AI Studio", "Gemini", "Whisper", "MediaPipe", "FastAPI"],
     links: [
-      { href: "https://github.com/thanizmy/OnBoard", label: "GitHub" },
       { href: "https://gloo.com/ai/hackathon/2026-winners", label: "Hackathon winners" },
+    ],
+  },
+  {
+    title: "Frontline Squad",
+    context: "Browser game · Personal project",
+    featured: true,
+    status: "Live",
+    summary:
+      "A first-person shooter that runs in the browser with no install, no account, and no game server. Inspired by Combat Arms, with some Halo and Call of Duty mixed in.",
+    details: [
+      "13 modes, 9 maps, an in-game map editor, bots with skill levels 1 to 10, and vehicles.",
+      "Multiplayer for up to 12 players, peer to peer over WebRTC. The host's game is the referee.",
+      "Ships as one self-contained HTML file. All art, audio, and music are generated in code.",
+      "Every bug fix ships with a test that fails without it.",
+    ],
+    metric: { value: "68", label: "automated browser tests run before every change ships" },
+    role: "Set the vision, play-tested every build, and decided what to keep, cut, and fix. Claude wrote most of the code.",
+    tools: ["JavaScript", "three.js", "WebRTC", "Vite", "Playwright", "Claude Code"],
+    links: [
+      { href: "https://frontline-squad.netlify.app", label: "Play it" },
+      { href: "https://github.com/branmuffn/frontline-squad", label: "GitHub" },
     ],
   },
   {
@@ -67,11 +91,24 @@ export const projects: Project[] = [
     tools: ["Python", "SQL", "SAS"],
   },
   {
+    title: "Scribe Bot",
+    context: "Self-hosted app · Personal project",
+    status: "Coming soon",
+    summary:
+      "A private, self-hosted app that turns recorded conversations into searchable transcripts, tasks, decisions, and people notes.",
+    details: [
+      "Speech recognition and speaker identification run locally on a home server. Audio never leaves my devices.",
+      "Private meetings never touch a cloud AI.",
+      "A public demo with sample data is in progress.",
+    ],
+    tools: ["Python", "FastAPI", "sherpa-onnx", "Tailscale", "Claude"],
+  },
+  {
     title: "Splitwise clone",
     context: "Frontier Commons Build Bootcamp",
     status: "Live",
     summary: "A working Splitwise clone: create or join a group, add shared expenses, and see who owes whom.",
-    details: ["Create an account to try it."],
+    details: ["Create an account to try it. A no-signup demo mode is coming soon."],
     tools: ["Next.js", "TypeScript", "Tailwind", "Supabase", "Vercel"],
     links: [
       { href: "https://splitwise-clone-three-theta.vercel.app", label: "Live" },
@@ -111,6 +148,13 @@ export const projects: Project[] = [
     ],
     tools: ["n8n", "Docker", "Python", "APIs", "Ollama", "MLX", "llama.cpp"],
   },
+];
+
+// How I build with AI (shown under Projects)
+export const howIBuild = [
+  { title: "I direct, AI writes, I check", body: "I set the goal and the constraints, Claude Code writes most of the code, and I review and test every change before it ships." },
+  { title: "Tests over trust", body: "Every bug fix comes with an automated test that fails without the fix, so the same bug can't quietly come back." },
+  { title: "Decisions live in the repo", body: "Rules, pitfalls, and decision logs are written down next to the code, so the next session (human or AI) starts from what we already learned." },
 ];
 
 export type TimelineItem = {

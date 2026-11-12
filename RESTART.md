@@ -47,7 +47,7 @@ The portfolio has no database. **Supabase** is only used by the Splitwise clone
    Starting in this folder makes Claude automatically read `CLAUDE.md`, the project's instructions
    and history.
 3. A good first message:
-   > Read CLAUDE.md and RESUME.md. Then [describe what you want to change].
+   > Read CLAUDE.md and RESTART.md. Then [describe what you want to change].
 
 **Other ways to restart:**
 - `claude --continue`: reopens your most recent conversation where it left off.
