@@ -1,9 +1,10 @@
 import Image from "next/image";
 import headshot from "../public/headshot.jpg";
-import { profile, projects, timeline, skills, type Project } from "./content";
+import { profile, projects, howIBuild, timeline, skills, type Project } from "./content";
 
 const nav = [
   { href: "#projects", label: "Projects" },
+  { href: "#how-i-build", label: "How I build", wide: true }, // hidden in the phone header (too tight at 390px)
   { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
 ];
@@ -117,12 +118,12 @@ export default function Home() {
     <>
       <header className="sticky top-0 z-10 border-b border-neutral-200 bg-white/90 backdrop-blur">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3 sm:px-8">
-          <a href="#top" className="font-bold tracking-tight">
+          <a href="#top" className="whitespace-nowrap font-bold tracking-tight">
             Brian Tea
           </a>
           <ul className="flex gap-4 text-sm font-medium text-neutral-600 sm:gap-7">
             {nav.map((n) => (
-              <li key={n.href}>
+              <li key={n.href} className={"wide" in n ? "hidden whitespace-nowrap sm:block" : "whitespace-nowrap"}>
                 <a href={n.href} className="hover:text-accent">
                   {n.label}
                 </a>
@@ -147,7 +148,8 @@ export default function Home() {
             <h1 className="mt-4 text-5xl font-extrabold leading-[0.95] tracking-tighter sm:text-7xl lg:text-8xl">
               {profile.name}
             </h1>
-            <p className="mt-6 max-w-3xl text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
+            <p className="mt-6 text-2xl font-bold tracking-tight text-accent sm:text-3xl">{profile.tagline}</p>
+            <p className="mt-3 max-w-3xl text-xl font-semibold leading-snug tracking-tight sm:text-2xl">
               {profile.headline}
             </p>
             <div className="mt-6 max-w-2xl space-y-1 text-lg leading-relaxed text-neutral-600">
@@ -163,8 +165,16 @@ export default function Home() {
                 See my work
               </a>
               <a
-                href="#contact"
+                href={profile.resume}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-full border border-neutral-900 px-6 py-3 text-sm font-semibold hover:bg-neutral-900 hover:text-white"
+              >
+                Resume (PDF)
+              </a>
+              <a
+                href="#contact"
+                className="rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-700 hover:border-neutral-900"
               >
                 Get in touch
               </a>
@@ -182,9 +192,22 @@ export default function Home() {
           </div>
         </section>
 
+        {/* How I build */}
+        <section id="how-i-build" className="scroll-mt-20 py-16">
+          <SectionHeading index="02" title="How I build with AI" />
+          <div className="grid gap-5 md:grid-cols-3">
+            {howIBuild.map((h) => (
+              <div key={h.title} className="rounded-xl border border-neutral-200 p-6">
+                <h3 className="text-lg font-bold tracking-tight">{h.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-600">{h.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Experience */}
         <section id="experience" className="scroll-mt-20 py-16">
-          <SectionHeading index="02" title="Experience & education" />
+          <SectionHeading index="03" title="Experience & education" />
           <ol className="relative border-l-2 border-neutral-200">
             {timeline.map((t) => (
               <li key={t.org + t.dates} className="relative pb-10 pl-6 last:pb-0 sm:pl-8">
@@ -229,19 +252,31 @@ export default function Home() {
 
         {/* Contact */}
         <section id="contact" className="scroll-mt-20 py-16">
-          <SectionHeading index="03" title="Contact" />
-          <p className="max-w-xl text-lg text-neutral-600">Email is the fastest way to reach me.</p>
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:gap-10">
+          <SectionHeading index="04" title="Contact" />
+          <p className="max-w-xl text-lg text-neutral-600">
+            Email is the fastest way to reach me. My{" "}
+            <a href={profile.resume} target="_blank" rel="noopener noreferrer" className="font-semibold text-accent hover:underline">
+              resume (PDF)
+            </a>{" "}
+            has the details.
+          </p>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-4">
             <a href={`mailto:${profile.email}`} className="group">
               <span className="block font-mono text-xs uppercase tracking-wider text-neutral-500">Email</span>
-              <span className="break-all text-xl font-semibold group-hover:text-accent sm:text-2xl">
+              <span className="break-all text-lg font-semibold group-hover:text-accent sm:break-normal sm:text-xl">
                 {profile.email}
               </span>
             </a>
             <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="group">
               <span className="block font-mono text-xs uppercase tracking-wider text-neutral-500">LinkedIn</span>
-              <span className="text-xl font-semibold group-hover:text-accent sm:text-2xl">
+              <span className="whitespace-nowrap text-lg font-semibold group-hover:text-accent sm:text-xl">
                 {profile.linkedinLabel} ↗
+              </span>
+            </a>
+            <a href={profile.github} target="_blank" rel="noopener noreferrer" className="group">
+              <span className="block font-mono text-xs uppercase tracking-wider text-neutral-500">GitHub</span>
+              <span className="whitespace-nowrap text-lg font-semibold group-hover:text-accent sm:text-xl">
+                {profile.githubLabel} ↗
               </span>
             </a>
           </div>

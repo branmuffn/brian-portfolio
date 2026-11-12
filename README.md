@@ -4,7 +4,7 @@ My personal portfolio site, built during the Frontier Commons Build Bootcamp.
 
 Live: https://brian-portfolio-amber.vercel.app
 
-**Coming back to this project?** See [RESUME.md](RESUME.md) for how to restart, where everything lives, and what to say to Claude.
+**Coming back to this project?** See [RESTART.md](RESTART.md) for how to restart, where everything lives, and what to say to Claude.
 
 ## Stack
 

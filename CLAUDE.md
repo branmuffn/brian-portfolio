@@ -22,8 +22,9 @@ No database, no env vars, no API keys. Supabase belongs to the Splitwise clone, 
 
 - **Facts only.** Use only facts from `resume.pdf`, `about-me.md`, or what Brian says in chat. Never
   invent. If something is missing, ask (don't leave visible TODOs on the live site anymore).
-- **Never publish private info:** no phone number, no resume PDF, no `about-me.md`. The email
-  (briantea716@gmail.com) and LinkedIn are intentionally public.
+- **Never publish private info:** no phone number, no private `resume.pdf`, no `about-me.md`. The email
+  (briantea716@gmail.com), LinkedIn and GitHub are intentionally public. `public/Brian-Tea-Resume.pdf` is the
+  public copy (phone number removed, 2026-11-11); regenerate it from `resume.pdf` the same way when the resume changes.
 - **Voice:** concise, direct, structured, builder framing. **No em dashes** in site copy.
 - **Design:** white background, one accent color, strong typography, no stock photos, must work at
   phone width (~390px).
@@ -59,12 +60,16 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
   `sudo chown` in their own Terminal.
 - `create-next-app` refuses non-empty folders: scaffold in a subfolder, then move it up.
 
-## Current site content (as of 2026-10-16)
+## Current site content (as of 2026-11-11)
 
-Hero (headshot, name, headline, 2-sentence intro) → Projects → Experience & education timeline +
-skills → Contact → footer with "Source on GitHub".
+Hero (headshot, name, tagline "Engineer. Learner. Builder.", headline, intro, Resume button) → Projects →
+How I build with AI (3 cards) → Experience & education timeline + skills → Contact (email, LinkedIn, GitHub,
+resume) → footer with "Source on GitHub".
 
 Projects, in order:
+Order (2026-11-11): OnBoard, Frontline Squad (featured, live game), TD Bank fraud, Scribe Bot (coming soon),
+Splitwise clone, pledge dashboard, Azure vendor risk, self-hosted automation. Notes on the older items:
+
 1. **OnBoard** (featured): Gloo AI Hackathon 2026, Best of the Ministry Track, $20,000 team prize,
    ongoing. Card shows the 5-of-7 tester stat, Brian's role, the team, the stack, and links.
    Use **7 survey responses**, not "8 testers" (the user chose the survey numbers).
@@ -81,7 +86,7 @@ contradicts the resume and is ignored. The degree is "M.S. Analytics" (the resum
 
 ## Open items
 
-- **OnBoard GitHub link is broken for visitors.** `thanizmy/OnBoard` (team repo, linked on the card)
+- **Resolved 2026-11-11: OnBoard GitHub link removed** (Brian shows the front end only, not the code). Was: `thanizmy/OnBoard` (team repo, linked on the card)
   and the fork `branmuffn/OnBoard` are both **private** (404 when logged out). The user hasn't
   decided yet: remove the link, or ask Thanh to make the team repo public. A private fork can't
   be made public on its own.
