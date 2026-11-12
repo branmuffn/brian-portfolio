@@ -85,14 +85,17 @@ function ProjectCard({ p }: { p: Project }) {
       )}
 
       {p.links && (
-        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+        // py-3 -my-3 gives each link a 44px-tall tap area without moving the layout, and
+        // `relative` keeps that area above the tools list below it. gap-y-6 keeps tap
+        // areas from overlapping if the links wrap to a second row.
+        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-6">
           {p.links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-semibold text-accent hover:underline"
+              className="relative -my-3 py-3 text-sm font-semibold text-accent hover:underline"
             >
               {l.label} ↗
             </a>
@@ -118,13 +121,15 @@ export default function Home() {
     <>
       <header className="sticky top-0 z-10 border-b border-neutral-200 bg-white/90 backdrop-blur">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3 sm:px-8">
-          <a href="#top" className="whitespace-nowrap font-bold tracking-tight">
+          {/* Padding plus matching negative margin: 44px-tall tap areas, same header height.
+              The same pattern (with `relative`) is used on the card, resume and footer links. */}
+          <a href="#top" className="relative -my-2.5 whitespace-nowrap py-2.5 font-bold tracking-tight">
             Brian Tea
           </a>
           <ul className="flex gap-4 text-sm font-medium text-neutral-600 sm:gap-7">
             {nav.map((n) => (
               <li key={n.href} className={"wide" in n ? "hidden whitespace-nowrap sm:block" : "whitespace-nowrap"}>
-                <a href={n.href} className="hover:text-accent">
+                <a href={n.href} className="relative -my-3 block py-3 hover:text-accent">
                   {n.label}
                 </a>
               </li>
@@ -255,7 +260,12 @@ export default function Home() {
           <SectionHeading index="04" title="Contact" />
           <p className="max-w-xl text-lg text-neutral-600">
             Email is the fastest way to reach me. My{" "}
-            <a href={profile.resume} target="_blank" rel="noopener noreferrer" className="font-semibold text-accent hover:underline">
+            <a
+              href={profile.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative -my-2 inline-block py-2 font-semibold text-accent hover:underline"
+            >
               resume (PDF)
             </a>{" "}
             has the details.
@@ -289,7 +299,7 @@ export default function Home() {
           href="https://github.com/branmuffn/brian-portfolio"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-accent"
+          className="relative -my-3 inline-block py-3 hover:text-accent"
         >
           Source on GitHub ↗
         </a>
