@@ -25,7 +25,7 @@ export type Project = {
   summary?: string;
   details?: string[];
   metric?: { value: string; label: string };
-  tools?: string[];
+  tools?: string[]; // "Built with": the 3-4 main pieces, not a skills claim
   status?: string;
   featured?: boolean;
   award?: string;
@@ -55,7 +55,7 @@ export const projects: Project[] = [
     metric: { value: "5 of 7", label: "testers said sending an update felt faster than what they do now" },
     role: "Helped lead the team, contributed ideas, built the prototype, and helped with the initial pitch.",
     team: "Christopher Lee, Javier Soto, Jedidiah Gabrielle Santos, Rita Dong, Thanh Tran, and me",
-    tools: ["React", "TypeScript", "Vite", "Fastify", "Drizzle", "PostgreSQL", "Gloo AI Studio", "Gemini", "Whisper", "MediaPipe", "FastAPI"],
+    tools: ["React", "Gloo AI Studio", "Gemini", "Whisper"],
     links: [
       { href: "https://gloo.com/ai/hackathon/2026-winners", label: "Hackathon winners" },
     ],
@@ -76,7 +76,7 @@ export const projects: Project[] = [
     ],
     metric: { value: "68", label: "automated browser tests run before every change ships" },
     role: "Set the vision, play-tested every build, and decided what to keep, cut, and fix. Claude wrote most of the code.",
-    tools: ["JavaScript", "three.js", "WebRTC", "Vite", "Playwright", "Claude Code"],
+    tools: ["three.js", "WebRTC", "Playwright", "Claude Code"],
     links: [
       { href: "https://frontline-squad.netlify.app", label: "Play it" },
       { href: "https://github.com/branmuffn/frontline-squad", label: "GitHub" },
@@ -106,11 +106,12 @@ export const projects: Project[] = [
       "Clickable prototype with mock data, a guided tour, and a no-signup demo mode.",
       "Map, weekly digest, and a transparent explanation of how each place is scored.",
     ],
-    tools: ["JavaScript", "D3", "Supabase", "Vercel"],
+    tools: ["JavaScript", "D3", "Supabase"],
     links: [{ href: "https://downstream-map.vercel.app/?demo=1", label: "Try the demo" }],
   },
   {
     title: "Scribe Bot",
+    featured: true,
     image: { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 806 },
     context: "Self-hosted app · Personal project",
     status: "Coming soon",
@@ -121,7 +122,7 @@ export const projects: Project[] = [
       "Private meetings never touch a cloud AI.",
       "A public demo with sample data is in progress.",
     ],
-    tools: ["Python", "FastAPI", "sherpa-onnx", "Tailscale", "Claude"],
+    tools: ["Python", "FastAPI", "sherpa-onnx", "Claude"],
   },
   {
     title: "Splitwise clone",
@@ -129,7 +130,7 @@ export const projects: Project[] = [
     status: "Live",
     summary: "A working Splitwise clone: create or join a group, add shared expenses, and see who owes whom.",
     details: ["Create an account to try it. A no-signup demo mode is coming soon."],
-    tools: ["Next.js", "TypeScript", "Tailwind", "Supabase", "Vercel"],
+    tools: ["Next.js", "TypeScript", "Supabase"],
     links: [
       { href: "https://splitwise-clone-three-theta.vercel.app", label: "Live" },
       { href: "https://github.com/branmuffn/splitwise-clone", label: "GitHub" },
@@ -167,7 +168,7 @@ export const projects: Project[] = [
       "Workflows include generating YouTube videos from Reddit posts and producing video ads from static assets.",
       "Compared Gemini, ChatGPT, Grok, Claude, and Nemotron on generating working n8n workflow code.",
     ],
-    tools: ["n8n", "Docker", "Python", "APIs", "Ollama", "MLX", "llama.cpp"],
+    tools: ["n8n", "Docker", "Ollama"],
   },
 ];
 
@@ -234,6 +235,7 @@ export const timeline: TimelineItem[] = [
 
 export const skills = {
   Data: ["Python", "SQL", "R", "SAS", "pandas", "Predictive modeling", "Regression", "Simulation"],
-  "Build & AI": ["n8n", "Docker", "Streamlit", "APIs", "Ollama", "MLX", "llama.cpp", "Azure"],
+  "Building with AI": ["Claude Code", "Claude", "ChatGPT", "Gemini", "Local LLMs (Ollama, MLX, llama.cpp)"],
+  "Build & automation": ["n8n", "Docker", "Streamlit", "APIs", "Azure"],
   Leadership: ["Technical program management", "Cross-functional teams", "Requirements from ambiguity", "Professional Engineer (P.E.)"],
 };

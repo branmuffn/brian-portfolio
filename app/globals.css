@@ -6,8 +6,8 @@
   --color-navy-raised: #111c33;
   --color-line: #22304d;
   --color-ink: #e8edf7;
-  --color-body: #a9b6cc;
-  --color-muted: #8494b0;
+  --color-body: #b9c4d6;
+  --color-muted: #97a5bf;
   --color-accent: #f2b45a;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -20,7 +20,7 @@ html {
 
 body {
   background: #0b1324;
-  color: #a9b6cc;
+  color: #b9c4d6;
 }
 
 ::selection {
