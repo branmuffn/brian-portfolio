@@ -39,7 +39,7 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
         onClick={(e) => {
           if (e.target === e.currentTarget) dialog.current?.close();
         }}
-        className="m-auto max-h-[92vh] max-w-[94vw] overflow-visible bg-transparent p-0 backdrop:bg-black/80"
+        className="m-auto w-[96vw] max-w-[1600px] overflow-visible bg-transparent p-0 backdrop:bg-black/85"
         aria-label={alt}
       >
         <Image
@@ -47,8 +47,8 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
           alt={alt}
           width={width}
           height={height}
-          sizes="94vw"
-          className="h-auto max-h-[88vh] w-auto max-w-[94vw] rounded-md"
+          sizes="96vw"
+          className="mx-auto h-auto max-h-[86vh] w-full rounded-md object-contain"
         />
         <form method="dialog" className="mt-3 text-center">
           <button className="rounded-md bg-ink px-5 py-3 text-sm font-semibold text-navy hover:bg-accent">Close</button>
