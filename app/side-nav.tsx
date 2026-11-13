@@ -35,7 +35,7 @@ export function SideNav({ items }: { items: NavItem[] }) {
               <a
                 href={item.href}
                 aria-current={isActive ? "location" : undefined}
-                className="group flex items-center gap-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.2em]"
+                className="group flex items-center gap-4 py-2 font-mono text-sm font-semibold uppercase tracking-[0.2em]"
               >
                 <span
                   aria-hidden
