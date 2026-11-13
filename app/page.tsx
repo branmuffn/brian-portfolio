@@ -3,6 +3,7 @@ import headshot from "../public/headshot.jpg";
 import { profile, projects, howIBuild, timeline, skills, type Project } from "./content";
 import { SideNav } from "./side-nav";
 import { ZoomImage } from "./zoom-image";
+import { ClickableCard } from "./clickable-card";
 
 const nav = [
   { href: "#about", label: "About" },
@@ -169,9 +170,11 @@ function MoreDetails({ p }: { p: Project }) {
   );
 }
 
+const hasDetails = (p: Project) => Boolean(p.details || p.role || p.team);
+
 function FeaturedCard({ p }: { p: Project }) {
   return (
-    <article className="rounded-2xl border border-line bg-navy-raised/60 p-5 transition duration-200 ease-out hover:border-accent/40 sm:p-7 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]">
+    <ClickableCard className={`rounded-2xl border border-line bg-navy-raised/60 p-5 transition duration-200 ease-out hover:border-accent/40 sm:p-7 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)] ${hasDetails(p) ? "cursor-pointer" : ""}`}>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
         <Badges p={p} />
@@ -196,26 +199,31 @@ function FeaturedCard({ p }: { p: Project }) {
       {p.tools && <BuiltWith list={p.tools} />}
       <Links p={p} />
       <MoreDetails p={p} />
-    </article>
+    </ClickableCard>
   );
 }
 
+// "More projects": full-width rows, small screenshot on the left (stacks on phones).
 function CompactCard({ p }: { p: Project }) {
   return (
-    <article className="flex flex-col rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60">
-      {p.image && <ZoomImage {...p.image} sizes="(min-width: 640px) 20rem, 100vw" className="mb-4" />}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <p className="font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
-        <Badges p={p} />
+    <ClickableCard
+      className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""} ${hasDetails(p) ? "cursor-pointer" : ""}`}
+    >
+      {p.image && <ZoomImage {...p.image} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <p className="font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
+          <Badges p={p} />
+        </div>
+        <div className="mt-2">
+          <ProjectTitle p={p} size="md" />
+        </div>
+        {p.summary && <p className="mt-2 leading-relaxed">{p.summary}</p>}
+        {p.tools && <BuiltWith list={p.tools} />}
+        <Links p={p} />
+        <MoreDetails p={p} />
       </div>
-      <div className="mt-2">
-        <ProjectTitle p={p} size="md" />
-      </div>
-      {p.summary && <p className="mt-3 leading-relaxed">{p.summary}</p>}
-      {p.tools && <BuiltWith list={p.tools} />}
-      <Links p={p} />
-      <MoreDetails p={p} />
-    </article>
+    </ClickableCard>
   );
 }
 
@@ -328,7 +336,7 @@ export default function Home() {
                 ))}
             </div>
             <h3 className="mt-16 font-mono text-sm font-semibold uppercase tracking-[0.2em] text-ink">More projects</h3>
-            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            <div className="mt-6 space-y-5">
               {projects
                 .filter((p) => !p.featured)
                 .map((p) => (

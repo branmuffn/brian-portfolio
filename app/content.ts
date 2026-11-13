@@ -237,5 +237,5 @@ export const skills = {
   Data: ["Python", "SQL", "R", "SAS", "pandas", "Predictive modeling", "Regression", "Simulation"],
   "Building with AI": ["Claude Code", "Claude", "ChatGPT", "Gemini", "Local LLMs (Ollama, MLX, llama.cpp)"],
   "Build & automation": ["n8n", "Docker", "Streamlit", "APIs", "Azure"],
-  Leadership: ["Technical program management", "Cross-functional teams", "Requirements from ambiguity", "Professional Engineer (P.E.)"],
+  Leadership: ["Technical program management", "Cross-functional teams", "Requirements from ambiguity", "Professional Engineer"],
 };
