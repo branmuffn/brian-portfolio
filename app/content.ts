@@ -9,6 +9,8 @@ export const profile = {
     "Now I'm finishing a Master's in Analytics at Georgia Tech and building with data, automation, and AI, because I don't just manage workflows, I build them to eliminate work.",
   ],
   location: "Boston, MA",
+  site: "https://briantea.vercel.app", // canonical URL for metadata, robots.txt and sitemap.xml
+  description: "Technical program manager and analyst. Data, automation, and AI.", // meta and link-preview text
   email: "briantea716@gmail.com",
   linkedin: "https://www.linkedin.com/in/brian-tea",
   linkedinLabel: "linkedin.com/in/brian-tea",
@@ -29,7 +31,7 @@ export type Project = {
   award?: string;
   role?: string;
   team?: string;
-  links?: { href: string; label: string }[];
+  links?: { href: string; label: string; note?: string }[]; // note: short hint shown next to the link
 };
 
 export const projects: Project[] = [
@@ -135,7 +137,7 @@ export const projects: Project[] = [
       "Built a pandas data reconciliation pipeline and a Streamlit dashboard to evaluate transaction history against pledges.",
     tools: ["Python", "pandas", "Streamlit"],
     links: [
-      { href: "https://klrju2rpjcgffbf5yktsqp.streamlit.app/", label: "Live app" },
+      { href: "https://klrju2rpjcgffbf5yktsqp.streamlit.app/", label: "Live app", note: "may take ~30 s to wake" },
       { href: "https://github.com/branmuffn/fc-dashboard", label: "GitHub" },
     ],
   },
