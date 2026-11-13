@@ -12,7 +12,7 @@ Frontier Commons Build Bootcamp, Week 1. A one-page personal portfolio for Brian
 | Code | this folder; GitHub `branmuffn/brian-portfolio` (`main`, **public**) | Push to `main` and Vercel deploys production automatically |
 | Live site | https://briantea.vercel.app | Vercel project `branmuffn/brian-portfolio` (linked in `.vercel/`) |
 | Page text | `app/content.ts` | Profile, projects, timeline, skills, contact. Edit here first |
-| Layout / styles | `app/page.tsx`, `app/globals.css`, `app/layout.tsx` | Accent color token `--color-accent` (#1d4ed8) |
+| Layout / styles | `app/page.tsx`, `app/side-nav.tsx`, `app/globals.css`, `app/layout.tsx` | Color tokens in `globals.css` (`--color-navy`, `--color-accent` #f2b45a) · project screenshots in `public/projects/` |
 | Headshot | `public/headshot.jpg` (resized 714×1000) | The full-size original `Headshot.jpg` is git- and Vercel-ignored |
 | Source facts | `resume.pdf`, `about-me.md` in this folder | **Private: git-ignored and Vercel-ignored. Never commit or deploy them** |
 
@@ -26,7 +26,7 @@ No database, no env vars, no API keys. Supabase belongs to the Splitwise clone, 
   (briantea716@gmail.com), LinkedIn and GitHub are intentionally public. `public/Brian-Tea-Resume.pdf` is the
   public copy (phone number removed, 2026-11-11); regenerate it from `resume.pdf` the same way when the resume changes.
 - **Voice:** concise, direct, structured, builder framing. **No em dashes** in site copy.
-- **Design:** white background, one accent color, strong typography, no stock photos, must work at
+- **Design:** design A (2026-11-13): dark navy `#0b1324`, amber accent `#f2b45a`, sticky sidebar; strong typography, no stock photos, must work at
   phone width (~390px).
 - **Stack:** Next.js (App Router) + TypeScript + Tailwind only. No libraries beyond what
   create-next-app installs.

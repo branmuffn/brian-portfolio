@@ -32,11 +32,13 @@ export type Project = {
   role?: string;
   team?: string;
   links?: { href: string; label: string; note?: string }[]; // note: short hint shown next to the link
+  image?: { src: string; alt: string; width: number; height: number }; // screenshot in public/projects/
 };
 
 export const projects: Project[] = [
   {
     title: "OnBoard",
+    image: { src: "/projects/onboard.jpg", alt: "OnBoard worker home screen with recent moments and prayer requests (sample data)", width: 1200, height: 750 },
     context: "Gloo AI Hackathon 2026 · Team project",
     featured: true,
     award: "Winner, Best of the Ministry Track · $20,000 team prize",
@@ -60,6 +62,7 @@ export const projects: Project[] = [
   },
   {
     title: "Frontline Squad",
+    image: { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 1200, height: 675 },
     context: "Browser game · Personal project",
     featured: true,
     status: "Live",
@@ -94,6 +97,7 @@ export const projects: Project[] = [
   },
   {
     title: "Downstream",
+    image: { src: "/projects/downstream.jpg", alt: "Downstream map of U.S. metros ranked by priority score for a rising country signal (mock data)", width: 1200, height: 750 },
     context: "Concept · Proposed OMSA capstone with Frontier Commons and IFI",
     status: "Prototype",
     summary:
@@ -107,6 +111,7 @@ export const projects: Project[] = [
   },
   {
     title: "Scribe Bot",
+    image: { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 806 },
     context: "Self-hosted app · Personal project",
     status: "Coming soon",
     summary:
@@ -132,6 +137,7 @@ export const projects: Project[] = [
   },
   {
     title: "Pledge reconciliation dashboard",
+    image: { src: "/projects/pledge-dashboard.jpg", alt: "Pledge reconciliation dashboard showing valid monthly support, goal progress and excluded pledges", width: 1200, height: 750 },
     context: "Frontier Commons Technical Challenge · Aug 2026",
     summary:
       "Built a pandas data reconciliation pipeline and a Streamlit dashboard to evaluate transaction history against pledges.",
