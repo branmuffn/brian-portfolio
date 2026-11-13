@@ -67,7 +67,7 @@ function Tools({ list }: { list: string[] }) {
 
 function ProjectCard({ p }: { p: Project }) {
   return (
-    <article className="group relative grid gap-4 rounded-lg p-0 transition-colors duration-200 sm:grid-cols-[9rem_1fr] sm:gap-8 lg:-mx-5 lg:p-5 lg:hover:bg-navy-raised lg:hover:shadow-[inset_0_1px_0_0_rgba(232,237,247,0.06)]">
+    <article className="group relative grid gap-4 rounded-lg p-0 transition duration-200 ease-out sm:grid-cols-[9rem_1fr] sm:gap-8 lg:-mx-5 lg:p-5 lg:hover:bg-navy-raised lg:hover:shadow-[inset_0_1px_0_0_rgba(232,237,247,0.06),0_12px_24px_-12px_rgba(0,0,0,0.5)] motion-safe:lg:hover:-translate-y-1">
       <div className="pt-1">
         <p className="font-mono text-xs uppercase leading-relaxed tracking-wider text-muted">{p.context}</p>
         {(p.featured || p.status) && (
@@ -91,6 +91,17 @@ function ProjectCard({ p }: { p: Project }) {
           {p.title}
         </h3>
         {p.award && <p className="mt-1 text-sm font-medium text-accent">{p.award}</p>}
+
+        {p.image && (
+          <Image
+            src={p.image.src}
+            alt={p.image.alt}
+            width={p.image.width}
+            height={p.image.height}
+            sizes="(min-width: 1024px) 36rem, 100vw"
+            className="mt-4 w-full rounded-md border border-line object-cover object-top"
+          />
+        )}
 
         {p.metric && (
           <div className="mt-4 flex items-baseline gap-4 border-l-2 border-accent pl-4">
@@ -129,16 +140,19 @@ function ProjectCard({ p }: { p: Project }) {
         )}
 
         {p.links && (
-          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+          // py-3 -my-3: 44px-tall tap areas without moving the layout; gap-y-6 keeps them from overlapping when wrapped.
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-6">
             {p.links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                {...ext}
-                className="inline-flex items-center gap-1 text-sm font-semibold text-ink underline decoration-accent/50 decoration-2 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
-              >
-                {l.label} <span aria-hidden>↗</span>
-              </a>
+              <span key={l.href} className="inline-flex flex-wrap items-baseline gap-x-1.5">
+                <a
+                  href={l.href}
+                  {...ext}
+                  className="relative -my-3 inline-flex items-center gap-1 py-3 text-sm font-semibold text-ink underline decoration-accent/50 decoration-2 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                >
+                  {l.label} <span aria-hidden>↗</span>
+                </a>
+                {l.note && <span className="text-xs text-muted">({l.note})</span>}
+              </span>
             ))}
           </div>
         )}
@@ -185,24 +199,24 @@ export default function Home() {
             <SideNav items={nav} />
           </div>
 
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium lg:mt-12" aria-label="Links">
+          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 text-sm font-medium lg:mt-12" aria-label="Links">
             <li>
-              <a href={`mailto:${profile.email}`} className="flex items-center gap-2 text-muted transition-colors hover:text-accent">
+              <a href={`mailto:${profile.email}`} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
                 <Icon name="mail" /> Email
               </a>
             </li>
             <li>
-              <a href={profile.linkedin} {...ext} className="flex items-center gap-2 text-muted transition-colors hover:text-accent">
+              <a href={profile.linkedin} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
                 <Icon name="linkedin" /> LinkedIn
               </a>
             </li>
             <li>
-              <a href={profile.github} {...ext} className="flex items-center gap-2 text-muted transition-colors hover:text-accent">
+              <a href={profile.github} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
                 <Icon name="github" /> GitHub
               </a>
             </li>
             <li>
-              <a href={profile.resume} {...ext} className="flex items-center gap-2 text-muted transition-colors hover:text-accent">
+              <a href={profile.resume} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
                 <Icon name="file" /> Resume (PDF)
               </a>
             </li>
@@ -310,7 +324,7 @@ export default function Home() {
               <a
                 href={profile.resume}
                 {...ext}
-                className="font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4 hover:text-accent"
+                className="relative -my-3 inline-block py-3 font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4 hover:text-accent"
               >
                 resume (PDF)
               </a>{" "}
@@ -318,15 +332,15 @@ export default function Home() {
             </p>
             <a
               href={`mailto:${profile.email}`}
-              className="mt-8 inline-block break-all text-2xl font-bold tracking-tight text-ink transition-colors hover:text-accent sm:text-3xl"
+              className="relative mt-8 -mb-1.5 inline-block break-all py-1.5 text-2xl font-bold tracking-tight text-ink transition-colors hover:text-accent sm:text-3xl"
             >
               {profile.email}
             </a>
-            <div className="mt-6 flex flex-col gap-3 text-sm font-medium sm:flex-row sm:gap-8">
-              <a href={profile.linkedin} {...ext} className="flex items-center gap-2 text-muted hover:text-accent">
+            <div className="mt-6 flex flex-col gap-6 text-sm font-medium sm:flex-row sm:gap-8">
+              <a href={profile.linkedin} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted hover:text-accent">
                 <Icon name="linkedin" /> {profile.linkedinLabel} <span aria-hidden>↗</span>
               </a>
-              <a href={profile.github} {...ext} className="flex items-center gap-2 text-muted hover:text-accent">
+              <a href={profile.github} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted hover:text-accent">
                 <Icon name="github" /> {profile.githubLabel} <span aria-hidden>↗</span>
               </a>
             </div>
@@ -334,7 +348,7 @@ export default function Home() {
 
           <footer className="border-t border-line pb-16 pt-8 text-sm text-muted">
             Built by Brian Tea with Next.js ·{" "}
-            <a href="https://github.com/branmuffn/brian-portfolio" {...ext} className="hover:text-accent">
+            <a href="https://github.com/branmuffn/brian-portfolio" {...ext} className="relative -my-3 inline-block py-3 hover:text-accent">
               Source on GitHub ↗
             </a>
           </footer>
