@@ -239,22 +239,6 @@ function ProjectPanel({ p }: { p: Project }) {
   );
 }
 
-// Card screenshot: clicking it opens the project panel (handled by ClickableCard), where it can be zoomed.
-function CardImage({ src, alt, width, height, sizes, className = "" }: NonNullable<Project["image"]> & { sizes: string; className?: string }) {
-  return (
-    <div className={`relative overflow-hidden rounded-md border border-line ${className}`}>
-      <Image
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        sizes={sizes}
-        className="block h-auto w-full transition-transform duration-300 ease-out motion-safe:group-hover/card:scale-[1.02]"
-      />
-    </div>
-  );
-}
-
 function FeaturedCard({ p }: { p: Project }) {
   return (
     <ClickableCard
@@ -272,7 +256,7 @@ function FeaturedCard({ p }: { p: Project }) {
       {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
 
       {p.image && (
-        <CardImage {...p.image} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
+        <Gallery plain shots={[p.image, ...(p.gallery ?? [])]} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
       )}
 
       {p.metric && (
@@ -298,7 +282,7 @@ function CompactCard({ p }: { p: Project }) {
       panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
       className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""}`}
     >
-      {p.image && <CardImage {...p.image} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
+      {p.image && <Gallery plain shots={[p.image, ...(p.gallery ?? [])]} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <p className="font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>

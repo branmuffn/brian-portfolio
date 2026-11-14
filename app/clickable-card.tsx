@@ -76,6 +76,7 @@ export function ClickableCard({
     const d = dialog.current;
     if (!d || d.open) return;
     d.showModal();
+    document.documentElement.style.overflow = "hidden"; // the page behind stays put
     fit();
     sheet.current!.focus({ preventScroll: true }); // keyboard focus starts on the panel, not the Close button
     if (calm()) return;
@@ -89,7 +90,7 @@ export function ClickableCard({
   const close = () => {
     const d = dialog.current;
     if (!d?.open || closing.current) return;
-    if (calm()) return d.close();
+    if (calm()) return d.close(); // onClose unlocks the page
     closing.current = true;
     const anim = sheet.current!.animate([{ transform: "none", opacity: 1 }, { transform: fromCard(), opacity: 0 }], {
       duration: 220,
@@ -127,6 +128,7 @@ export function ClickableCard({
         <dialog
           ref={dialog}
           aria-label={title}
+          onClose={() => (document.documentElement.style.overflow = "")}
           onCancel={(e) => {
             e.preventDefault(); // Esc: animate out instead of vanishing
             close();
@@ -144,7 +146,7 @@ export function ClickableCard({
               ref={sheet}
               tabIndex={-1}
               style={{ transformOrigin: "top left", outline: "none" }}
-              className="group/sheet relative max-h-full w-full max-w-[1200px] overflow-auto rounded-2xl border border-line bg-navy p-5 shadow-2xl sm:p-7"
+              className="group/sheet relative max-h-full w-full max-w-[1200px] overflow-auto overscroll-contain rounded-2xl border border-line bg-navy p-5 shadow-2xl sm:p-7"
             >
               <button
                 type="button"
