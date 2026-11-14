@@ -44,12 +44,12 @@ export function ClickableCard({
           className="m-0 h-dvh max-h-none w-screen max-w-none cursor-default bg-transparent p-0 text-body backdrop:bg-black/75"
         >
           <div
-            className="flex h-full w-full items-center justify-center p-3 sm:p-6"
+            className="flex h-full w-full items-center justify-center p-2 sm:p-4"
             onClick={(e) => {
               if (e.target === e.currentTarget) dialog.current?.close();
             }}
           >
-            <div className="relative max-h-full w-full max-w-5xl overflow-auto rounded-2xl border border-line bg-navy p-5 shadow-2xl sm:p-8">
+            <div className="relative max-h-full w-full max-w-[1600px] overflow-auto rounded-2xl border border-line bg-navy p-5 shadow-2xl sm:p-8">
               <button
                 type="button"
                 onClick={() => dialog.current?.close()}

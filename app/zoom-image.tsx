@@ -142,7 +142,7 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
             </div>
               {/* Mini-map: where you are in the image; drag or click it to move around */}
               <div
-                className="absolute bottom-3 right-3 w-28 cursor-crosshair touch-none overflow-hidden rounded border-2 border-ink/80 shadow-lg sm:w-44"
+                className="absolute bottom-3 left-3 w-28 cursor-crosshair touch-none overflow-hidden rounded-md border-[3px] border-accent bg-navy shadow-[0_0_0_4px_rgba(11,19,36,0.85),0_8px_24px_rgba(0,0,0,0.6)] sm:w-48"
                 onPointerDown={(e) => {
                   minimapDrag.current = true;
                   e.currentTarget.setPointerCapture(e.pointerId);
@@ -153,9 +153,9 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
                 onClick={(e) => e.stopPropagation()}
                 aria-hidden
               >
-                <Image src={src} alt="" width={width} height={height} sizes="176px" draggable={false} className="block w-full select-none opacity-80" />
+                <Image src={src} alt="" width={width} height={height} sizes="176px" draggable={false} className="block w-full select-none opacity-60" />
                 <span
-                  className="pointer-events-none absolute border-2 border-accent bg-accent/15"
+                  className="pointer-events-none absolute border-2 border-white bg-white/25 shadow-[0_0_0_1px_rgba(0,0,0,0.6)]"
                   style={{
                     left: `${view.x * 100}%`,
                     top: `${view.y * 100}%`,
