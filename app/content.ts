@@ -6,7 +6,7 @@ export const profile = {
   headline: "Tinkering with AI to make games, tools, and things that (mostly) work.",
   intro: [
     "I spent six years at Dow Chemical leading engineering programs up to $55M, then spent this summer at TD Bank digging into synthetic identity fraud with Python, SQL, and SAS.",
-    "Now I'm finishing a Master's in Analytics at Georgia Tech and building with data, automation, and AI, because I don't just manage workflows, I build them to eliminate work.",
+    "Now I'm finishing a Master's in Analytics at Georgia Tech and building with data, automation, and AI. Recent projects include an award-winning app for missionaries, a private transcription app, and a browser game.",
   ],
   location: "Boston, MA",
   site: "https://briantea.vercel.app", // canonical URL for metadata, robots.txt and sitemap.xml
@@ -54,10 +54,10 @@ export const projects: Project[] = [
     summary:
       "A mobile app that helps missionaries and small or understaffed ministries turn moments from the field into prayer requests and newsletters.",
     shots: [
-      { src: "/projects/onboard.jpg", alt: "OnBoard worker home screen with recent moments and prayer requests (sample data)", width: 1200, height: 750, title: "Home", caption: "Capture a moment in seconds, see today's prayers, and get AI suggestions for who to check in on." },
-      { src: "/projects/onboard-letter.jpg", alt: "OnBoard letter editor with related notes from the notebook alongside (sample data)", width: 1200, height: 750, title: "Letter editor", caption: "AI drafts prayer requests and newsletters only from your own notes, shown alongside. No added facts or verses." },
-      { src: "/projects/onboard-privacy.jpg", alt: "OnBoard privacy check flagging a student's full name before a letter is sent (sample data)", width: 1200, height: 750, title: "Privacy check", caption: "Flags a student's full name and suggests \"A.\" instead. Nothing is sent until you approve each flag." },
-      { src: "/projects/onboard-partner.jpg", alt: "OnBoard partner home with the latest update and today's prayer requests (sample data)", width: 1200, height: 750, title: "Supporter app", caption: "Supporters see the latest update and today's prayer requests, pray along, and reply." },
+      { src: "/projects/onboard.jpg", alt: "OnBoard worker home screen with recent moments and prayer requests (sample data)", width: 2400, height: 1500, title: "Home", caption: "Capture a moment in seconds, see today's prayers, and get AI suggestions for who to check in on." },
+      { src: "/projects/onboard-letter.jpg", alt: "OnBoard letter editor with related notes from the notebook alongside (sample data)", width: 2400, height: 1500, title: "Letter editor", caption: "AI drafts prayer requests and newsletters only from your own notes, shown alongside. No added facts or verses." },
+      { src: "/projects/onboard-privacy.jpg", alt: "OnBoard privacy check flagging a student's full name before a letter is sent (sample data)", width: 2400, height: 1500, title: "Privacy check", caption: "Flags a student's full name and suggests \"A.\" instead. Nothing is sent until you approve each flag." },
+      { src: "/projects/onboard-partner.jpg", alt: "OnBoard partner home with the latest update and today's prayer requests (sample data)", width: 2400, height: 1500, title: "Supporter app", caption: "Supporters see the latest update and today's prayer requests, pray along, and reply." },
     ],
     metric: { value: "5 of 7", label: "testers said sending an update felt faster than what they do now" },
     role: "Led the team, contributed ideas, built the prototype, and helped with the initial pitch.",
