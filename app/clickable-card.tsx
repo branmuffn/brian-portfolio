@@ -42,7 +42,16 @@ export function ClickableCard({
       el.dataset.meta = meta;
       let h = Math.round(window.innerHeight * 0.62);
       setH(h);
-      while (over() && h > keep) setH((h -= 12));
+      while (over() && h > keep) {
+        const before = el.scrollHeight;
+        setH(h - 12);
+        // The text column is the tall one: a smaller screenshot doesn't help, so keep it big.
+        if (el.scrollHeight >= before) {
+          setH(h);
+          break;
+        }
+        h -= 12;
+      }
       return { h, fits: !over(), extra: el.scrollHeight - el.clientHeight };
     };
     const right = shrink("right");

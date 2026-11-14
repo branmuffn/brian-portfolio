@@ -52,7 +52,7 @@ export const projects: Project[] = [
     cardBadge: "Winner · $20K prize",
     oneLine: "Turns moments from the field into prayer requests and newsletters, without exposing the people missionaries serve.",
     summary:
-      "A mobile app for missionaries and small or understaffed ministries: capture moments from the field and turn them into prayer requests and newsletters in their own words.",
+      "A mobile app that helps missionaries and small or understaffed ministries turn moments from the field into prayer requests and newsletters.",
     shots: [
       { src: "/projects/onboard.jpg", alt: "OnBoard worker home screen with recent moments and prayer requests (sample data)", width: 1200, height: 750, title: "Home", caption: "Capture a moment in seconds, see today's prayers, and get AI suggestions for who to check in on." },
       { src: "/projects/onboard-letter.jpg", alt: "OnBoard letter editor with related notes from the notebook alongside (sample data)", width: 1200, height: 750, title: "Letter editor", caption: "AI drafts prayer requests and newsletters only from your own notes, shown alongside. No added facts or verses." },
@@ -64,7 +64,7 @@ export const projects: Project[] = [
     team: "Christopher Lee, Thanh Tran, Rita Dong, Javier Soto, Jedidiah Gabrielle Santos, and me",
     tools: ["React", "Gloo AI Studio", "Gemini", "Whisper"],
     links: [{ href: "https://gloo.com/ai/hackathon/2026-winners", label: "Hackathon winners" }],
-    next: ["Testing with missionaries and campus ministers, and improving it from their feedback."],
+    next: ["Testing with missionaries and campus ministers."],
   },
   {
     title: "Frontline Squad",
@@ -104,7 +104,7 @@ export const projects: Project[] = [
     oneLine: "A private app that turns recorded conversations into searchable transcripts, tasks, and decisions.",
     summary: "A private, self-hosted app that turns recorded conversations into searchable transcripts, tasks, decisions, and people notes.",
     shots: [
-      { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 750, title: "Today page (demo data)", caption: "Conversations become transcripts, tasks, and decisions, with speech recognition running locally on a home server." },
+      { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 806, title: "Today page (demo data)", caption: "Conversations become transcripts, tasks, and decisions, with speech recognition running locally on a home server." },
     ],
     tools: ["Python", "FastAPI", "sherpa-onnx", "Claude"],
     next: ["A public demo with sample data."],
@@ -128,21 +128,21 @@ export const projects: Project[] = [
   {
     title: "Splitwise clone",
     context: "Frontier Commons Build Bootcamp",
-    status: "Live",
+    status: "Live demo",
     oneLine: "Share costs in a group, split them five ways, and settle up in the fewest payments.",
-    summary: "A working clone of Splitwise, the app for sharing costs: create or join a group, add shared expenses, and see who owes whom.",
-    details: [
-      "Split a cost equally, by exact amounts, percentages, or shares, or item by item with tax and tip shared.",
-      "Suggests the fewest payments to settle up, in multiple currencies, plus receipts, recurring expenses, and charts.",
-      "Free to use with an email sign-up. No money moves through the app; it only keeps track of who owes what.",
+    summary:
+      "A working clone of Splitwise, the app for sharing costs. Free to use, and no money moves through it: it only keeps track of who owes whom. Try the demo without signing up.",
+    shots: [
+      desk("/projects/splitwise-group.jpg", "Splitwise clone group page with balances in two currencies and suggested payments (demo data)", "Group page", "Balances in two currencies and the fewest payments to settle up, with Remind and Record buttons."),
+      desk("/projects/splitwise-itemized.jpg", "Splitwise clone itemized grocery expense with each person's share (demo data)", "Itemized expense", "Split a bill item by item, with tax shared in proportion. Equal, exact, percent, and shares work too."),
+      desk("/projects/splitwise-charts.jpg", "Splitwise clone spending charts by category and month (demo data)", "Spending charts", "Spending by category and by month, converted to one currency at today's rates."),
     ],
     metric: { value: "5 ways", label: "to split a cost, with a live per-person preview" },
     tools: ["Next.js", "TypeScript", "Supabase"],
     links: [
-      { href: "https://splitwise-clone-three-theta.vercel.app", label: "Try it" },
+      { href: "https://splitwise-clone-three-theta.vercel.app/login", label: "Try the demo", note: "no sign-up" },
       { href: "https://github.com/branmuffn/splitwise-clone", label: "GitHub" },
     ],
-    next: ["A no-signup demo mode, so anyone can try it without creating an account."],
   },
   {
     title: "Pledge reconciliation dashboard",

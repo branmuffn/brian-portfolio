@@ -66,7 +66,7 @@ function Chips({ list }: { list: string[] }) {
   return (
     <ul className="flex flex-wrap gap-2">
       {list.map((t) => (
-        <li key={t} className="rounded-full bg-accent/10 px-3 py-1 font-mono text-sm font-medium text-accent">
+        <li key={t} className="rounded-lg bg-accent/10 px-3 py-1 font-mono text-sm font-medium text-accent">
           {t}
         </li>
       ))}
@@ -270,23 +270,10 @@ function ProjectCard({ p }: { p: Project }) {
         <ProjectTitle p={p} size="md" />
       </div>
       <p className="mt-1.5 leading-relaxed">{p.oneLine}</p>
-      <ViewDetails />
     </ClickableCard>
   );
 }
 
-// Opens the project panel (handled by ClickableCard via data-open-details).
-function ViewDetails() {
-  return (
-    <button
-      type="button"
-      data-open-details
-      className="relative -my-2.5 mt-auto inline-flex items-center gap-2 self-start pb-2.5 pt-5 text-sm font-semibold text-ink hover:text-accent"
-    >
-      View details <span aria-hidden>→</span>
-    </button>
-  );
-}
 
 export default function Home() {
   return (
@@ -307,7 +294,7 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
-        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-20 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6 lg:overflow-y-auto lg:[scrollbar-width:none]">
+        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-20 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
           <div>
             <Image
               src={headshot}
@@ -386,14 +373,17 @@ export default function Home() {
           <section id="how-i-build" aria-labelledby="how-i-build-title" className="scroll-mt-16 lg:scroll-mt-20">
             <div className="-mx-6 bg-navy-raised px-6 py-20 sm:-mx-10 sm:px-10 lg:mx-0 lg:rounded-2xl lg:px-8">
               <SectionHeading id="how-i-build" index="03" title="How I build with AI" />
-              <ol className="grid gap-5 sm:grid-cols-3">
+              {/* One row per principle: number on the left, full-width text, so nothing is squeezed into narrow columns */}
+              <ol className="space-y-4">
                 {howIBuild.map((h, i) => (
-                  <li key={h.title} className="rounded-xl border border-line bg-navy p-5">
-                    <span aria-hidden className="font-mono text-2xl font-bold text-accent">
+                  <li key={h.title} className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 rounded-xl border border-line bg-navy p-5">
+                    <span aria-hidden className="font-mono text-2xl font-bold leading-snug text-accent">
                       0{i + 1}
                     </span>
-                    <h3 className="mt-3 text-lg font-semibold leading-snug text-ink">{h.title}</h3>
-                    <p className="mt-2 leading-relaxed">{h.body}</p>
+                    <div>
+                      <h3 className="text-lg font-semibold leading-snug text-ink">{h.title}</h3>
+                      <p className="mt-1 leading-relaxed">{h.body}</p>
+                    </div>
                   </li>
                 ))}
               </ol>

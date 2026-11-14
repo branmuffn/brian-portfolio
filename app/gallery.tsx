@@ -17,14 +17,14 @@ type Props = {
 // A card screenshot without zoom.
 function Plain({ src, alt, width, height, sizes }: Shot & { sizes: string }) {
   return (
-    <div className="overflow-hidden rounded-md border border-line">
+    <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-line bg-navy-raised">
       <Image
         src={src}
         alt={alt}
         width={width}
         height={height}
         sizes={sizes}
-        className="block h-auto w-full transition-transform duration-300 ease-out motion-safe:group-hover/card:scale-[1.02]"
+        className="absolute inset-0 h-full w-full object-contain transition-transform duration-300 ease-out motion-safe:group-hover/card:scale-[1.02]"
       />
     </div>
   );
@@ -55,7 +55,7 @@ export function Gallery({ shots, sizes, className = "", style, plain = false, ca
   const go = (d: number) => setI((x) => (x + d + n) % n);
   const zoomedIn = (t: EventTarget) => Boolean((t as HTMLElement).closest('[aria-pressed="true"]'));
   const arrow =
-    `absolute top-1/2 z-10 grid ${plain ? "h-9 w-9 text-xl" : "h-11 w-11 text-2xl"} -translate-y-1/2 place-items-center rounded-full bg-navy/85 leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent`;
+    `absolute top-1/2 z-10 grid ${plain ? "h-9 w-9 text-xl" : "h-11 w-11 text-2xl"} -translate-y-1/2 place-items-center rounded-full bg-navy/85 leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent ${plain ? "[@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/card:opacity-100 focus-visible:opacity-100" : ""}`;
 
   return (
     <div className={className} style={style} role="group" aria-roledescription="carousel" aria-label="Screenshots">
