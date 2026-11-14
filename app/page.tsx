@@ -158,10 +158,10 @@ function ProjectPanel({ p }: { p: Project }) {
       </div>
       {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
 
-      <div className={`mt-6 grid gap-8 ${p.image || p.metric ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" : ""}`}>
+      <div className={`mt-6 grid gap-8 ${p.image || p.metric ? "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]" : ""}`}>
         {(p.image || p.metric) && (
           <div>
-            {p.image && <ZoomImage {...p.image} sizes="(min-width: 1024px) 30rem, 100vw" />}
+            {p.image && <ZoomImage {...p.image} sizes="(min-width: 1024px) 56rem, 100vw" />}
             {p.metric && (
               <div className="mt-5 flex items-baseline gap-4 border-l-2 border-accent pl-4">
                 <p className="whitespace-nowrap text-4xl font-bold tracking-tight text-ink">{p.metric.value}</p>
