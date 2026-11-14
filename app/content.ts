@@ -42,7 +42,6 @@ export type Project = {
 };
 
 const desk = (src: string, alt: string, title: string, caption: string, height = 1500): Shot => ({ src, alt, width: 2400, height, title, caption });
-const phone = (src: string, alt: string, title: string, caption: string): Shot => ({ src, alt, width: 780, height: 1688, title, caption });
 
 export const projects: Project[] = [
   {
@@ -55,16 +54,10 @@ export const projects: Project[] = [
     summary:
       "A mobile app for missionaries and small or understaffed ministries: capture moments from the field and turn them into prayer requests and newsletters in their own words.",
     shots: [
-      { src: "/projects/onboard.jpg", alt: "OnBoard worker home screen with recent moments and prayer requests (sample data)", width: 1200, height: 750 },
-      { src: "/projects/onboard-letter.jpg", alt: "OnBoard letter editor with related notes from the notebook alongside (sample data)", width: 1200, height: 750 },
-      { src: "/projects/onboard-privacy.jpg", alt: "OnBoard privacy check flagging a student's full name before a letter is sent (sample data)", width: 1200, height: 750 },
-      { src: "/projects/onboard-partner.jpg", alt: "OnBoard partner home with the latest update and today's prayer requests (sample data)", width: 1200, height: 750 },
-    ],
-    phones: [
-      phone("/projects/onboard-phone-home.jpg", "OnBoard home on a phone: quick capture, prayers and insights (sample data)", "Home", "Capture a moment in seconds by typing or talking. AI tags it and suggests who to check in on."),
-      phone("/projects/onboard-phone-write.jpg", "OnBoard letter editor on a phone (sample data)", "Letter editor", "AI drafts prayer requests and newsletters only from your own notes. No added facts, quotes, or verses."),
-      phone("/projects/onboard-phone-privacy.jpg", "OnBoard privacy check flagging a full name on a phone (sample data)", "Privacy check", "Flags full names and locations and blurs faces in photos. Nothing is sent until you approve each one."),
-      phone("/projects/onboard-phone-partner.jpg", "OnBoard supporter app home on a phone (sample data)", "Supporter app", "Supporters see the latest update and today's prayer requests, pray along, and reply."),
+      { src: "/projects/onboard.jpg", alt: "OnBoard worker home screen with recent moments and prayer requests (sample data)", width: 1200, height: 750, title: "Home", caption: "Capture a moment in seconds, see today's prayers, and get AI suggestions for who to check in on." },
+      { src: "/projects/onboard-letter.jpg", alt: "OnBoard letter editor with related notes from the notebook alongside (sample data)", width: 1200, height: 750, title: "Letter editor", caption: "AI drafts prayer requests and newsletters only from your own notes, shown alongside. No added facts or verses." },
+      { src: "/projects/onboard-privacy.jpg", alt: "OnBoard privacy check flagging a student's full name before a letter is sent (sample data)", width: 1200, height: 750, title: "Privacy check", caption: "Flags a student's full name and suggests \"A.\" instead. Nothing is sent until you approve each flag." },
+      { src: "/projects/onboard-partner.jpg", alt: "OnBoard partner home with the latest update and today's prayer requests (sample data)", width: 1200, height: 750, title: "Supporter app", caption: "Supporters see the latest update and today's prayer requests, pray along, and reply." },
     ],
     metric: { value: "5 of 7", label: "testers said sending an update felt faster than what they do now" },
     role: "Led the team, contributed ideas, built the prototype, and helped with the initial pitch.",
@@ -111,7 +104,7 @@ export const projects: Project[] = [
     oneLine: "A private app that turns recorded conversations into searchable transcripts, tasks, and decisions.",
     summary: "A private, self-hosted app that turns recorded conversations into searchable transcripts, tasks, decisions, and people notes.",
     shots: [
-      { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 806, title: "Today page (demo data)", caption: "Conversations become transcripts, tasks, and decisions, with speech recognition running locally on a home server." },
+      { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 750, title: "Today page (demo data)", caption: "Conversations become transcripts, tasks, and decisions, with speech recognition running locally on a home server." },
     ],
     tools: ["Python", "FastAPI", "sherpa-onnx", "Claude"],
     next: ["A public demo with sample data."],

@@ -36,16 +36,27 @@ export function ClickableCard({
     const over = () => el.scrollHeight > el.clientHeight + 1;
     const setH = (h: number) => el.style.setProperty("--fit-h", `${h}px`);
     const keep = Math.max(260, Math.round(window.innerHeight * 0.42)); // don't shrink the screenshot below this at first
-    let h = Math.round(window.innerHeight * 0.62);
-    setH(h);
-    while (over() && h > keep) setH((h -= 12));
+    // Shrink the screenshot until the panel fits (or hits `keep`), with role/team/links beside it ("right")
+    // or under it ("left"); keep whichever fits with the bigger screenshot.
+    const shrink = (meta: "right" | "left") => {
+      el.dataset.meta = meta;
+      let h = Math.round(window.innerHeight * 0.62);
+      setH(h);
+      while (over() && h > keep) setH((h -= 12));
+      return { h, fits: !over(), extra: el.scrollHeight - el.clientHeight };
+    };
+    const right = shrink("right");
+    const left = shrink("left");
+    const useLeft =
+      left.fits && right.fits ? left.h > right.h : left.fits ? true : right.fits ? false : left.extra < right.extra;
+    shrink(useLeft ? "left" : "right");
+    let h = parseInt(el.style.getPropertyValue("--fit-h"));
     // Short screens: scale the whole panel down a little, then shrink the screenshot further if still needed.
     let z = 1;
     while (over() && z > 0.8) {
       z -= 0.025;
       el.style.zoom = String(z);
     }
-    h = parseInt(el.style.getPropertyValue("--fit-h"));
     while (over() && h > 160) setH((h -= 12));
   };
 
@@ -136,6 +147,8 @@ export function ClickableCard({
             <div
               ref={sheet}
               tabIndex={-1}
+              // Re-fit when a screenshot finishes loading (or a new one is shown), since sizes can change then.
+              onLoadCapture={() => dialog.current?.open && fit()}
               style={{ transformOrigin: "top left", outline: "none" }}
               className="group/sheet relative max-h-full w-full max-w-[1200px] overflow-auto overscroll-contain rounded-2xl border border-line bg-navy p-5 shadow-2xl sm:p-7"
             >

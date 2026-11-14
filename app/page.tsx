@@ -199,9 +199,11 @@ function ProjectPanel({ p }: { p: Project }) {
         {p.award && <p className="font-medium text-accent">{p.award}</p>}
       </div>
 
-      <div className={`mt-5 grid gap-x-8 gap-y-6 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]" : "max-w-3xl"}`}>
+      <div className={`mt-5 grid gap-x-8 gap-y-5 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[auto_1fr] lg:content-start" : "max-w-3xl"}`}>
         {p.phones ? (
-          <Features shots={p.phones} />
+          <div className="lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:group-data-[meta=left]/sheet:row-span-1">
+            <Features shots={p.phones} />
+          </div>
         ) : (
           first && (
             <Gallery
@@ -209,15 +211,18 @@ function ProjectPanel({ p }: { p: Project }) {
               sizes="(min-width: 1024px) 52rem, 100vw"
               captions
               // Desktop: the panel sets --fit-h so everything fits on screen (see ClickableCard's fit()).
-              className="lg:max-w-[var(--fit-w)]"
+              className="lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:max-w-[var(--fit-w)] lg:group-data-[meta=left]/sheet:row-span-1"
               style={{ "--fit-w": `calc(var(--fit-h, 60dvh) * ${first.width / first.height})` } as React.CSSProperties}
             />
           )
         )}
-        <div className="min-w-0">
+        <div className={`min-w-0 ${visual ? "lg:col-start-2 lg:row-start-1 lg:group-data-[meta=left]/sheet:row-span-2" : ""}`}>
           {p.summary && <p className={visual ? "leading-relaxed" : "text-lg leading-relaxed"}>{p.summary}</p>}
           {p.details && <Bullets items={p.details} />}
           <Metric p={p} />
+        </div>
+        {/* Role, team, tools and links: under the summary, or under the screenshot when the text column runs long (fit()) */}
+        <div className={`min-w-0 [&>*:first-child]:mt-0 ${visual ? "lg:col-start-2 lg:row-start-2 lg:group-data-[meta=left]/sheet:col-start-1" : ""}`}>
           <RoleTeam p={p} />
           {p.tools && <BuiltWith list={p.tools} />}
           {p.next && <InProgress items={p.next} />}
