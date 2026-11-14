@@ -56,7 +56,10 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
 - **Project panels must never scroll on desktop** (Brian, 2026-11-14). `fit()` in `app/clickable-card.tsx` shrinks the
   screenshot, picks where role/team/links go, and scales slightly as a last resort. After any panel or project-text
   change, run `node ~/overnight/tools/check-panels.mjs /tmp` against the dev server on port 3123: every line must say "fits".
-- Project bullets are plain sentences (no "Label:" prefixes); work in progress goes in `next`, not in `details`.
+- Projects (2026-11-14 redesign, Brian chose A1/A2 + B1): main page is a 2-column grid of short cards (`oneLine`).
+  Panels show big screenshots with one caption each (`shots[].caption`); OnBoard shows phone screenshots side by side
+  (`phones`). Projects without screenshots use `details` (plain sentences, max 3). Work in progress goes in `next`.
+  Screenshots are captured at 2x (2400px wide) so in-place zoom (2.5x) stays sharp.
 
 - **Next.js 16**: read `node_modules/next/dist/docs/` before using unfamiliar APIs (see AGENTS.md).
 - **macOS is case-insensitive:** an ignore rule `Headshot.jpg` also matched `public/headshot.jpg`

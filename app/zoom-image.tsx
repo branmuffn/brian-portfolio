@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 type Props = { src: string; alt: string; width: number; height: number; sizes: string; className?: string; style?: React.CSSProperties };
 
-const ZOOM = 2;
+const ZOOM = 2.5; // screenshots are 2x, so this stays sharp
 const clamp = (n: number) => Math.min(100, Math.max(0, n));
 
 // A screenshot that zooms in place, like a store's product photos.

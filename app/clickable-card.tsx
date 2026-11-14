@@ -36,25 +36,16 @@ export function ClickableCard({
     const over = () => el.scrollHeight > el.clientHeight + 1;
     const setH = (h: number) => el.style.setProperty("--fit-h", `${h}px`);
     const keep = Math.max(260, Math.round(window.innerHeight * 0.42)); // don't shrink the screenshot below this at first
-    // Shrink the screenshot until the panel fits (or hits `floor`); returns the height reached.
-    const shrink = (meta: "left" | "right", floor: number) => {
-      el.dataset.meta = meta; // role/team/links under the image (left) or under the text (right)
-      let h = Math.round(window.innerHeight * 0.6);
-      setH(h);
-      while (over() && h > floor) setH((h -= 12));
-      return { h, fits: !over() };
-    };
-    const left = shrink("left", keep);
-    const right = shrink("right", keep);
-    const best = right.fits && (!left.fits || right.h > left.h) ? "right" : left.fits ? "left" : "right";
-    shrink(best, keep);
+    let h = Math.round(window.innerHeight * 0.62);
+    setH(h);
+    while (over() && h > keep) setH((h -= 12));
     // Short screens: scale the whole panel down a little, then shrink the screenshot further if still needed.
     let z = 1;
     while (over() && z > 0.8) {
       z -= 0.025;
       el.style.zoom = String(z);
     }
-    let h = parseInt(el.style.getPropertyValue("--fit-h"));
+    h = parseInt(el.style.getPropertyValue("--fit-h"));
     while (over() && h > 160) setH((h -= 12));
   };
 

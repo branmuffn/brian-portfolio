@@ -16,6 +16,7 @@
 html {
   scroll-behavior: smooth;
   background: #0b1324;
+  font-size: 106.25%; /* 17px base: everything (all rem sizes) reads a little bigger */
 }
 
 body {
