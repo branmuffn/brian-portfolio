@@ -19,7 +19,8 @@ export const profile = {
   resume: "/Brian-Tea-Resume.pdf",
 };
 
-export type Shot = { src: string; alt: string; width: number; height: number; caption?: string };
+// title: the screen's name; caption: what it shows and why it matters (one sentence)
+export type Shot = { src: string; alt: string; width: number; height: number; title?: string; caption?: string };
 
 export type Project = {
   title: string;
@@ -40,8 +41,8 @@ export type Project = {
   next?: string[]; // what's in progress now, shown as its own "In progress" note
 };
 
-const desk = (src: string, alt: string, caption?: string, height = 1500): Shot => ({ src, alt, width: 2400, height, caption });
-const phone = (src: string, alt: string, caption: string): Shot => ({ src, alt, width: 780, height: 1688, caption });
+const desk = (src: string, alt: string, title: string, caption: string, height = 1500): Shot => ({ src, alt, width: 2400, height, title, caption });
+const phone = (src: string, alt: string, title: string, caption: string): Shot => ({ src, alt, width: 780, height: 1688, title, caption });
 
 export const projects: Project[] = [
   {
@@ -60,10 +61,10 @@ export const projects: Project[] = [
       { src: "/projects/onboard-partner.jpg", alt: "OnBoard partner home with the latest update and today's prayer requests (sample data)", width: 1200, height: 750 },
     ],
     phones: [
-      phone("/projects/onboard-phone-home.jpg", "OnBoard home on a phone: quick capture, prayers and insights (sample data)", "Capture a moment in seconds by typing or talking. AI tags it so it's easy to find later."),
-      phone("/projects/onboard-phone-write.jpg", "OnBoard letter editor on a phone (sample data)", "AI drafts newsletters only from your own notes. No added facts, quotes, or verses."),
-      phone("/projects/onboard-phone-privacy.jpg", "OnBoard privacy check flagging a full name on a phone (sample data)", "A privacy check flags names and locations and blurs faces. Nothing is sent without approval."),
-      phone("/projects/onboard-phone-partner.jpg", "OnBoard supporter app home on a phone (sample data)", "Supporters get their own app to pray along, reply, and follow one story over time."),
+      phone("/projects/onboard-phone-home.jpg", "OnBoard home on a phone: quick capture, prayers and insights (sample data)", "Home", "Capture a moment in seconds by typing or talking. AI tags it and suggests who to check in on."),
+      phone("/projects/onboard-phone-write.jpg", "OnBoard letter editor on a phone (sample data)", "Letter editor", "AI drafts prayer requests and newsletters only from your own notes. No added facts, quotes, or verses."),
+      phone("/projects/onboard-phone-privacy.jpg", "OnBoard privacy check flagging a full name on a phone (sample data)", "Privacy check", "Flags full names and locations and blurs faces in photos. Nothing is sent until you approve each one."),
+      phone("/projects/onboard-phone-partner.jpg", "OnBoard supporter app home on a phone (sample data)", "Supporter app", "Supporters see the latest update and today's prayer requests, pray along, and reply."),
     ],
     metric: { value: "5 of 7", label: "testers said sending an update felt faster than what they do now" },
     role: "Led the team, contributed ideas, built the prototype, and helped with the initial pitch.",
@@ -80,8 +81,8 @@ export const projects: Project[] = [
     summary:
       "A first-person shooter that runs in the browser with no install, no account, and no game server. Inspired by Combat Arms, with some Halo and Call of Duty mixed in.",
     shots: [
-      { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 1200, height: 675, caption: "13 modes, 9 maps, bots with skill levels 1 to 10, vehicles, and up to 12 players peer to peer over WebRTC." },
-      desk("/projects/frontline-menu.jpg", "Frontline Squad main menu with game modes, maps, bot skill and the map editor", "One self-contained HTML file. All art, audio, and music are generated in code, and there's a map editor.", 1350),
+      { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 1200, height: 675, title: "Team deathmatch", caption: "One of 13 modes on 9 maps, with bots, vehicles, and up to 12 players peer to peer." },
+      desk("/projects/frontline-menu.jpg", "Frontline Squad main menu with game modes, maps, bot skill and the map editor", "Main menu", "Pick a mode, map, and bot skill. The whole game is one HTML file, with art and sound generated in code.", 1350),
     ],
     metric: { value: "68", label: "automated tests play the game in a real browser before every update goes live" },
     role: "Set the vision, play-tested every build, and decided what to keep, cut, and fix. Claude wrote most of the code.",
@@ -110,7 +111,7 @@ export const projects: Project[] = [
     oneLine: "A private app that turns recorded conversations into searchable transcripts, tasks, and decisions.",
     summary: "A private, self-hosted app that turns recorded conversations into searchable transcripts, tasks, decisions, and people notes.",
     shots: [
-      { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 806, caption: "Speech recognition and speaker ID run locally on a home server. Audio never leaves my devices, and private meetings never touch a cloud AI." },
+      { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 806, title: "Today page (demo data)", caption: "Conversations become transcripts, tasks, and decisions, with speech recognition running locally on a home server." },
     ],
     tools: ["Python", "FastAPI", "sherpa-onnx", "Claude"],
     next: ["A public demo with sample data."],
@@ -123,13 +124,13 @@ export const projects: Project[] = [
     summary:
       "A tool I'm building for IFI, which serves international students. When a crisis hits a country, it shows which U.S. cities have the most students from there, so staff know where to check in first.",
     shots: [
-      desk("/projects/downstream.jpg", "Downstream map of U.S. metros ranked by priority score for a rising country signal (mock data)", "I'm building the dataset: how many students from each country study in each U.S. metro, from public government and university data."),
-      desk("/projects/downstream-digest.jpg", "Downstream weekly digest preview: a short Monday email listing places to check in on (mock data)", "Staff get a short Monday email with the top places to check in on, and mark each flag useful or not."),
-      desk("/projects/downstream-score.jpg", "How the Downstream priority score works, with adjustable assumptions and a worked example (mock data)", "Every ranking is explained: how unstable the country is this week, times how many of its students are in that place."),
+      desk("/projects/downstream.jpg", "Downstream map of U.S. metros ranked by priority score for a rising country signal (mock data)", "Map", "Pick a country with rising instability to see which U.S. metros have the most of its students, ranked."),
+      desk("/projects/downstream-digest.jpg", "Downstream weekly digest preview: a short Monday email listing places to check in on (mock data)", "Weekly digest", "A short Monday email lists the top places to check in on, and staff mark each flag useful or not."),
+      desk("/projects/downstream-score.jpg", "How the Downstream priority score works, with adjustable assumptions and a worked example (mock data)", "How the score works", "Every ranking is explained: how unstable the country is this week, times how many of its students are there."),
     ],
     tools: ["JavaScript", "D3", "Supabase"],
     links: [{ href: "https://downstream-map.vercel.app/?demo=1", label: "Try the demo" }],
-    next: ["Collecting and joining the real data. The prototype runs on mock data and has a no-signup demo."],
+    next: ["Building the real dataset of students by country for every U.S. metro, from public government and university data. The prototype runs on mock data."],
   },
   {
     title: "Splitwise clone",
@@ -157,9 +158,9 @@ export const projects: Project[] = [
     summary:
       "A Streamlit dashboard that checks donors' stated pledges against their actual gift history, from a deliberately messy ledger with four currencies and mixed formats.",
     shots: [
-      desk("/projects/pledge-dashboard.jpg", "Pledge reconciliation dashboard showing valid monthly support, goal progress and excluded pledges", "Monthly support and goal progress, judged from actual gifts rather than the status column."),
-      desk("/projects/pledge-breakdown.jpg", "Pledge dashboard: excluded pledges broken down by reason and lost monthly value", "Each excluded pledge gets exactly one reason, so nothing is double-counted."),
-      desk("/projects/pledge-lapsed.jpg", "Pledge dashboard: the lapsed pledges table, with days since each donor's last gift (sample data)", "Every row is counted or listed with why, and the logic is covered by 24 automated tests."),
+      desk("/projects/pledge-dashboard.jpg", "Pledge reconciliation dashboard showing valid monthly support, goal progress and excluded pledges", "Summary", "Monthly support and goal progress, judged from actual gifts rather than the ledger's status column."),
+      desk("/projects/pledge-breakdown.jpg", "Pledge dashboard: excluded pledges broken down by reason and lost monthly value", "Unrealized support", "Excluded pledges grouped by reason, with the monthly value each one represents."),
+      desk("/projects/pledge-lapsed.jpg", "Pledge dashboard: the lapsed pledges table, with days since each donor's last gift (sample data)", "Lapsed pledges", "Every excluded pledge is listed with its last gift, so no row disappears. Logic covered by 24 tests."),
     ],
     metric: { value: "71.8%", label: "of the $7,500 monthly goal is actually backed by recent gifts" },
     tools: ["Python", "pandas", "Streamlit"],

@@ -39,7 +39,10 @@ export function Gallery({ shots, sizes, className = "", style, plain = false, ca
   const Shot = plain ? Plain : ZoomImage;
   const caption = captions && shots[i].caption && (
     // min-h: room for two lines, so switching pictures doesn't make the panel jump
-    <p className="mt-3 min-h-[3.4em] text-lg leading-snug text-ink">{shots[i].caption}</p>
+    <p className="mt-3 min-h-[3.4em] text-lg leading-snug">
+      {shots[i].title && <span className="font-semibold text-ink">{shots[i].title}. </span>}
+      {shots[i].caption}
+    </p>
   );
   if (n === 1)
     return (
@@ -106,38 +109,63 @@ export function Gallery({ shots, sizes, className = "", style, plain = false, ca
   );
 }
 
-// Phone screenshots side by side, each with its caption, scrolling sideways (swipe, or the arrows).
-// Desktop shows three at a time; phones show one and a peek of the next.
-export function Phones({ shots }: { shots: Shot[] }) {
-  const row = useRef<HTMLDivElement>(null);
-  const step = (d: number) => {
-    const el = row.current;
-    const item = el?.firstElementChild as HTMLElement | null;
-    if (el && item) el.scrollBy({ left: d * (item.offsetWidth + 20), behavior: "smooth" });
-  };
+// Phone app features: one big phone screen next to a numbered list of what each screen shows.
+// Clicking a feature (or the arrows, or a swipe) swaps the screen, so every point is tied to its picture.
+export function Features({ shots }: { shots: Shot[] }) {
+  const [i, setI] = useState(0);
+  const touch = useRef<number | null>(null);
+  const n = shots.length;
+  const go = (d: number) => setI((x) => (x + d + n) % n);
+  const s = shots[i];
   const arrow =
-    "absolute top-[40%] z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-navy/85 text-2xl leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent";
+    "absolute top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-navy/90 text-2xl leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent";
   return (
-    <div className="relative" role="group" aria-roledescription="carousel" aria-label="Phone screenshots">
-      <div ref={row} className="flex snap-x snap-mandatory gap-5 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {shots.map((s) => (
-          <figure key={s.src} className="m-0 shrink-0 basis-[72%] snap-start sm:basis-[calc((100%-2.5rem)/3)]">
-            <ZoomImage
-              {...s}
-              sizes="(min-width: 1024px) 17rem, 72vw"
-              className="mx-auto rounded-2xl border-4 border-[#1c2741] lg:max-w-[var(--phone-w)]"
-              style={{ "--phone-w": `calc(var(--fit-h, 60dvh) * ${s.width / s.height})` } as React.CSSProperties}
-            />
-            <figcaption className="mt-3 text-center leading-snug text-ink">{s.caption}</figcaption>
-          </figure>
-        ))}
+    <div className="grid items-center gap-6 sm:grid-cols-[auto_minmax(0,1fr)]" role="group" aria-roledescription="carousel" aria-label="App screens">
+      <div
+        className="relative mx-auto"
+        onTouchStart={(e) => (touch.current = e.touches[0].clientX)}
+        onTouchEnd={(e) => {
+          const x = touch.current;
+          touch.current = null;
+          if (x === null || (e.target as HTMLElement).closest('[aria-pressed="true"]')) return;
+          const dx = e.changedTouches[0].clientX - x;
+          if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+        }}
+      >
+        <ZoomImage
+          key={s.src}
+          {...s}
+          sizes="(min-width: 1024px) 20rem, 75vw"
+          className="w-[min(75vw,20rem)] rounded-[1.75rem] border-[6px] border-[#1c2741] shadow-2xl lg:w-[var(--phone-w)]"
+          style={{ "--phone-w": `calc(var(--fit-h, 60dvh) * ${s.width / s.height})` } as React.CSSProperties}
+        />
+        <button type="button" onClick={() => go(-1)} className={`${arrow} -left-6`} aria-label="Previous screen">
+          <span aria-hidden>‹</span>
+        </button>
+        <button type="button" onClick={() => go(1)} className={`${arrow} -right-6`} aria-label="Next screen">
+          <span aria-hidden>›</span>
+        </button>
       </div>
-      <button type="button" onClick={() => step(-1)} className={`${arrow} -left-3`} aria-label="Previous screenshots">
-        <span aria-hidden>‹</span>
-      </button>
-      <button type="button" onClick={() => step(1)} className={`${arrow} -right-3`} aria-label="Next screenshots">
-        <span aria-hidden>›</span>
-      </button>
+      <ol className="space-y-2">
+        {shots.map((x, k) => (
+          <li key={x.src}>
+            <button
+              type="button"
+              onClick={() => setI(k)}
+              aria-current={k === i}
+              className={`w-full rounded-xl border px-4 py-3 text-left transition-colors ${
+                k === i ? "border-accent/70 bg-accent/10" : "border-line/0 hover:border-line hover:bg-navy-raised"
+              }`}
+            >
+              <span className="flex items-baseline gap-2">
+                <span className={`font-mono text-xs ${k === i ? "text-accent" : "text-muted"}`}>0{k + 1}</span>
+                <span className="font-semibold text-ink">{x.title}</span>
+              </span>
+              <span className="mt-0.5 block leading-snug">{x.caption}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

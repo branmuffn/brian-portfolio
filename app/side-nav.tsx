@@ -62,7 +62,7 @@ export function SideNav({ items }: { items: NavItem[] }) {
   const active = useActive(items);
 
   return (
-    <nav aria-label="Sections" className="mt-14 hidden lg:block [@media(max-height:880px)]:mt-8">
+    <nav aria-label="Sections" className="mt-14 hidden lg:block [@media(max-height:880px)]:mt-8 [@media(max-height:760px)]:mt-5">
       <ul className="space-y-1">
         {items.map((item) => {
           const isActive = active === item.href;
@@ -71,7 +71,7 @@ export function SideNav({ items }: { items: NavItem[] }) {
               <a
                 href={item.href}
                 aria-current={isActive ? "location" : undefined}
-                className="group flex items-center gap-4 py-2.5 font-mono text-base font-semibold uppercase tracking-[0.16em]"
+                className="group flex items-center gap-4 py-2.5 font-mono text-base font-semibold uppercase tracking-[0.16em] [@media(max-height:760px)]:py-1.5"
               >
                 <span
                   aria-hidden

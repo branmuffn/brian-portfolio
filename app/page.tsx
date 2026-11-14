@@ -2,7 +2,7 @@ import Image from "next/image";
 import headshot from "../public/headshot.jpg";
 import { profile, projects, howIBuild, timeline, skills, type Project } from "./content";
 import { SideNav, BottomNav } from "./side-nav";
-import { Gallery, Phones } from "./gallery";
+import { Gallery, Features } from "./gallery";
 import { ClickableCard } from "./clickable-card";
 
 const nav = [
@@ -201,7 +201,7 @@ function ProjectPanel({ p }: { p: Project }) {
 
       <div className={`mt-5 grid gap-x-8 gap-y-6 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]" : "max-w-3xl"}`}>
         {p.phones ? (
-          <Phones shots={p.phones} />
+          <Features shots={p.phones} />
         ) : (
           first && (
             <Gallery
@@ -302,18 +302,18 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
-        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-20 lg:[@media(max-height:880px)]:py-10">
+        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-20 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6 lg:overflow-y-auto lg:[scrollbar-width:none]">
           <div>
             <Image
               src={headshot}
               alt="Headshot of Brian Tea"
               priority
               sizes="144px"
-              className="h-32 w-32 rounded-full lg:h-36 lg:w-36 object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
+              className="h-32 w-32 rounded-full lg:h-36 lg:w-36 lg:[@media(max-height:760px)]:h-24 lg:[@media(max-height:760px)]:w-24 object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
             />
-            <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl">{profile.name}</h1>
+            <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:[@media(max-height:760px)]:mt-5 lg:[@media(max-height:760px)]:text-4xl">{profile.name}</h1>
             <p className="mt-3 text-lg font-medium text-accent sm:text-xl">{profile.tagline}</p>
-            <p className="mt-4 max-w-sm text-lg leading-relaxed">{profile.headline}</p>
+            <p className="mt-4 max-w-sm text-lg leading-relaxed lg:[@media(max-height:760px)]:mt-2">{profile.headline}</p>
             <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted">
               <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-accent" />
               {profile.location}
@@ -321,7 +321,7 @@ export default function Home() {
             <SideNav items={nav} />
           </div>
 
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12" aria-label="Links">
+          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:[@media(max-height:760px)]:mt-6" aria-label="Links">
             <li>
               <a href={`mailto:${profile.email}`} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
                 <Icon name="mail" /> Email
