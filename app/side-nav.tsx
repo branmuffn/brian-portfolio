@@ -26,7 +26,7 @@ export function SideNav({ items }: { items: NavItem[] }) {
   }, [items]);
 
   return (
-    <nav aria-label="Sections" className="mt-14 hidden lg:block">
+    <nav aria-label="Sections" className="mt-14 hidden lg:block [@media(max-height:880px)]:mt-8">
       <ul className="space-y-1">
         {items.map((item) => {
           const isActive = active === item.href;
@@ -35,12 +35,12 @@ export function SideNav({ items }: { items: NavItem[] }) {
               <a
                 href={item.href}
                 aria-current={isActive ? "location" : undefined}
-                className="group flex items-center gap-4 py-2 font-mono text-sm font-semibold uppercase tracking-[0.2em]"
+                className="group flex items-center gap-4 py-2.5 font-mono text-base font-semibold uppercase tracking-[0.16em]"
               >
                 <span
                   aria-hidden
                   className={`h-px transition-all duration-300 ease-out motion-reduce:transition-none ${
-                    isActive ? "w-16 bg-accent" : "w-8 bg-muted group-hover:w-16 group-hover:bg-ink group-focus-visible:w-16"
+                    isActive ? "w-20 bg-accent" : "w-10 bg-muted group-hover:w-20 group-hover:bg-ink group-focus-visible:w-20"
                   }`}
                 />
                 <span className={isActive ? "text-accent" : "text-muted group-hover:text-ink"}>{item.label}</span>

@@ -147,6 +147,7 @@ function ViewDetails() {
 
 // The whole project on one screen: image and key number on the left, text on the right (stacked on phones).
 function ProjectPanel({ p }: { p: Project }) {
+  const side = Boolean(p.image || p.metric);
   return (
     <div className="pr-0 sm:pr-16">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -158,10 +159,18 @@ function ProjectPanel({ p }: { p: Project }) {
       </div>
       {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
 
-      <div className={`mt-6 grid gap-8 ${p.image || p.metric ? "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]" : ""}`}>
+      <div className={`mt-6 grid gap-x-10 gap-y-6 ${side ? "lg:grid-cols-2 2xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:grid-rows-[auto_1fr] lg:content-start" : ""}`}>
         {(p.image || p.metric) && (
-          <div>
-            {p.image && <ZoomImage {...p.image} sizes="(min-width: 1024px) 56rem, 100vw" />}
+          <div className="lg:col-start-1 lg:row-span-2 lg:row-start-1 2xl:row-span-1">
+            {p.image && (
+              <ZoomImage
+                {...p.image}
+                sizes="(min-width: 1024px) 56rem, 100vw"
+                // Desktop: never taller than the screen allows, so the whole panel fits without scrolling.
+                className="lg:max-w-[var(--fit-w)]"
+                style={{ "--fit-w": `calc((100dvh - 24rem) * ${p.image.width / p.image.height})` } as React.CSSProperties}
+              />
+            )}
             {p.metric && (
               <div className="mt-5 flex items-baseline gap-4 border-l-2 border-accent pl-4">
                 <p className="whitespace-nowrap text-4xl font-bold tracking-tight text-ink">{p.metric.value}</p>
@@ -170,10 +179,10 @@ function ProjectPanel({ p }: { p: Project }) {
             )}
           </div>
         )}
-        <div className="min-w-0">
-          {p.summary && <p className="text-lg leading-relaxed">{p.summary}</p>}
+        <div className={`min-w-0 ${side ? "lg:col-start-2 lg:row-start-1 2xl:row-span-2" : ""}`}>
+          {p.summary && <p className="leading-relaxed xl:text-lg">{p.summary}</p>}
           {p.details && (
-            <ul className="mt-4 space-y-2 leading-relaxed">
+            <ul className="mt-4 space-y-2 leading-relaxed [@media(max-height:880px)]:space-y-1 [@media(max-height:880px)]:text-[0.95rem] [@media(max-height:880px)]:leading-normal">
               {p.details.map((d) => (
                 <li key={d} className="relative pl-5">
                   <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
@@ -182,8 +191,11 @@ function ProjectPanel({ p }: { p: Project }) {
               ))}
             </ul>
           )}
+        </div>
+        {/* Role, team, tools and links: under the text on laptops, under the image on wide screens, last on phones */}
+        <div className={`min-w-0 ${side ? "lg:col-start-2 lg:row-start-2 2xl:col-start-1 [&>*:first-child]:mt-0" : ""}`}>
           {(p.role || p.team) && (
-            <dl className="mt-5 space-y-2">
+            <dl className="mt-0 space-y-2">
               {p.role && (
                 <div>
                   <dt className="inline font-semibold text-ink">My role: </dt>
@@ -206,6 +218,22 @@ function ProjectPanel({ p }: { p: Project }) {
   );
 }
 
+// Card screenshot: clicking it opens the project panel (handled by ClickableCard), where it can be zoomed.
+function CardImage({ src, alt, width, height, sizes, className = "" }: NonNullable<Project["image"]> & { sizes: string; className?: string }) {
+  return (
+    <div className={`overflow-hidden rounded-md border border-line ${className}`}>
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        sizes={sizes}
+        className="block h-auto w-full transition-transform duration-300 ease-out motion-safe:group-hover/card:scale-[1.02]"
+      />
+    </div>
+  );
+}
+
 function FeaturedCard({ p }: { p: Project }) {
   return (
     <ClickableCard
@@ -223,7 +251,7 @@ function FeaturedCard({ p }: { p: Project }) {
       {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
 
       {p.image && (
-        <ZoomImage {...p.image} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
+        <CardImage {...p.image} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
       )}
 
       {p.metric && (
@@ -249,7 +277,7 @@ function CompactCard({ p }: { p: Project }) {
       panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
       className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""}`}
     >
-      {p.image && <ZoomImage {...p.image} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
+      {p.image && <CardImage {...p.image} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <p className="font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
@@ -284,14 +312,14 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
-        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-20">
+        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-20 lg:[@media(max-height:880px)]:py-10">
           <div>
             <Image
               src={headshot}
               alt="Headshot of Brian Tea"
               priority
-              sizes="112px"
-              className="h-28 w-28 rounded-full object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
+              sizes="144px"
+              className="h-32 w-32 rounded-full lg:h-36 lg:w-36 object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
             />
             <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl">{profile.name}</h1>
             <p className="mt-3 text-lg font-medium text-accent sm:text-xl">{profile.tagline}</p>
@@ -337,7 +365,7 @@ export default function Home() {
             <ul className="flex gap-1 overflow-x-auto px-4 sm:px-8">
               {nav.map((n) => (
                 <li key={n.href} className="shrink-0">
-                  <a href={n.href} className="block px-2 py-3.5 font-mono text-xs font-semibold uppercase tracking-wider text-muted hover:text-accent">
+                  <a href={n.href} className="block px-2.5 py-3.5 font-mono text-sm font-semibold uppercase tracking-wider text-muted hover:text-accent">
                     {n.label}
                   </a>
                 </li>
