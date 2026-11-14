@@ -1,7 +1,7 @@
 import Image from "next/image";
 import headshot from "../public/headshot.jpg";
 import { profile, projects, howIBuild, timeline, skills, type Project } from "./content";
-import { SideNav } from "./side-nav";
+import { SideNav, BottomNav } from "./side-nav";
 import { Gallery } from "./gallery";
 import { ClickableCard } from "./clickable-card";
 
@@ -132,17 +132,6 @@ function Links({ p }: { p: Project }) {
 
 const hasDetails = (p: Project) => Boolean(p.details || p.next || p.role || p.team);
 
-// "Label: text" bullets get a bold, underlined label so they can be skimmed.
-function Detail({ text }: { text: string }) {
-  const m = text.match(/^([^:]{2,24}):\s(.*)$/);
-  if (!m) return <>{text}</>;
-  return (
-    <>
-      <strong className="font-semibold text-ink underline decoration-accent/70 decoration-2 underline-offset-4">{m[1]}</strong>: {m[2]}
-    </>
-  );
-}
-
 // What's being worked on now: its own small block with a pulsing dot, so it reads as in progress.
 function InProgress({ items }: { items: string[] }) {
   return (
@@ -180,7 +169,7 @@ function ViewDetails() {
 function ProjectPanel({ p }: { p: Project }) {
   const side = Boolean(p.image || p.metric);
   return (
-    <div className="pr-0 sm:pr-16">
+    <div className="pr-0 sm:pr-28">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
         <Badges p={p} />
@@ -190,16 +179,16 @@ function ProjectPanel({ p }: { p: Project }) {
       </div>
       {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
 
-      <div className={`mt-6 grid gap-x-10 gap-y-6 ${side ? "lg:grid-cols-2 2xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:grid-rows-[auto_1fr] lg:content-start" : ""}`}>
+      <div className={`mt-6 grid gap-x-10 gap-y-6 ${side ? "lg:grid-cols-2 [@media(min-width:1280px)_and_(min-height:940px)]:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:grid-rows-[auto_1fr] lg:content-start" : ""}`}>
         {(p.image || p.metric) && (
-          <div className="lg:col-start-1 lg:row-span-2 lg:row-start-1 2xl:row-span-1">
+          <div className="lg:col-start-1 lg:row-start-1 lg:group-data-[meta=right]/sheet:row-span-2">
             {p.image && (
               <Gallery
                 shots={[p.image, ...(p.gallery ?? [])]}
                 sizes="(min-width: 1024px) 56rem, 100vw"
-                // Desktop: never taller than the screen allows, so the whole panel fits without scrolling.
+                // Desktop: the panel sets --fit-h so everything fits on screen (see ClickableCard's fit()).
                 className="lg:max-w-[var(--fit-w)]"
-                style={{ "--fit-w": `calc((100dvh - 24rem) * ${p.image.width / p.image.height})` } as React.CSSProperties}
+                style={{ "--fit-w": `calc(var(--fit-h, 60dvh) * ${p.image.width / p.image.height})` } as React.CSSProperties}
               />
             )}
             {p.metric && (
@@ -210,22 +199,22 @@ function ProjectPanel({ p }: { p: Project }) {
             )}
           </div>
         )}
-        <div className={`min-w-0 ${side ? "lg:col-start-2 lg:row-start-1 2xl:row-span-2" : ""}`}>
+        <div className={`min-w-0 ${side ? "lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:group-data-[meta=right]/sheet:row-span-1" : ""}`}>
           {p.summary && <p className="leading-relaxed xl:text-lg">{p.summary}</p>}
           {p.details && (
             <ul className="mt-4 space-y-2 leading-relaxed [@media(max-height:880px)]:space-y-1 [@media(max-height:880px)]:text-[0.95rem] [@media(max-height:880px)]:leading-normal">
               {p.details.map((d) => (
                 <li key={d} className="relative pl-5">
                   <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
-                  <Detail text={d} />
+                  {d}
                 </li>
               ))}
             </ul>
           )}
           {p.next && <InProgress items={p.next} />}
         </div>
-        {/* Role, team, tools and links: under the text on laptops, under the image on wide screens, last on phones */}
-        <div className={`min-w-0 ${side ? "lg:col-start-2 lg:row-start-2 2xl:col-start-1 [&>*:first-child]:mt-0" : ""}`}>
+        {/* Role, team, tools and links: on desktop, under the image or the text, whichever leaves the bigger screenshot (ClickableCard fit()); last on phones */}
+        <div className={`min-w-0 ${side ? "lg:col-start-1 lg:row-start-2 lg:group-data-[meta=right]/sheet:col-start-2 [&>*:first-child]:mt-0" : ""}`}>
           {(p.role || p.team) && (
             <dl className="mt-0 space-y-2">
               {p.role && (
@@ -251,12 +240,9 @@ function ProjectPanel({ p }: { p: Project }) {
 }
 
 // Card screenshot: clicking it opens the project panel (handled by ClickableCard), where it can be zoomed.
-function CardImage({ src, alt, width, height, sizes, count = 1, className = "" }: NonNullable<Project["image"]> & { sizes: string; count?: number; className?: string }) {
+function CardImage({ src, alt, width, height, sizes, className = "" }: NonNullable<Project["image"]> & { sizes: string; className?: string }) {
   return (
     <div className={`relative overflow-hidden rounded-md border border-line ${className}`}>
-      {count > 1 && (
-        <span className="absolute right-2 top-2 z-10 rounded bg-navy/85 px-2 py-1 font-mono text-xs text-ink">{count} photos</span>
-      )}
       <Image
         src={src}
         alt={alt}
@@ -286,7 +272,7 @@ function FeaturedCard({ p }: { p: Project }) {
       {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
 
       {p.image && (
-        <CardImage {...p.image} count={1 + (p.gallery?.length ?? 0)} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
+        <CardImage {...p.image} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
       )}
 
       {p.metric && (
@@ -312,7 +298,7 @@ function CompactCard({ p }: { p: Project }) {
       panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
       className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""}`}
     >
-      {p.image && <CardImage {...p.image} count={1 + (p.gallery?.length ?? 0)} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
+      {p.image && <CardImage {...p.image} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <p className="font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
@@ -344,6 +330,8 @@ export default function Home() {
       >
         Skip to content
       </a>
+      {/* Phones and tablets: section links in a bar at the bottom, within thumb reach (desktop uses the sidebar) */}
+      <BottomNav items={nav} />
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
@@ -391,23 +379,7 @@ export default function Home() {
         </header>
 
         {/* Right column: scrolls */}
-        <main id="content" className="pt-6 lg:w-[54%] lg:py-20">
-          {/* Phone and tablet: sticky section links (desktop uses the sidebar nav) */}
-          <nav
-            aria-label="Sections"
-            className="sticky top-0 z-30 -mx-6 mb-6 border-b border-line bg-navy/90 backdrop-blur sm:-mx-10 lg:hidden"
-          >
-            {/* All five links fit across a phone screen: no sideways scrolling */}
-            <ul className="flex justify-between px-2 sm:justify-center sm:gap-6 sm:px-8">
-              {nav.map((n) => (
-                <li key={n.href}>
-                  <a href={n.href} className="block px-1.5 py-3.5 font-mono text-[13px] font-semibold uppercase tracking-wide text-muted hover:text-accent sm:text-sm">
-                    {n.short ?? n.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+        <main id="content" className="pb-20 pt-6 lg:w-[54%] lg:py-20">
 
           <section id="about" aria-labelledby="about-title" className="scroll-mt-16 pb-24 lg:scroll-mt-20">
             <SectionHeading id="about" index="01" title="About" />

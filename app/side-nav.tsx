@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-type NavItem = { href: string; label: string };
+type NavItem = { href: string; label: string; short?: string };
 
-// Highlights the section currently in view. Works without JS too (plain anchor links).
-export function SideNav({ items }: { items: NavItem[] }) {
+// Which section is in view. Works without JS too (plain anchor links).
+function useActive(items: NavItem[]) {
   const [active, setActive] = useState<string>(items[0]?.href ?? "");
 
   useEffect(() => {
@@ -24,6 +24,42 @@ export function SideNav({ items }: { items: NavItem[] }) {
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
   }, [items]);
+
+  return active;
+}
+
+// Phones and tablets: a bar fixed to the bottom of the screen, like an app's tab bar.
+export function BottomNav({ items }: { items: NavItem[] }) {
+  const active = useActive(items);
+  return (
+    <nav
+      aria-label="Sections"
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-navy/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
+    >
+      <ul className="mx-auto flex max-w-xl justify-between px-2">
+        {items.map((n) => {
+          const on = active === n.href;
+          return (
+            <li key={n.href}>
+              <a
+                href={n.href}
+                aria-current={on ? "location" : undefined}
+                className={`relative block px-1.5 py-4 font-mono text-[13px] font-semibold uppercase tracking-wide sm:text-sm ${on ? "text-accent" : "text-muted hover:text-ink"}`}
+              >
+                <span aria-hidden className={`absolute inset-x-1.5 top-0 h-0.5 rounded-full bg-accent transition-opacity ${on ? "opacity-100" : "opacity-0"}`} />
+                {n.short ?? n.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+}
+
+// Desktop sidebar: highlights the section currently in view.
+export function SideNav({ items }: { items: NavItem[] }) {
+  const active = useActive(items);
 
   return (
     <nav aria-label="Sections" className="mt-14 hidden lg:block [@media(max-height:880px)]:mt-8">

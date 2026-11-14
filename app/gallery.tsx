@@ -17,7 +17,7 @@ export function Gallery({ shots, sizes, className = "", style }: Props) {
   const go = (d: number) => setI((x) => (x + d + n) % n);
   const zoomedIn = (t: EventTarget) => Boolean((t as HTMLElement).closest('[aria-pressed="true"]'));
   const arrow =
-    "absolute top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-navy/85 text-2xl leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent sm:opacity-0 sm:group-hover/gal:opacity-100 sm:focus-visible:opacity-100";
+    "absolute top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-navy/85 text-2xl leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent";
 
   return (
     <div className={className} style={style} role="group" aria-roledescription="carousel" aria-label="Screenshots">

@@ -53,6 +53,11 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
 
 ## Gotchas learned the hard way
 
+- **Project panels must never scroll on desktop** (Brian, 2026-11-14). `fit()` in `app/clickable-card.tsx` shrinks the
+  screenshot, picks where role/team/links go, and scales slightly as a last resort. After any panel or project-text
+  change, run `node ~/overnight/tools/check-panels.mjs /tmp` against the dev server on port 3123: every line must say "fits".
+- Project bullets are plain sentences (no "Label:" prefixes); work in progress goes in `next`, not in `details`.
+
 - **Next.js 16**: read `node_modules/next/dist/docs/` before using unfamiliar APIs (see AGENTS.md).
 - **macOS is case-insensitive:** an ignore rule `Headshot.jpg` also matched `public/headshot.jpg`
   and broke a deploy. Anchor root-only rules with a leading slash (`/Headshot.jpg`).
