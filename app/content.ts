@@ -74,7 +74,7 @@ export const projects: Project[] = [
     summary:
       "A first-person shooter that runs in the browser with no install, no account, and no game server. Inspired by Combat Arms, with some Halo and Call of Duty mixed in.",
     shots: [
-      { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 1200, height: 675, title: "Team deathmatch", caption: "One of 13 modes on 9 maps, with bots, vehicles, and up to 12 players peer to peer." },
+      { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 2400, height: 1350, title: "Team deathmatch", caption: "One of 13 modes on 9 maps, with bots, vehicles, and up to 12 players peer to peer." },
       desk("/projects/frontline-menu.jpg", "Frontline Squad main menu with game modes, maps, bot skill and the map editor", "Main menu", "Pick a mode, map, and bot skill. The whole game is one HTML file, with art and sound generated in code.", 1350),
     ],
     metric: { value: "68", label: "automated tests play the game in a real browser before every update goes live" },
