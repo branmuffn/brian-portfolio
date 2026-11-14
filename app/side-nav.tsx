@@ -62,7 +62,7 @@ export function SideNav({ items }: { items: NavItem[] }) {
   const active = useActive(items);
 
   return (
-    <nav aria-label="Sections" className="mt-14 hidden lg:block [@media(max-height:880px)]:mt-8 [@media(max-height:760px)]:mt-5">
+    <nav aria-label="Sections" className="mt-8 hidden lg:block [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5">
       <ul className="space-y-1">
         {items.map((item) => {
           const isActive = active === item.href;

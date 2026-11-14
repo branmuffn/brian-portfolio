@@ -187,12 +187,6 @@ export const projects: Project[] = [
 ];
 
 // How I build with AI (shown under Projects)
-export const howIBuild = [
-  { title: "I direct, AI writes, I check", body: "I set the goal and the constraints, Claude Code writes most of the code, and I review and test every change before it ships." },
-  { title: "Tests over trust", body: "Every bug fix comes with an automated test that fails without the fix, so the same bug can't quietly come back." },
-  { title: "Decisions live in the repo", body: "Rules, pitfalls, and decision logs are written down next to the code, so the next session (human or AI) starts from what we already learned." },
-];
-
 export type TimelineItem = {
   dates: string;
   title: string;
@@ -205,12 +199,11 @@ export type TimelineItem = {
 export const timeline: TimelineItem[] = [
   {
     dates: "Sep – Oct 2026",
-    title: "Innovation Fellow, Build lane",
+    title: "Innovation Fellow",
     org: "Frontier Commons",
     points: [
       "Won Best of the Ministry Track ($20K team prize) at the 2026 Gloo AI Hackathon (1,000+ participants) with OnBoard, a privacy-first app for missionaries to send prayer updates and newsletters.",
-      "Built and iterated on OnBoard prototypes and demo pitches with the technical lead, using feedback from missionaries, campus ministers, and mentors.",
-      "Developed and deployed full-stack web apps with Claude Code, Next.js, Supabase, and Vercel, with user accounts and real-time updates.",
+      "Led the OnBoard team. Built prototypes and demo pitches, shaped by feedback from missionaries, campus ministers, and mentors. Also shipped full-stack web apps with Claude Code, Next.js, Supabase, and Vercel.",
     ],
     kind: "work",
   },

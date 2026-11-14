@@ -1,6 +1,7 @@
 import Image from "next/image";
 import headshot from "../public/headshot.jpg";
-import { profile, projects, howIBuild, timeline, skills, type Project } from "./content";
+import { profile, projects, timeline, skills, type Project } from "./content";
+import { TimelineItem } from "./timeline-item";
 import { SideNav, BottomNav } from "./side-nav";
 import { Gallery, Features } from "./gallery";
 import { ClickableCard } from "./clickable-card";
@@ -8,7 +9,6 @@ import { ClickableCard } from "./clickable-card";
 const nav = [
   { href: "#about", label: "About" },
   { href: "#projects", label: "Projects" },
-  { href: "#how-i-build", label: "How I build", short: "Build" },
   { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
 ];
@@ -295,14 +295,14 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
-        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:py-20 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
+        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
           <div>
             <Image
               src={headshot}
               alt="Headshot of Brian Tea"
               priority
-              sizes="144px"
-              className="h-32 w-32 rounded-full lg:h-36 lg:w-36 lg:[@media(max-height:760px)]:h-24 lg:[@media(max-height:760px)]:w-24 object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
+              sizes="224px"
+              className="h-[184px] w-[184px] rounded-full lg:h-[224px] lg:w-[224px] lg:[@media(max-height:880px)]:h-[160px] lg:[@media(max-height:880px)]:w-[160px] lg:[@media(max-height:760px)]:h-[112px] lg:[@media(max-height:760px)]:w-[112px] object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
             />
             <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:[@media(max-height:760px)]:mt-5 lg:[@media(max-height:760px)]:text-4xl">{profile.name}</h1>
             <p className="mt-3 text-lg font-medium text-accent sm:text-xl">{profile.tagline}</p>
@@ -371,54 +371,11 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="how-i-build" aria-labelledby="how-i-build-title" className="scroll-mt-16 lg:scroll-mt-20">
-            <div className="-mx-6 bg-navy-raised px-6 py-20 sm:-mx-10 sm:px-10 lg:mx-0 lg:rounded-2xl lg:px-8">
-              <SectionHeading id="how-i-build" index="03" title="How I build with AI" />
-              {/* One row per principle: number on the left, full-width text, so nothing is squeezed into narrow columns */}
-              <ol className="space-y-4">
-                {howIBuild.map((h, i) => (
-                  <li key={h.title} className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 rounded-xl border border-line bg-navy p-5">
-                    <span aria-hidden className="font-mono text-2xl font-bold leading-snug text-accent">
-                      0{i + 1}
-                    </span>
-                    <div>
-                      <h3 className="text-lg font-semibold leading-snug text-ink">{h.title}</h3>
-                      <p className="mt-1 leading-relaxed">{h.body}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </section>
-
-          <section id="experience" aria-labelledby="experience-title" className="scroll-mt-16 pb-24 pt-24 lg:scroll-mt-20">
-            <SectionHeading id="experience" index="04" title="Experience & education" />
+          <section id="experience" aria-labelledby="experience-title" className="scroll-mt-16 border-t border-line pb-24 pt-20 lg:scroll-mt-20">
+            <SectionHeading id="experience" index="03" title="Experience & education" />
             <ol className="relative space-y-10 border-l border-line pl-8">
               {timeline.map((t) => (
-                <li key={t.org + t.dates} className="relative">
-                  <span
-                    aria-hidden
-                    className={`absolute -left-[2.4rem] top-1.5 h-3 w-3 rounded-full ring-4 ring-navy ${t.kind === "work" ? "bg-accent" : "bg-ink"}`}
-                  />
-                  <p className="font-mono text-sm uppercase tracking-wider text-muted">
-                    {t.dates} · {t.kind === "work" ? "Work" : "Education"}
-                  </p>
-                  <h3 className="mt-1 text-xl font-semibold leading-snug text-ink">{t.org}</h3>
-                  <p className="mt-1">
-                    {t.title}
-                    {t.place && <span className="text-muted"> · {t.place}</span>}
-                  </p>
-                  {t.points && (
-                    <ul className="mt-3 space-y-2 leading-relaxed">
-                      {t.points.map((pt) => (
-                        <li key={pt} className="relative pl-5">
-                          <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
-                          {pt}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
+                <TimelineItem key={t.org + t.dates} t={t} />
               ))}
             </ol>
 
@@ -435,7 +392,7 @@ export default function Home() {
 
           <section id="contact" aria-labelledby="contact-title" className="scroll-mt-16 pb-16 lg:scroll-mt-20">
             <div className="rounded-2xl border border-accent/40 bg-[linear-gradient(135deg,rgba(242,180,90,0.10),rgba(17,28,51,0.9)_55%)] p-6 sm:p-10">
-              <SectionHeading id="contact" index="05" title="Let's talk" />
+              <SectionHeading id="contact" index="04" title="Let's talk" />
               <p className="max-w-xl text-lg leading-relaxed">
                 Email is the fastest way to reach me. My{" "}
                 <a
