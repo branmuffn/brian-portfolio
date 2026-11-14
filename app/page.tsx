@@ -91,7 +91,7 @@ function ProjectTitle({ p, size }: { p: Project; size: "lg" | "md" }) {
     <h3 className={`${cls} font-bold leading-snug tracking-tight text-ink`}>
       {main ? (
         <a href={main.href} {...ext} className="relative -my-2 inline-block py-2 hover:text-accent">
-          {p.title} <span aria-hidden className="text-lg text-accent">↗</span>
+          {p.title}{"\u00a0"}<span aria-hidden className="text-lg text-accent">↗</span>
         </a>
       ) : (
         p.title
