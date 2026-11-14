@@ -57,8 +57,11 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
   screenshot, picks where role/team/links go, and scales slightly as a last resort. After any panel or project-text
   change, run `node ~/overnight/tools/check-panels.mjs /tmp` against the dev server on port 3123: every line must say "fits".
 - Projects (2026-11-14 redesign, Brian chose A1/A2 + B1): main page is a 2-column grid of short cards (`oneLine`).
-  Panels show big screenshots with one caption each (`shots[].caption`); OnBoard shows phone screenshots side by side
-  (`phones`). Projects without screenshots use `details` (plain sentences, max 3). Work in progress goes in `next`.
+  Panels show big screenshots with one caption each (`shots[].caption`); all projects with screenshots, OnBoard included, use
+  desktop shots (`phones`/`Features` is unused). Projects without screenshots use `details` (plain sentences, max 3). Work in progress goes in `next`.
+- **Phones (below 640px, `max-sm:` classes; 2026-11-14):** project cards are compact rows (8rem thumbnail beside the title, one-liner
+  below, badge under the thumbnail, no arrows/dots); panels use a square ✕ close button and tighter type. Target: every panel but
+  OnBoard fits one 390x844 screen. Tablet/desktop styles must stay unchanged.
   Screenshots are captured at 2x (2400px wide) so in-place zoom (2.5x) stays sharp.
 
 - **Next.js 16**: read `node_modules/next/dist/docs/` before using unfamiliar APIs (see AGENTS.md).
