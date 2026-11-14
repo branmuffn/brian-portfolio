@@ -19,6 +19,8 @@ export const profile = {
   resume: "/Brian-Tea-Resume.pdf",
 };
 
+export type Shot = { src: string; alt: string; width: number; height: number };
+
 export type Project = {
   title: string;
   context: string;
@@ -32,7 +34,9 @@ export type Project = {
   role?: string;
   team?: string;
   links?: { href: string; label: string; note?: string }[]; // note: short hint shown next to the link
-  image?: { src: string; alt: string; width: number; height: number }; // screenshot in public/projects/
+  image?: Shot; // main screenshot in public/projects/
+  gallery?: Shot[]; // more screenshots, shown with arrows in the project panel (same shape as `image`)
+  next?: string[]; // what's in progress now, shown as its own "In progress" list
 };
 
 export const projects: Project[] = [
@@ -44,17 +48,17 @@ export const projects: Project[] = [
     award: "Winner, Best of the Ministry Track · $20,000 team prize",
     status: "Ongoing",
     summary:
-      "A mobile web app that helps solo missionaries and one-person ministries turn small moments from the field into prayer requests and newsletters in their own words, without exposing the people they serve.",
+      "A mobile web app that helps missionaries and small or understaffed ministries turn moments from the field into prayer requests and newsletters in their own words, without exposing the people they serve.",
     details: [
       "Capture: type or talk a moment, and AI tags it so it's easy to find later.",
       "Write: AI finds themes across chosen moments and drafts only from your words. No added facts, quotes, or verses.",
       "Privacy Check: flags full names and locations and blurs faces in photos. Nothing publishes without approval.",
       "Partner side: a two-way prayer board and Journeys that let supporters follow one story over time.",
-      "Still testing and improving with missionaries and campus ministers.",
     ],
+    next: ["Testing with missionaries and campus ministers, and improving it from their feedback."],
     metric: { value: "5 of 7", label: "testers said sending an update felt faster than what they do now" },
-    role: "Helped lead the team, contributed ideas, built the prototype, and helped with the initial pitch.",
-    team: "Christopher Lee, Javier Soto, Jedidiah Gabrielle Santos, Rita Dong, Thanh Tran, and me",
+    role: "Led the team, contributed ideas, built the prototype, and helped with the initial pitch.",
+    team: "Christopher Lee, Thanh Tran, Rita Dong, Javier Soto, Jedidiah Gabrielle Santos, and me",
     tools: ["React", "Gloo AI Studio", "Gemini", "Whisper"],
     links: [
       { href: "https://gloo.com/ai/hackathon/2026-winners", label: "Hackathon winners" },
@@ -72,9 +76,9 @@ export const projects: Project[] = [
       "13 modes, 9 maps, an in-game map editor, bots with skill levels 1 to 10, and vehicles.",
       "Multiplayer for up to 12 players, peer to peer over WebRTC. The host's game is the referee.",
       "Ships as one self-contained HTML file. All art, audio, and music are generated in code.",
-      "Every bug fix ships with a test that fails without it.",
+      "Every bug fix comes with a new automated test, so the same bug can't quietly come back.",
     ],
-    metric: { value: "68", label: "automated browser tests run before every change ships" },
+    metric: { value: "68", label: "automated tests play the game in a real browser before every update goes live" },
     role: "Set the vision, play-tested every build, and decided what to keep, cut, and fix. Claude wrote most of the code.",
     tools: ["three.js", "WebRTC", "Playwright", "Claude Code"],
     links: [
@@ -98,14 +102,21 @@ export const projects: Project[] = [
   {
     title: "Downstream",
     image: { src: "/projects/downstream.jpg", alt: "Downstream map of U.S. metros ranked by priority score for a rising country signal (mock data)", width: 1200, height: 750 },
-    context: "Concept · Proposed OMSA capstone with Frontier Commons and IFI",
-    status: "Prototype",
-    summary:
-      "When a currency crashes, a flood hits, or conflict breaks out abroad, students from that country are often studying here. Downstream connects news signals from abroad with data on where international students study, so IFI can see which U.S. places may need attention, and why.",
-    details: [
-      "Clickable prototype with mock data, a guided tour, and a no-signup demo mode.",
-      "Map, weekly digest, and a transparent explanation of how each place is scored.",
+    gallery: [
+      { src: "/projects/downstream-digest.jpg", alt: "Downstream weekly digest preview: a short Monday email listing places to check in on (mock data)", width: 1200, height: 750 },
+      { src: "/projects/downstream-score.jpg", alt: "How the Downstream priority score works, with adjustable assumptions and a worked example (mock data)", width: 1200, height: 750 },
     ],
+    context: "Proposed OMSA capstone with Frontier Commons and IFI",
+    status: "In progress",
+    summary:
+      "A planned dataset and dashboard that estimate how many students from each country study in each U.S. metro, then flag the places that may need attention when things get worse in a home country.",
+    details: [
+      "Students: monthly counts by country and state from DHS's SEVIS tables, split across metros by each campus's international enrollment (IPEDS), and cross-checked against Open Doors.",
+      "Signals: weekly country instability levels from Frontier Commons' Upstream, with GDELT news data as a backup.",
+      "Scoring: each place gets a 0 to 100 priority score with every assumption shown, and student counts are shown as ranges, not false precision.",
+      "Prototype: a clickable map, weekly digest, and score explainer with mock data, plus a no-signup demo.",
+    ],
+    next: ["Collecting and joining the real public data to replace the mock data."],
     tools: ["JavaScript", "D3", "Supabase"],
     links: [{ href: "https://downstream-map.vercel.app/?demo=1", label: "Try the demo" }],
   },
@@ -128,11 +139,17 @@ export const projects: Project[] = [
     title: "Splitwise clone",
     context: "Frontier Commons Build Bootcamp",
     status: "Live",
-    summary: "A working Splitwise clone: create or join a group, add shared expenses, and see who owes whom.",
-    details: ["Create an account to try it. A no-signup demo mode is coming soon."],
+    summary: "A working clone of Splitwise, the app for sharing costs: create or join a group, add shared expenses, and see who owes whom.",
+    details: [
+      "Splits: equally, by exact amounts, percentages, or shares, or item by item with tax and tip shared.",
+      "Settling up: suggests the fewest payments to even out, in multiple currencies, then you record them.",
+      "Free to use. It only keeps track of who owes what; no money moves through the app.",
+      "Also: receipts, recurring expenses, comments, charts, CSV export, and live updates.",
+    ],
+    next: ["A no-signup demo mode, so anyone can try it without creating an account."],
     tools: ["Next.js", "TypeScript", "Supabase"],
     links: [
-      { href: "https://splitwise-clone-three-theta.vercel.app", label: "Live" },
+      { href: "https://splitwise-clone-three-theta.vercel.app", label: "Try it", note: "free account" },
       { href: "https://github.com/branmuffn/splitwise-clone", label: "GitHub" },
     ],
   },
@@ -140,8 +157,19 @@ export const projects: Project[] = [
     title: "Pledge reconciliation dashboard",
     image: { src: "/projects/pledge-dashboard.jpg", alt: "Pledge reconciliation dashboard showing valid monthly support, goal progress and excluded pledges", width: 1200, height: 750 },
     context: "Frontier Commons Technical Challenge · Aug 2026",
+    gallery: [
+      { src: "/projects/pledge-breakdown.jpg", alt: "Pledge dashboard: excluded pledges broken down by reason and lost monthly value", width: 1200, height: 750 },
+      { src: "/projects/pledge-lapsed.jpg", alt: "Pledge dashboard: the lapsed pledges table, with days since each donor's last gift (sample data)", width: 1200, height: 750 },
+    ],
     summary:
-      "Built a pandas data reconciliation pipeline and a Streamlit dashboard to evaluate transaction history against pledges.",
+      "A Streamlit dashboard that checks donors' stated pledges against their actual gift history to show how much monthly support is really committed.",
+    details: [
+      "Cleans a deliberately messy ledger: four currencies, mixed frequencies, and several date and amount formats.",
+      "Gives each pledge exactly one status (included, lapsed, paused, past end date, or unparseable), so nothing is double-counted.",
+      "Every row is counted or listed, and the dashboard shows why each excluded pledge was excluded.",
+      "Logic is separate from the dashboard and covered by 24 automated tests.",
+    ],
+    metric: { value: "71.8%", label: "of the $7,500 monthly goal is actually backed by recent gifts" },
     tools: ["Python", "pandas", "Streamlit"],
     links: [
       { href: "https://klrju2rpjcgffbf5yktsqp.streamlit.app/", label: "Live app", note: "may take ~30 s to wake" },
@@ -166,7 +194,7 @@ export const projects: Project[] = [
       "Built and maintain n8n automation workflows running in Docker on my own server hardware, alongside local LLMs.",
     details: [
       "Workflows include generating YouTube videos from Reddit posts and producing video ads from static assets.",
-      "Compared Gemini, ChatGPT, Grok, Claude, and Nemotron on generating working n8n workflow code.",
+      "Compared Gemini, ChatGPT, and Claude on generating working n8n workflow code.",
     ],
     tools: ["n8n", "Docker", "Ollama"],
   },
@@ -193,7 +221,11 @@ export const timeline: TimelineItem[] = [
     dates: "Sep – Oct 2026",
     title: "Innovation Fellow, Build lane",
     org: "Frontier Commons",
-    points: ["8-week fellowship."],
+    points: [
+      "Selected for the Build lane through a technical challenge: the pledge reconciliation dashboard above.",
+      "Built and shipped projects in the Build Bootcamp, including this site and a working Splitwise clone.",
+      "Scoped Downstream, a proposed data capstone with Frontier Commons and IFI.",
+    ],
     kind: "work",
   },
   {
