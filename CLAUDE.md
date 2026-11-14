@@ -28,7 +28,7 @@ No database, no env vars, no API keys. Supabase belongs to the Splitwise clone, 
 - **Voice:** concise, direct, structured, builder framing. **No em dashes** in site copy.
 - **Design:** design A (2026-11-13): dark navy `#0b1324`, amber accent `#f2b45a`, sticky sidebar; strong typography, no stock photos, must work at
   phone width (~390px).
-- **Stack:** Next.js (App Router) + TypeScript + Tailwind only. No libraries beyond what
+- **Stack:** Next.js (App Router) + TypeScript + Tailwind, plus `@vercel/analytics` (approved 2026-11-13). No other libraries beyond what
   create-next-app installs.
 - **Ask before acting** on anything outward-facing (new repos, making things public, deleting).
   The user likes all questions batched up front, then one pass of changes.
