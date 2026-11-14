@@ -130,51 +130,89 @@ function Links({ p }: { p: Project }) {
   );
 }
 
-// Bullets, role and team sit behind a native disclosure, so cards stay short.
-function MoreDetails({ p }: { p: Project }) {
-  if (!p.details && !p.role && !p.team) return null;
+const hasDetails = (p: Project) => Boolean(p.details || p.role || p.team);
+
+// Opens the project panel (handled by ClickableCard via data-open-details).
+function ViewDetails() {
   return (
-    <details className="group/d mt-4">
-      <summary className="relative -my-2 inline-flex cursor-pointer list-none items-center gap-2 py-2 font-semibold text-ink hover:text-accent [&::-webkit-details-marker]:hidden">
-        <span className="group-open/d:hidden">More details</span>
-        <span className="hidden group-open/d:inline">Fewer details</span>
-        <span aria-hidden className="transition-transform group-open/d:rotate-180">▾</span>
-      </summary>
-      {p.details && (
-        <ul className="mt-3 space-y-2 leading-relaxed">
-          {p.details.map((d) => (
-            <li key={d} className="relative pl-5">
-              <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
-              {d}
-            </li>
-          ))}
-        </ul>
-      )}
-      {(p.role || p.team) && (
-        <dl className="mt-4 space-y-1">
-          {p.role && (
-            <div>
-              <dt className="inline font-semibold text-ink">My role: </dt>
-              <dd className="inline">{p.role}</dd>
-            </div>
-          )}
-          {p.team && (
-            <div>
-              <dt className="inline font-semibold text-ink">Team: </dt>
-              <dd className="inline">{p.team}</dd>
-            </div>
-          )}
-        </dl>
-      )}
-    </details>
+    <button
+      type="button"
+      data-open-details
+      className="relative -my-2.5 mt-4 inline-flex items-center gap-2 py-2.5 font-semibold text-ink hover:text-accent"
+    >
+      View details <span aria-hidden>→</span>
+    </button>
   );
 }
 
-const hasDetails = (p: Project) => Boolean(p.details || p.role || p.team);
+// The whole project on one screen: image and key number on the left, text on the right (stacked on phones).
+function ProjectPanel({ p }: { p: Project }) {
+  return (
+    <div className="pr-0 sm:pr-16">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
+        <Badges p={p} />
+      </div>
+      <div className="mt-2">
+        <ProjectTitle p={p} size="lg" />
+      </div>
+      {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
+
+      <div className={`mt-6 grid gap-8 ${p.image || p.metric ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" : ""}`}>
+        {(p.image || p.metric) && (
+          <div>
+            {p.image && <ZoomImage {...p.image} sizes="(min-width: 1024px) 30rem, 100vw" />}
+            {p.metric && (
+              <div className="mt-5 flex items-baseline gap-4 border-l-2 border-accent pl-4">
+                <p className="whitespace-nowrap text-4xl font-bold tracking-tight text-ink">{p.metric.value}</p>
+                <p className="leading-snug text-muted">{p.metric.label}</p>
+              </div>
+            )}
+          </div>
+        )}
+        <div className="min-w-0">
+          {p.summary && <p className="text-lg leading-relaxed">{p.summary}</p>}
+          {p.details && (
+            <ul className="mt-4 space-y-2 leading-relaxed">
+              {p.details.map((d) => (
+                <li key={d} className="relative pl-5">
+                  <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
+                  {d}
+                </li>
+              ))}
+            </ul>
+          )}
+          {(p.role || p.team) && (
+            <dl className="mt-5 space-y-2">
+              {p.role && (
+                <div>
+                  <dt className="inline font-semibold text-ink">My role: </dt>
+                  <dd className="inline">{p.role}</dd>
+                </div>
+              )}
+              {p.team && (
+                <div>
+                  <dt className="inline font-semibold text-ink">Team: </dt>
+                  <dd className="inline">{p.team}</dd>
+                </div>
+              )}
+            </dl>
+          )}
+          {p.tools && <BuiltWith list={p.tools} />}
+          <Links p={p} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function FeaturedCard({ p }: { p: Project }) {
   return (
-    <ClickableCard className={`rounded-2xl border border-line bg-navy-raised/60 p-5 transition duration-200 ease-out hover:border-accent/40 sm:p-7 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)] ${hasDetails(p) ? "cursor-pointer" : ""}`}>
+    <ClickableCard
+      title={p.title}
+      panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
+      className="rounded-2xl border border-line bg-navy-raised/60 p-5 transition duration-200 ease-out hover:border-accent/40 sm:p-7 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]"
+    >
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
         <Badges p={p} />
@@ -198,7 +236,7 @@ function FeaturedCard({ p }: { p: Project }) {
       {p.summary && <p className="mt-5 text-lg leading-relaxed">{p.summary}</p>}
       {p.tools && <BuiltWith list={p.tools} />}
       <Links p={p} />
-      <MoreDetails p={p} />
+      {hasDetails(p) && <ViewDetails />}
     </ClickableCard>
   );
 }
@@ -207,7 +245,9 @@ function FeaturedCard({ p }: { p: Project }) {
 function CompactCard({ p }: { p: Project }) {
   return (
     <ClickableCard
-      className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""} ${hasDetails(p) ? "cursor-pointer" : ""}`}
+      title={p.title}
+      panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
+      className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""}`}
     >
       {p.image && <ZoomImage {...p.image} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
       <div className="min-w-0">
@@ -221,7 +261,7 @@ function CompactCard({ p }: { p: Project }) {
         {p.summary && <p className="mt-2 leading-relaxed">{p.summary}</p>}
         {p.tools && <BuiltWith list={p.tools} />}
         <Links p={p} />
-        <MoreDetails p={p} />
+        {hasDetails(p) && <ViewDetails />}
       </div>
     </ClickableCard>
   );

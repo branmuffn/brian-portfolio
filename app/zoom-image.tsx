@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Props = { src: string; alt: string; width: number; height: number; sizes: string; className?: string };
 
-const ZOOM = 2.5;
+const ZOOM = 2;
 
 // A screenshot that opens full screen in a native <dialog>.
 // Click the image to zoom in (centered where you clicked), drag or scroll to pan, click again to zoom out.
@@ -16,6 +16,29 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
   const [zoomed, setZoomed] = useState(false);
   const focus = useRef({ x: 0.5, y: 0.5 }); // where to center after zooming in (0-1)
   const drag = useRef({ active: false, moved: false, x: 0, y: 0, left: 0, top: 0 });
+  const [view, setView] = useState({ x: 0, y: 0, w: 1, h: 1 }); // visible part of the zoomed image (0-1)
+  const minimapDrag = useRef(false);
+
+  const readView = () => {
+    const el = scroller.current;
+    if (!el) return;
+    setView({
+      x: el.scrollLeft / el.scrollWidth,
+      y: el.scrollTop / el.scrollHeight,
+      w: el.clientWidth / el.scrollWidth,
+      h: el.clientHeight / el.scrollHeight,
+    });
+  };
+
+  // Mini-map: center the view on the point under the pointer.
+  const panTo = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = scroller.current;
+    if (!el) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    el.scrollLeft = fx * el.scrollWidth - el.clientWidth / 2;
+    el.scrollTop = fy * el.scrollHeight - el.clientHeight / 2;
+  };
 
   // After zooming in, scroll so the clicked point is in the middle.
   useEffect(() => {
@@ -23,6 +46,7 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
     if (!zoomed || !el) return;
     el.scrollLeft = focus.current.x * el.scrollWidth - el.clientWidth / 2;
     el.scrollTop = focus.current.y * el.scrollHeight - el.clientHeight / 2;
+    readView();
   }, [zoomed]);
 
   const close = () => dialog.current?.close();
@@ -81,8 +105,10 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
               className="block cursor-zoom-in rounded-md"
             />
           ) : (
+            <div className="relative max-h-[82dvh] max-w-full">
             <div
               ref={scroller}
+              onScroll={readView}
               className="max-h-[82dvh] max-w-full cursor-grab overflow-auto rounded-md active:cursor-grabbing"
               onPointerDown={(e) => {
                 if (e.pointerType !== "mouse") return; // touch screens pan natively
@@ -114,9 +140,34 @@ export function ZoomImage({ src, alt, width, height, sizes, className = "" }: Pr
                 className="block select-none"
               />
             </div>
+              {/* Mini-map: where you are in the image; drag or click it to move around */}
+              <div
+                className="absolute bottom-3 right-3 w-28 cursor-crosshair touch-none overflow-hidden rounded border-2 border-ink/80 shadow-lg sm:w-44"
+                onPointerDown={(e) => {
+                  minimapDrag.current = true;
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                  panTo(e);
+                }}
+                onPointerMove={(e) => minimapDrag.current && panTo(e)}
+                onPointerUp={() => (minimapDrag.current = false)}
+                onClick={(e) => e.stopPropagation()}
+                aria-hidden
+              >
+                <Image src={src} alt="" width={width} height={height} sizes="176px" draggable={false} className="block w-full select-none opacity-80" />
+                <span
+                  className="pointer-events-none absolute border-2 border-accent bg-accent/15"
+                  style={{
+                    left: `${view.x * 100}%`,
+                    top: `${view.y * 100}%`,
+                    width: `${Math.min(view.w, 1) * 100}%`,
+                    height: `${Math.min(view.h, 1) * 100}%`,
+                  }}
+                />
+              </div>
+            </div>
           )}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 rounded-lg bg-navy/95 px-3 py-2">
             <p className="hidden font-mono text-xs text-muted sm:block">
               {zoomed ? "Drag to move · click to zoom out" : "Click the image to zoom in"}
             </p>
