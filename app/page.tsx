@@ -2,7 +2,7 @@ import Image from "next/image";
 import headshot from "../public/headshot.jpg";
 import { profile, projects, howIBuild, timeline, skills, type Project } from "./content";
 import { SideNav, BottomNav } from "./side-nav";
-import { Gallery } from "./gallery";
+import { Gallery, Phones } from "./gallery";
 import { ClickableCard } from "./clickable-card";
 
 const nav = [
@@ -83,15 +83,6 @@ function BuiltWith({ list }: { list: string[] }) {
   );
 }
 
-function Badges({ p }: { p: Project }) {
-  if (!p.status) return null;
-  return (
-    <span className="rounded border border-accent/60 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-accent">
-      {p.status}
-    </span>
-  );
-}
-
 // Project title links to the project itself (first link) when there is one.
 function ProjectTitle({ p, size }: { p: Project; size: "lg" | "md" }) {
   const cls = size === "lg" ? "text-2xl" : "text-xl";
@@ -130,8 +121,6 @@ function Links({ p }: { p: Project }) {
   );
 }
 
-const hasDetails = (p: Project) => Boolean(p.details || p.next || p.role || p.team);
-
 // What's being worked on now: its own small block with a pulsing dot, so it reads as in progress.
 function InProgress({ items }: { items: string[] }) {
   return (
@@ -152,86 +141,86 @@ function InProgress({ items }: { items: string[] }) {
   );
 }
 
-// Opens the project panel (handled by ClickableCard via data-open-details).
-function ViewDetails() {
+function Metric({ p }: { p: Project }) {
+  if (!p.metric) return null;
   return (
-    <button
-      type="button"
-      data-open-details
-      className="relative -my-2.5 mt-4 inline-flex items-center gap-2 py-2.5 font-semibold text-ink hover:text-accent"
-    >
-      View details <span aria-hidden>→</span>
-    </button>
+    <div className="mt-5 flex items-baseline gap-3 border-l-2 border-accent pl-4">
+      <p className="whitespace-nowrap text-3xl font-bold tracking-tight text-ink">{p.metric.value}</p>
+      <p className="leading-snug text-muted">{p.metric.label}</p>
+    </div>
   );
 }
 
-// The whole project on one screen: image and key number on the left, text on the right (stacked on phones).
-function ProjectPanel({ p }: { p: Project }) {
-  const side = Boolean(p.image || p.metric);
+function Bullets({ items }: { items: string[] }) {
   return (
-    <div className="pr-0 sm:pr-28">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
-        <Badges p={p} />
-      </div>
-      <div className="mt-2">
-        <ProjectTitle p={p} size="lg" />
-      </div>
-      {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
+    <ul className="mt-4 space-y-2 leading-relaxed">
+      {items.map((d) => (
+        <li key={d} className="relative pl-5">
+          <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
+          {d}
+        </li>
+      ))}
+    </ul>
+  );
+}
 
-      <div className={`mt-6 grid gap-x-10 gap-y-6 ${side ? "lg:grid-cols-2 [@media(min-width:1280px)_and_(min-height:940px)]:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:grid-rows-[auto_1fr] lg:content-start" : ""}`}>
-        {(p.image || p.metric) && (
-          <div className="lg:col-start-1 lg:row-start-1 lg:group-data-[meta=right]/sheet:row-span-2">
-            {p.image && (
-              <Gallery
-                shots={[p.image, ...(p.gallery ?? [])]}
-                sizes="(min-width: 1024px) 56rem, 100vw"
-                // Desktop: the panel sets --fit-h so everything fits on screen (see ClickableCard's fit()).
-                className="lg:max-w-[var(--fit-w)]"
-                style={{ "--fit-w": `calc(var(--fit-h, 60dvh) * ${p.image.width / p.image.height})` } as React.CSSProperties}
-              />
-            )}
-            {p.metric && (
-              <div className="mt-5 flex items-baseline gap-4 border-l-2 border-accent pl-4">
-                <p className="whitespace-nowrap text-4xl font-bold tracking-tight text-ink">{p.metric.value}</p>
-                <p className="leading-snug text-muted">{p.metric.label}</p>
-              </div>
-            )}
-          </div>
-        )}
-        <div className={`min-w-0 ${side ? "lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:group-data-[meta=right]/sheet:row-span-1" : ""}`}>
-          {p.summary && <p className="leading-relaxed xl:text-lg">{p.summary}</p>}
-          {p.details && (
-            <ul className="mt-4 space-y-2 leading-relaxed [@media(max-height:880px)]:space-y-1 [@media(max-height:880px)]:text-[0.95rem] [@media(max-height:880px)]:leading-normal">
-              {p.details.map((d) => (
-                <li key={d} className="relative pl-5">
-                  <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
-                  {d}
-                </li>
-              ))}
-            </ul>
-          )}
-          {p.next && <InProgress items={p.next} />}
+function RoleTeam({ p }: { p: Project }) {
+  if (!p.role && !p.team) return null;
+  return (
+    <dl className="mt-5 space-y-2">
+      {p.role && (
+        <div>
+          <dt className="inline font-semibold text-ink">My role: </dt>
+          <dd className="inline">{p.role}</dd>
         </div>
-        {/* Role, team, tools and links: on desktop, under the image or the text, whichever leaves the bigger screenshot (ClickableCard fit()); last on phones */}
-        <div className={`min-w-0 ${side ? "lg:col-start-1 lg:row-start-2 lg:group-data-[meta=right]/sheet:col-start-2 [&>*:first-child]:mt-0" : ""}`}>
-          {(p.role || p.team) && (
-            <dl className="mt-0 space-y-2">
-              {p.role && (
-                <div>
-                  <dt className="inline font-semibold text-ink">My role: </dt>
-                  <dd className="inline">{p.role}</dd>
-                </div>
-              )}
-              {p.team && (
-                <div>
-                  <dt className="inline font-semibold text-ink">Team: </dt>
-                  <dd className="inline">{p.team}</dd>
-                </div>
-              )}
-            </dl>
-          )}
+      )}
+      {p.team && (
+        <div>
+          <dt className="inline font-semibold text-ink">Team: </dt>
+          <dd className="inline">{p.team}</dd>
+        </div>
+      )}
+    </dl>
+  );
+}
+
+// The panel: big screenshots with a caption each (or phone screenshots side by side) and a short text column.
+// Projects without screenshots get a single readable text column. fit() in ClickableCard keeps it on one screen.
+function ProjectPanel({ p }: { p: Project }) {
+  const visual = Boolean(p.phones || p.shots);
+  const first = p.shots?.[0];
+  return (
+    <div>
+      <div className="pr-32">
+        <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
+        <div className="mt-1">
+          <ProjectTitle p={p} size="lg" />
+        </div>
+        {p.award && <p className="font-medium text-accent">{p.award}</p>}
+      </div>
+
+      <div className={`mt-5 grid gap-x-8 gap-y-6 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]" : "max-w-3xl"}`}>
+        {p.phones ? (
+          <Phones shots={p.phones} />
+        ) : (
+          first && (
+            <Gallery
+              shots={p.shots!}
+              sizes="(min-width: 1024px) 52rem, 100vw"
+              captions
+              // Desktop: the panel sets --fit-h so everything fits on screen (see ClickableCard's fit()).
+              className="lg:max-w-[var(--fit-w)]"
+              style={{ "--fit-w": `calc(var(--fit-h, 60dvh) * ${first.width / first.height})` } as React.CSSProperties}
+            />
+          )
+        )}
+        <div className="min-w-0">
+          {p.summary && <p className={visual ? "leading-relaxed" : "text-lg leading-relaxed"}>{p.summary}</p>}
+          {p.details && <Bullets items={p.details} />}
+          <Metric p={p} />
+          <RoleTeam p={p} />
           {p.tools && <BuiltWith list={p.tools} />}
+          {p.next && <InProgress items={p.next} />}
           <Links p={p} />
         </div>
       </div>
@@ -239,64 +228,58 @@ function ProjectPanel({ p }: { p: Project }) {
   );
 }
 
-function FeaturedCard({ p }: { p: Project }) {
+// A card without screenshots shows its key number, or what it's built with, in the picture's place.
+function Tile({ p }: { p: Project }) {
+  return (
+    <div className="grid aspect-[16/10] place-items-center rounded-md border border-line bg-[linear-gradient(135deg,#16223d,#0e172b)] p-5 text-center">
+      {p.metric ? (
+        <div>
+          <p className="text-5xl font-bold tracking-tight text-accent">{p.metric.value}</p>
+          <p className="mt-2 text-sm font-medium text-muted">{p.metric.label}</p>
+        </div>
+      ) : (
+        <p className="font-mono text-lg font-semibold uppercase tracking-wider text-accent">{p.tools?.join(" · ")}</p>
+      )}
+    </div>
+  );
+}
+
+// Main page: a short card in a two-column grid. Everything else lives in the panel it opens.
+function ProjectCard({ p }: { p: Project }) {
   return (
     <ClickableCard
       title={p.title}
-      panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
-      className="rounded-2xl border border-line bg-navy-raised/60 p-5 transition duration-200 ease-out hover:border-accent/40 sm:p-7 motion-safe:lg:hover:-translate-y-1 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]"
+      panel={<ProjectPanel p={p} />}
+      className="flex flex-col rounded-2xl border border-line bg-navy-raised/60 p-4 transition duration-200 ease-out hover:border-accent/40 motion-safe:lg:hover:-translate-y-0.5 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]"
     >
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
-        <Badges p={p} />
+      <div className="relative">
+        {p.shots ? <Gallery plain shots={p.shots} sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 100vw" /> : <Tile p={p} />}
+        {(p.cardBadge ?? p.status) && (
+          <span className="pointer-events-none absolute left-2 top-2 z-10 rounded bg-navy/90 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-accent ring-1 ring-accent/60">
+            {p.cardBadge ?? p.status}
+          </span>
+        )}
       </div>
-      <div className="mt-3">
-        <ProjectTitle p={p} size="lg" />
+      <p className="mt-3 font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
+      <div className="mt-1">
+        <ProjectTitle p={p} size="md" />
       </div>
-      {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
-
-      {p.image && (
-        <Gallery plain shots={[p.image, ...(p.gallery ?? [])]} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
-      )}
-
-      {p.metric && (
-        <div className="mt-5 flex items-baseline gap-4 border-l-2 border-accent pl-4">
-          <p className="whitespace-nowrap text-4xl font-bold tracking-tight text-ink">{p.metric.value}</p>
-          <p className="leading-snug text-muted">{p.metric.label}</p>
-        </div>
-      )}
-
-      {p.summary && <p className="mt-5 text-lg leading-relaxed">{p.summary}</p>}
-      {p.tools && <BuiltWith list={p.tools} />}
-      <Links p={p} />
-      {hasDetails(p) && <ViewDetails />}
+      <p className="mt-1.5 leading-relaxed">{p.oneLine}</p>
+      <ViewDetails />
     </ClickableCard>
   );
 }
 
-// "More projects": full-width rows, small screenshot on the left (stacks on phones).
-function CompactCard({ p }: { p: Project }) {
+// Opens the project panel (handled by ClickableCard via data-open-details).
+function ViewDetails() {
   return (
-    <ClickableCard
-      title={p.title}
-      panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
-      className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""}`}
+    <button
+      type="button"
+      data-open-details
+      className="relative -my-2.5 mt-auto inline-flex items-center gap-2 self-start pb-2.5 pt-5 text-sm font-semibold text-ink hover:text-accent"
     >
-      {p.image && <Gallery plain shots={[p.image, ...(p.gallery ?? [])]} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <p className="font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
-          <Badges p={p} />
-        </div>
-        <div className="mt-2">
-          <ProjectTitle p={p} size="md" />
-        </div>
-        {p.summary && <p className="mt-2 leading-relaxed">{p.summary}</p>}
-        {p.tools && <BuiltWith list={p.tools} />}
-        <Links p={p} />
-        {hasDetails(p) && <ViewDetails />}
-      </div>
-    </ClickableCard>
+      View details <span aria-hidden>→</span>
+    </button>
   );
 }
 
@@ -388,20 +371,10 @@ export default function Home() {
 
           <section id="projects" aria-labelledby="projects-title" className="scroll-mt-16 border-t border-line pb-24 pt-20 lg:scroll-mt-20">
             <SectionHeading id="projects" index="02" title="Projects" />
-            <div className="space-y-8">
-              {projects
-                .filter((p) => p.featured)
-                .map((p) => (
-                  <FeaturedCard key={p.title} p={p} />
-                ))}
-            </div>
-            <h3 className="mt-16 font-mono text-sm font-semibold uppercase tracking-[0.2em] text-ink">More projects</h3>
-            <div className="mt-6 space-y-5">
-              {projects
-                .filter((p) => !p.featured)
-                .map((p) => (
-                  <CompactCard key={p.title} p={p} />
-                ))}
+            <div className="grid gap-5 sm:grid-cols-2">
+              {projects.map((p) => (
+                <ProjectCard key={p.title} p={p} />
+              ))}
             </div>
           </section>
 
