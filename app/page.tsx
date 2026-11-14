@@ -104,7 +104,7 @@ function Links({ p }: { p: Project }) {
   if (!p.links) return null;
   return (
     // py-3 -my-3: 44px-tall tap areas without moving the layout; gap-y-6 keeps them from overlapping when wrapped.
-    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-6">
+    <div className="mt-5 flex flex-wrap gap-x-5 gap-y-6 max-sm:mt-3.5">
       {p.links.map((l) => (
         <span key={l.href} className="inline-flex flex-wrap items-baseline gap-x-1.5">
           <a
@@ -124,9 +124,9 @@ function Links({ p }: { p: Project }) {
 // What's being worked on now: its own small block with a pulsing dot, so it reads as in progress.
 function InProgress({ items }: { items: string[] }) {
   return (
-    <div className="mt-4 rounded-lg border border-dashed border-accent/50 bg-accent/5 px-4 py-2.5">
+    <div className="mt-4 rounded-lg border border-dashed border-accent/50 bg-accent/5 px-4 py-2.5 max-sm:mt-3">
       {items.map((t) => (
-        <p key={t} className="leading-relaxed">
+        <p key={t} className="leading-relaxed max-sm:leading-normal">
           <span className="mr-2 inline-flex items-center gap-2 align-[0.05em] font-mono text-xs font-semibold uppercase tracking-wider text-accent">
             <span aria-hidden className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 motion-safe:animate-ping" />
@@ -144,8 +144,8 @@ function InProgress({ items }: { items: string[] }) {
 function Metric({ p }: { p: Project }) {
   if (!p.metric) return null;
   return (
-    <div className="mt-5 flex items-baseline gap-3 border-l-2 border-accent pl-4">
-      <p className="whitespace-nowrap text-3xl font-bold tracking-tight text-ink">{p.metric.value}</p>
+    <div className="mt-5 flex items-baseline gap-3 border-l-2 border-accent pl-4 max-sm:mt-3.5">
+      <p className="whitespace-nowrap text-3xl font-bold max-sm:text-[1.6rem] tracking-tight text-ink">{p.metric.value}</p>
       <p className="leading-snug text-muted">{p.metric.label}</p>
     </div>
   );
@@ -167,7 +167,7 @@ function Bullets({ items }: { items: string[] }) {
 function RoleTeam({ p }: { p: Project }) {
   if (!p.role && !p.team) return null;
   return (
-    <dl className="mt-5 space-y-2">
+    <dl className="mt-5 space-y-2 max-sm:mt-3.5">
       {p.role && (
         <div>
           <dt className="inline font-semibold text-ink">My role: </dt>
@@ -191,15 +191,15 @@ function ProjectPanel({ p }: { p: Project }) {
   const first = p.shots?.[0];
   return (
     <div>
-      <div className="pr-32">
-        <p className="font-mono text-sm uppercase tracking-wider text-muted">{p.context}</p>
+      <div className="pr-32 max-sm:pr-14">
+        <p className="font-mono text-sm uppercase tracking-wider text-muted max-sm:text-xs">{p.context}</p>
         <div className="mt-1">
           <ProjectTitle p={p} size="lg" />
         </div>
-        {p.award && <p className="font-medium text-accent">{p.award}</p>}
+        {p.award && <p className="font-medium text-accent max-sm:mt-0.5 max-sm:text-[0.9rem] max-sm:leading-snug">{p.award}</p>}
       </div>
 
-      <div className={`mt-5 grid gap-x-8 gap-y-5 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[auto_1fr] lg:content-start" : "max-w-3xl"}`}>
+      <div className={`mt-5 grid gap-x-8 gap-y-5 max-sm:mt-3.5 max-sm:gap-y-3 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[auto_1fr] lg:content-start" : "max-w-3xl"}`}>
         {p.phones ? (
           <div className="lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:group-data-[meta=left]/sheet:row-span-1">
             <Features shots={p.phones} />
@@ -217,7 +217,7 @@ function ProjectPanel({ p }: { p: Project }) {
           )
         )}
         <div className={`min-w-0 ${visual ? "lg:col-start-2 lg:row-start-1 lg:group-data-[meta=left]/sheet:row-span-2" : ""}`}>
-          {p.summary && <p className={visual ? "leading-relaxed" : "text-lg leading-relaxed"}>{p.summary}</p>}
+          {p.summary && <p className={visual ? "leading-relaxed max-sm:leading-normal" : "text-lg leading-relaxed max-sm:leading-normal"}>{p.summary}</p>}
           {p.details && <Bullets items={p.details} />}
           <Metric p={p} />
         </div>
@@ -236,40 +236,41 @@ function ProjectPanel({ p }: { p: Project }) {
 // A card without screenshots shows its key number, or what it's built with, in the picture's place.
 function Tile({ p }: { p: Project }) {
   return (
-    <div className="grid aspect-[16/10] place-items-center rounded-md border border-line bg-[linear-gradient(135deg,#16223d,#0e172b)] p-5 text-center">
+    <div className="grid aspect-[16/10] place-items-center rounded-md border border-line bg-[linear-gradient(135deg,#16223d,#0e172b)] p-5 text-center max-sm:p-1">
       {p.metric ? (
         <div>
-          <p className="text-5xl font-bold tracking-tight text-accent">{p.metric.value}</p>
-          <p className="mt-2 text-sm font-medium text-muted">{p.metric.label}</p>
+          <p className="text-5xl font-bold tracking-tight text-accent max-sm:text-[1.7rem]">{p.metric.value}</p>
+          <p className="mt-2 text-sm font-medium text-muted max-sm:mt-0.5 max-sm:text-[0.6rem] max-sm:leading-tight">{p.metric.label}</p>
         </div>
       ) : (
-        <p className="font-mono text-lg font-semibold uppercase tracking-wider text-accent">{p.tools?.join(" · ")}</p>
+        <p className="font-mono text-lg font-semibold uppercase tracking-wider text-accent max-sm:text-[0.6rem] max-sm:leading-tight">{p.tools?.join(" · ")}</p>
       )}
     </div>
   );
 }
 
 // Main page: a short card in a two-column grid. Everything else lives in the panel it opens.
+// Phones: a compact row instead (small picture beside the title, the one-liner below) to cut scrolling.
 function ProjectCard({ p }: { p: Project }) {
   return (
     <ClickableCard
       title={p.title}
       panel={<ProjectPanel p={p} />}
-      className="flex flex-col rounded-2xl border border-line bg-navy-raised/60 p-4 transition duration-200 ease-out hover:border-accent/40 motion-safe:lg:hover:-translate-y-0.5 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]"
+      className="flex flex-col rounded-2xl border border-line bg-navy-raised/60 p-4 max-sm:grid max-sm:grid-cols-[8rem_minmax(0,1fr)] max-sm:grid-rows-[auto_1fr_auto] max-sm:gap-x-3.5 max-sm:p-3 transition duration-200 ease-out hover:border-accent/40 motion-safe:lg:hover:-translate-y-0.5 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]"
     >
-      <div className="relative">
-        {p.shots ? <Gallery plain shots={p.shots} sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 100vw" /> : <Tile p={p} />}
+      <div className="relative max-sm:row-span-2 max-sm:[&_button]:hidden">
+        {p.shots ? <Gallery plain shots={p.shots} sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 8rem" /> : <Tile p={p} />}
         {(p.cardBadge ?? p.status) && (
-          <span className="pointer-events-none absolute left-2 top-2 z-10 rounded bg-navy/90 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-accent ring-1 ring-accent/60">
+          <span className="pointer-events-none absolute left-2 top-2 z-10 rounded bg-navy/90 px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-accent ring-1 ring-accent/60 max-sm:static max-sm:mt-1.5 max-sm:inline-block max-sm:px-1.5 max-sm:text-[0.62rem] max-sm:leading-snug">
             {p.cardBadge ?? p.status}
           </span>
         )}
       </div>
-      <p className="mt-3 font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
-      <div className="mt-1">
+      <p className="mt-3 font-mono text-xs uppercase tracking-wider text-muted max-sm:mt-0 max-sm:text-[0.68rem]">{p.context}</p>
+      <div className="mt-1 max-sm:[&_h3]:text-lg">
         <ProjectTitle p={p} size="md" />
       </div>
-      <p className="mt-1.5 leading-relaxed">{p.oneLine}</p>
+      <p className="mt-1.5 leading-relaxed max-sm:col-span-2 max-sm:mt-2.5 max-sm:text-[0.9rem] max-sm:leading-normal">{p.oneLine}</p>
     </ClickableCard>
   );
 }
@@ -363,7 +364,7 @@ export default function Home() {
 
           <section id="projects" aria-labelledby="projects-title" className="scroll-mt-16 border-t border-line pb-24 pt-20 lg:scroll-mt-20">
             <SectionHeading id="projects" index="02" title="Projects" />
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-5 max-sm:gap-3 sm:grid-cols-2">
               {projects.map((p) => (
                 <ProjectCard key={p.title} p={p} />
               ))}

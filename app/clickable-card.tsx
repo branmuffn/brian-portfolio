@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-// A project card. Clicking anywhere on it (outside its links), or its "View details" button,
+// A project card. Clicking anywhere on it (outside its links)
 // opens a panel with the whole project on one screen. The panel grows out of the card and
 // shrinks back into it on close. Esc, the Close button, or a click outside the panel closes it.
 //
@@ -159,14 +159,15 @@ export function ClickableCard({
               // Re-fit when a screenshot finishes loading (or a new one is shown), since sizes can change then.
               onLoadCapture={() => dialog.current?.open && fit()}
               style={{ transformOrigin: "top left", outline: "none" }}
-              className="group/sheet relative max-h-full w-full max-w-[1200px] overflow-auto overscroll-contain rounded-2xl border border-line bg-navy p-5 shadow-2xl sm:p-7"
+              className="group/sheet relative max-h-full w-full max-w-[1200px] overflow-auto overscroll-contain rounded-2xl border border-line bg-navy p-4 shadow-2xl sm:p-7"
             >
               <button
                 type="button"
                 onClick={close}
-                className="absolute right-3 top-3 z-10 inline-flex min-h-12 items-center gap-2 rounded-xl border border-line bg-navy-raised px-5 text-base font-semibold text-ink transition-colors hover:border-accent hover:text-accent"
+                // Phones: a square ✕ of the same height, so the header keeps its width.
+                className="absolute right-3 top-3 z-10 inline-flex min-h-12 items-center gap-2 rounded-xl border border-line bg-navy-raised px-5 text-base font-semibold text-ink transition-colors hover:border-accent hover:text-accent max-sm:right-2 max-sm:top-2 max-sm:w-12 max-sm:justify-center max-sm:px-0"
               >
-                Close <span aria-hidden className="text-lg leading-none">✕</span>
+                <span className="max-sm:sr-only">Close</span> <span aria-hidden className="text-lg leading-none max-sm:text-[1.35rem]">✕</span>
               </button>
               {panel}
             </div>

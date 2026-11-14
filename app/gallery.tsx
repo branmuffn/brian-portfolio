@@ -39,7 +39,7 @@ export function Gallery({ shots, sizes, className = "", style, plain = false, ca
   const Shot = plain ? Plain : ZoomImage;
   const caption = captions && shots[i].caption && (
     // min-h: room for two lines, so switching pictures doesn't make the panel jump
-    <p className="mt-3 min-h-[3.4em] text-lg leading-snug">
+    <p className="mt-3 min-h-[3.4em] text-lg leading-snug max-sm:mt-1.5 max-sm:min-h-0 max-sm:text-base">
       {shots[i].title && <span className="font-semibold text-ink">{shots[i].title}. </span>}
       {shots[i].caption}
     </p>
@@ -91,7 +91,7 @@ export function Gallery({ shots, sizes, className = "", style, plain = false, ca
         </span>
       </div>
       {caption}
-      <div className={`flex ${captions ? "justify-start" : "justify-center"} ${plain ? "mt-1" : "mt-1"}`}>
+      <div className={`flex ${captions ? "justify-start" : "justify-center"} mt-1 max-sm:mt-0`}>
         {shots.map((s, k) => (
           <button
             key={s.src}
