@@ -140,7 +140,7 @@ export const projects: Project[] = [
     metric: { value: "5 ways", label: "to split a cost, with a live per-person preview" },
     tools: ["Next.js", "TypeScript", "Supabase"],
     links: [
-      { href: "https://splitwise-clone-three-theta.vercel.app/login", label: "Try the demo", note: "no sign-up" },
+      { href: "https://split-tea.vercel.app", label: "Try the demo", note: "no sign-up" },
       { href: "https://github.com/branmuffn/splitwise-clone", label: "GitHub" },
     ],
   },

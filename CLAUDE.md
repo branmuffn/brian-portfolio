@@ -85,7 +85,7 @@ Splitwise clone, pledge dashboard, Azure vendor risk, self-hosted automation. No
    ongoing. Card shows the 5-of-7 tester stat, Brian's role, the team, the stack, and links.
    Use **7 survey responses**, not "8 testers" (the user chose the survey numbers).
 2. **TD Bank synthetic identity fraud analysis** (featured): ~0.25% of accounts, ~7% of loss dollars.
-3. **Splitwise clone** (Live): https://splitwise-clone-three-theta.vercel.app, GitHub
+3. **Splitwise clone** (Live): https://split-tea.vercel.app, GitHub
    `branmuffn/splitwise-clone`. Code is in `~/fc/splitwise-clone` (has its own CLAUDE.md).
 4. **Pledge reconciliation dashboard**: Streamlit https://klrju2rpjcgffbf5yktsqp.streamlit.app/,
    GitHub `branmuffn/fc-dashboard`.

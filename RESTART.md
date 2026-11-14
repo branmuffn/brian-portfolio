@@ -23,7 +23,7 @@ The portfolio has no database. **Supabase** is only used by the Splitwise clone
 
 | Project | Live | Code | Keep in mind |
 |---|---|---|---|
-| Splitwise clone | https://splitwise-clone-three-theta.vercel.app | https://github.com/branmuffn/splitwise-clone (local: `~/fc/splitwise-clone`) | Supabase pauses free projects after ~1 week of no use. Before a demo, open the site; if it errors, go to supabase.com and click **Restore project**. |
+| Splitwise clone | https://split-tea.vercel.app | https://github.com/branmuffn/splitwise-clone (local: `~/fc/splitwise-clone`) | Supabase pauses free projects after ~1 week of no use. Before a demo, open the site; if it errors, go to supabase.com and click **Restore project**. |
 | Pledge dashboard | https://klrju2rpjcgffbf5yktsqp.streamlit.app/ | https://github.com/branmuffn/fc-dashboard | Streamlit apps sleep after ~12 hours. Open it before a demo and click the wake-up button. |
 | OnBoard | (no permanent live link) | https://github.com/thanizmy/OnBoard (team repo, **private**) | Visitors can't open the GitHub link yet. Decide: remove it, or ask Thanh to make the repo public. |
 
