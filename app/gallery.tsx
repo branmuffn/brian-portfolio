@@ -1,23 +1,54 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import type { Shot } from "./content";
 import { ZoomImage } from "./zoom-image";
 
-type Props = { shots: Shot[]; sizes: string; className?: string; style?: React.CSSProperties };
+type Props = {
+  shots: Shot[];
+  sizes: string;
+  className?: string;
+  style?: React.CSSProperties;
+  plain?: boolean; // project cards: no zoom (a click on the image opens the panel), smaller arrows
+};
+
+// A card screenshot without zoom.
+function Plain({ src, alt, width, height, sizes }: Shot & { sizes: string }) {
+  return (
+    <div className="overflow-hidden rounded-md border border-line">
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        sizes={sizes}
+        className="block h-auto w-full transition-transform duration-300 ease-out motion-safe:group-hover/card:scale-[1.02]"
+      />
+    </div>
+  );
+}
 
 // A few screenshots with arrows, dots and swipe, like a product or Instagram carousel.
 // Each one still zooms in place (see ZoomImage). One screenshot = no arrows.
-export function Gallery({ shots, sizes, className = "", style }: Props) {
+export function Gallery({ shots, sizes, className = "", style, plain = false }: Props) {
   const [i, setI] = useState(0);
   const touch = useRef<{ x: number; y: number } | null>(null);
   const n = shots.length;
-  if (n === 1) return <ZoomImage {...shots[0]} sizes={sizes} className={className} style={style} />;
+  const Shot = plain ? Plain : ZoomImage;
+  if (n === 1)
+    return plain ? (
+      <div className={className} style={style}>
+        <Plain {...shots[0]} sizes={sizes} />
+      </div>
+    ) : (
+      <ZoomImage {...shots[0]} sizes={sizes} className={className} style={style} />
+    );
 
   const go = (d: number) => setI((x) => (x + d + n) % n);
   const zoomedIn = (t: EventTarget) => Boolean((t as HTMLElement).closest('[aria-pressed="true"]'));
   const arrow =
-    "absolute top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-navy/85 text-2xl leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent";
+    `absolute top-1/2 z-10 grid ${plain ? "h-9 w-9 text-xl" : "h-11 w-11 text-2xl"} -translate-y-1/2 place-items-center rounded-full bg-navy/85 leading-none text-ink shadow-lg ring-1 ring-white/25 transition hover:bg-navy hover:text-accent`;
 
   return (
     <div className={className} style={style} role="group" aria-roledescription="carousel" aria-label="Screenshots">
@@ -38,7 +69,7 @@ export function Gallery({ shots, sizes, className = "", style }: Props) {
           if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
         }}
       >
-        <ZoomImage key={shots[i].src} {...shots[i]} sizes={sizes} />
+        <Shot key={shots[i].src} {...shots[i]} sizes={sizes} />
         <button type="button" onClick={() => go(-1)} className={`${arrow} left-2`} aria-label="Previous screenshot">
           <span aria-hidden>‹</span>
         </button>
@@ -49,7 +80,7 @@ export function Gallery({ shots, sizes, className = "", style }: Props) {
           {i + 1} / {n}
         </span>
       </div>
-      <div className="mt-2 flex justify-center">
+      <div className={`flex justify-center ${plain ? "mt-1" : "mt-2"}`}>
         {shots.map((s, k) => (
           <button
             key={s.src}
