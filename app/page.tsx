@@ -2,13 +2,13 @@ import Image from "next/image";
 import headshot from "../public/headshot.jpg";
 import { profile, projects, howIBuild, timeline, skills, type Project } from "./content";
 import { SideNav } from "./side-nav";
-import { ZoomImage } from "./zoom-image";
+import { Gallery } from "./gallery";
 import { ClickableCard } from "./clickable-card";
 
 const nav = [
   { href: "#about", label: "About" },
   { href: "#projects", label: "Projects" },
-  { href: "#how-i-build", label: "How I build" },
+  { href: "#how-i-build", label: "How I build", short: "Build" },
   { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
 ];
@@ -130,7 +130,38 @@ function Links({ p }: { p: Project }) {
   );
 }
 
-const hasDetails = (p: Project) => Boolean(p.details || p.role || p.team);
+const hasDetails = (p: Project) => Boolean(p.details || p.next || p.role || p.team);
+
+// "Label: text" bullets get a bold, underlined label so they can be skimmed.
+function Detail({ text }: { text: string }) {
+  const m = text.match(/^([^:]{2,24}):\s(.*)$/);
+  if (!m) return <>{text}</>;
+  return (
+    <>
+      <strong className="font-semibold text-ink underline decoration-accent/70 decoration-2 underline-offset-4">{m[1]}</strong>: {m[2]}
+    </>
+  );
+}
+
+// What's being worked on now: its own small block with a pulsing dot, so it reads as in progress.
+function InProgress({ items }: { items: string[] }) {
+  return (
+    <div className="mt-4 rounded-lg border border-dashed border-accent/50 bg-accent/5 px-4 py-2.5">
+      {items.map((t) => (
+        <p key={t} className="leading-relaxed">
+          <span className="mr-2 inline-flex items-center gap-2 align-[0.05em] font-mono text-xs font-semibold uppercase tracking-wider text-accent">
+            <span aria-hidden className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-75 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            In progress
+          </span>
+          {t}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 // Opens the project panel (handled by ClickableCard via data-open-details).
 function ViewDetails() {
@@ -163,8 +194,8 @@ function ProjectPanel({ p }: { p: Project }) {
         {(p.image || p.metric) && (
           <div className="lg:col-start-1 lg:row-span-2 lg:row-start-1 2xl:row-span-1">
             {p.image && (
-              <ZoomImage
-                {...p.image}
+              <Gallery
+                shots={[p.image, ...(p.gallery ?? [])]}
                 sizes="(min-width: 1024px) 56rem, 100vw"
                 // Desktop: never taller than the screen allows, so the whole panel fits without scrolling.
                 className="lg:max-w-[var(--fit-w)]"
@@ -186,11 +217,12 @@ function ProjectPanel({ p }: { p: Project }) {
               {p.details.map((d) => (
                 <li key={d} className="relative pl-5">
                   <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />
-                  {d}
+                  <Detail text={d} />
                 </li>
               ))}
             </ul>
           )}
+          {p.next && <InProgress items={p.next} />}
         </div>
         {/* Role, team, tools and links: under the text on laptops, under the image on wide screens, last on phones */}
         <div className={`min-w-0 ${side ? "lg:col-start-2 lg:row-start-2 2xl:col-start-1 [&>*:first-child]:mt-0" : ""}`}>
@@ -219,9 +251,12 @@ function ProjectPanel({ p }: { p: Project }) {
 }
 
 // Card screenshot: clicking it opens the project panel (handled by ClickableCard), where it can be zoomed.
-function CardImage({ src, alt, width, height, sizes, className = "" }: NonNullable<Project["image"]> & { sizes: string; className?: string }) {
+function CardImage({ src, alt, width, height, sizes, count = 1, className = "" }: NonNullable<Project["image"]> & { sizes: string; count?: number; className?: string }) {
   return (
-    <div className={`overflow-hidden rounded-md border border-line ${className}`}>
+    <div className={`relative overflow-hidden rounded-md border border-line ${className}`}>
+      {count > 1 && (
+        <span className="absolute right-2 top-2 z-10 rounded bg-navy/85 px-2 py-1 font-mono text-xs text-ink">{count} photos</span>
+      )}
       <Image
         src={src}
         alt={alt}
@@ -251,7 +286,7 @@ function FeaturedCard({ p }: { p: Project }) {
       {p.award && <p className="mt-1 font-medium text-accent">{p.award}</p>}
 
       {p.image && (
-        <CardImage {...p.image} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
+        <CardImage {...p.image} count={1 + (p.gallery?.length ?? 0)} sizes="(min-width: 1024px) 40rem, 100vw" className="mt-5" />
       )}
 
       {p.metric && (
@@ -277,7 +312,7 @@ function CompactCard({ p }: { p: Project }) {
       panel={hasDetails(p) ? <ProjectPanel p={p} /> : undefined}
       className={`grid gap-5 rounded-xl border border-line p-5 transition duration-200 ease-out hover:border-accent/40 hover:bg-navy-raised/60 ${p.image ? "sm:grid-cols-[13rem_1fr]" : ""}`}
     >
-      {p.image && <CardImage {...p.image} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
+      {p.image && <CardImage {...p.image} count={1 + (p.gallery?.length ?? 0)} sizes="(min-width: 640px) 13rem, 100vw" className="self-start" />}
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <p className="font-mono text-xs uppercase tracking-wider text-muted">{p.context}</p>
@@ -362,11 +397,12 @@ export default function Home() {
             aria-label="Sections"
             className="sticky top-0 z-30 -mx-6 mb-6 border-b border-line bg-navy/90 backdrop-blur sm:-mx-10 lg:hidden"
           >
-            <ul className="flex gap-1 overflow-x-auto px-4 sm:px-8">
+            {/* All five links fit across a phone screen: no sideways scrolling */}
+            <ul className="flex justify-between px-2 sm:justify-center sm:gap-6 sm:px-8">
               {nav.map((n) => (
-                <li key={n.href} className="shrink-0">
-                  <a href={n.href} className="block px-2.5 py-3.5 font-mono text-sm font-semibold uppercase tracking-wider text-muted hover:text-accent">
-                    {n.label}
+                <li key={n.href}>
+                  <a href={n.href} className="block px-1.5 py-3.5 font-mono text-[13px] font-semibold uppercase tracking-wide text-muted hover:text-accent sm:text-sm">
+                    {n.short ?? n.label}
                   </a>
                 </li>
               ))}
