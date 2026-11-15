@@ -70,11 +70,11 @@ export const projects: Project[] = [
     title: "Frontline Squad",
     context: "Browser game · Personal project",
     status: "Live",
-    oneLine: "A browser shooter with 13 modes, 9 maps, and 12-player multiplayer. No install, no account, no server.",
+    oneLine: "A browser shooter with 12 modes, 9 maps, and 12-player multiplayer. No install, no account, no server.",
     summary:
       "A first-person shooter that runs in the browser with no install, no account, and no game server. Inspired by Combat Arms, with some Halo and Call of Duty mixed in. Plays on phones too, with touch controls.",
     shots: [
-      { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 2400, height: 1350, title: "Team deathmatch", caption: "One of 13 modes on 9 maps, with bots, vehicles, and up to 12 players peer to peer." },
+      { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 2400, height: 1350, title: "Team deathmatch", caption: "One of 12 modes on 9 maps, with bots, vehicles, and up to 12 players peer to peer." },
       desk("/projects/frontline-menu.jpg", "Frontline Squad main menu with game modes, maps, bot skill and the map editor", "Main menu", "Pick a mode, map, and bot skill. The whole game is one HTML file, with art and sound generated in code.", 1350),
     ],
     metric: { value: "68", label: "automated tests play the game in a real browser before every update goes live" },
@@ -178,9 +178,8 @@ export const timeline: TimelineItem[] = [
     title: "Innovation Fellow",
     org: "Frontier Commons",
     points: [
-      "Led the six-person OnBoard team to Best of the Ministry Track ($20K team prize) at the 2026 Gloo AI Hackathon (1,000+ participants). OnBoard is a privacy-first app for missionaries to send prayer updates and newsletters, now being tested with missionaries and campus ministers.",
-      "Built prototypes and demo pitches, shaped by feedback from missionaries, campus ministers, and mentors.",
-      "Shipped full-stack web apps with Claude Code, Next.js, Supabase, and Vercel.",
+      "Led a six-person team to Best of the Ministry Track ($20K prize) at the 2026 Gloo AI Hackathon (1,000+ participants) with OnBoard, a privacy-first app for missionaries' prayer updates and newsletters, refined through user and mentor feedback.",
+      "Shipped full-stack web apps with Claude Code, Next.js, Supabase, and Vercel, including user accounts and real-time updates.",
     ],
     kind: "work",
   },
