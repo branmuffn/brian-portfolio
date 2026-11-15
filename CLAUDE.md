@@ -63,6 +63,13 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
   below, badge under the thumbnail, no arrows/dots); panels use a square ✕ close button and tighter type. Target: every panel but
   OnBoard fits one 390x844 screen. Tablet/desktop styles must stay unchanged.
   Screenshots are captured at 2x (2400px wide) so in-place zoom (2.5x) stays sharp.
+- **Phone scroll rail** (Brian picked B, 2026-11-15; `app/scroll-rail.tsx`, phones only via `sm:hidden`): a scroll-spy
+  table-of-contents rail of ticks on the right edge (sections long, projects/jobs short, current one amber); tapping
+  opens an outline `<dialog>` that jumps to any item. Items come from `rail` in `app/page.tsx`: sections, project cards
+  (`id="project-<slug>"`), jobs (`job-<slug>`) and the first school (`education`), so new projects/jobs get ticks
+  automatically. Short outline labels: `navLabel` in `content.ts`. The current item is the last one past
+  min(25% of the screen, 150px) from the top (phone cards are short). Desktop keeps the sidebar; no rail there (Brian
+  agreed it would be clutter).
 
 - **Next.js 16**: read `node_modules/next/dist/docs/` before using unfamiliar APIs (see AGENTS.md).
 - **macOS is case-insensitive:** an ignore rule `Headshot.jpg` also matched `public/headshot.jpg`

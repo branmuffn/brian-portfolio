@@ -10,11 +10,13 @@ import { useEffect, useRef, type ReactNode } from "react";
 // whole panel fits the window. It runs on open and on every resize, so longer text can't bring the
 // scrollbar back. Phones and tablets get a full-height sheet that scrolls, as apps do.
 export function ClickableCard({
+  id,
   className,
   title,
   panel,
   children,
 }: {
+  id?: string; // anchor for the phone scroll rail
   className: string;
   title: string;
   panel?: ReactNode;
@@ -142,6 +144,7 @@ export function ClickableCard({
 
   return (
     <article
+      id={id}
       ref={card}
       className={`group/card ${className} ${panel ? "cursor-pointer" : ""}`}
       // A quick second click would otherwise select a word.

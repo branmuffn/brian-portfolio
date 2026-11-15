@@ -39,6 +39,7 @@ export type Project = {
   shots?: Shot[]; // screenshots in public/projects/ (2x), each with a caption shown under it in the panel
   phones?: Shot[]; // phone screenshots: the panel shows these side by side instead of `shots`
   next?: string[]; // what's in progress now, shown as its own "In progress" note
+  navLabel?: string; // short name for the phone scroll rail's outline (defaults to the title)
 };
 
 const desk = (src: string, alt: string, title: string, caption: string, height = 1500): Shot => ({ src, alt, width: 2400, height, title, caption });
@@ -92,6 +93,7 @@ export const projects: Project[] = [
   },
   {
     title: "Synthetic identity fraud analysis",
+    navLabel: "Fraud analysis",
     context: "TD Bank · Summer 2026",
     oneLine: "Found the small slice of card accounts behind an outsized share of fraud losses.",
     summary: "Investigated synthetic identity fraud in the Target Circle Card portfolio using portfolio and credit bureau data.",
@@ -150,6 +152,7 @@ export const projects: Project[] = [
   },
   {
     title: "Pledge reconciliation dashboard",
+    navLabel: "Pledge dashboard",
     context: "Frontier Commons Technical Challenge · Aug 2026",
     oneLine: "Checks donors' pledges against their actual gifts to show how much support is really committed.",
     summary:
@@ -176,6 +179,7 @@ export type TimelineItem = {
   place?: string;
   points?: string[];
   kind: "work" | "education";
+  navLabel?: string; // short name for the phone scroll rail's outline (defaults to org)
 };
 
 export const timeline: TimelineItem[] = [
@@ -205,6 +209,7 @@ export const timeline: TimelineItem[] = [
     dates: "Aug 2019 – Oct 2025",
     title: "Technical Program Manager · Senior Mechanical Design Engineer",
     org: "The Dow Chemical Company",
+    navLabel: "Dow Chemical",
     place: "Houston, TX",
     points: [
       "Led end-to-end delivery of 10+ programs, up to $55M.",

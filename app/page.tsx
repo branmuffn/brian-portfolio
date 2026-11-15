@@ -5,12 +5,29 @@ import { TimelineItem } from "./timeline-item";
 import { SideNav, BottomNav } from "./side-nav";
 import { Gallery, Features } from "./gallery";
 import { ClickableCard } from "./clickable-card";
+import { ScrollRail, type RailItem } from "./scroll-rail";
 
 const nav = [
   { href: "#about", label: "About" },
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
+];
+
+// Anchors for the phone scroll rail: every section, project and job, and the first school ("Education").
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const projectAnchor = (p: Project) => `project-${slug(p.title)}`;
+const firstSchool = timeline.find((t) => t.kind === "education");
+const timelineAnchor = (t: (typeof timeline)[number]) =>
+  t.kind === "work" ? `job-${slug(t.org)}` : t === firstSchool ? "education" : undefined;
+const rail: RailItem[] = [
+  { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
+  ...projects.map((p) => ({ id: projectAnchor(p), label: p.navLabel ?? p.title, sub: true })),
+  { id: "experience", label: "Experience" },
+  ...timeline.filter((t) => t.kind === "work").map((t) => ({ id: timelineAnchor(t)!, label: t.navLabel ?? t.org, sub: true })),
+  ...(firstSchool ? [{ id: "education", label: "Education", sub: true }] : []),
+  { id: "contact", label: "Contact" },
 ];
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
@@ -242,9 +259,10 @@ function Tile({ p }: { p: Project }) {
 function ProjectCard({ p }: { p: Project }) {
   return (
     <ClickableCard
+      id={projectAnchor(p)}
       title={p.title}
       panel={<ProjectPanel p={p} />}
-      className="flex flex-col rounded-2xl border border-line bg-navy-raised/60 p-4 max-sm:grid max-sm:grid-cols-[8rem_minmax(0,1fr)] max-sm:grid-rows-[auto_1fr_auto] max-sm:gap-x-3.5 max-sm:p-3 transition duration-200 ease-out hover:border-accent/40 motion-safe:lg:hover:-translate-y-0.5 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]"
+      className="scroll-mt-6 flex flex-col rounded-2xl border border-line bg-navy-raised/60 p-4 max-sm:grid max-sm:grid-cols-[8rem_minmax(0,1fr)] max-sm:grid-rows-[auto_1fr_auto] max-sm:gap-x-3.5 max-sm:p-3 transition duration-200 ease-out hover:border-accent/40 motion-safe:lg:hover:-translate-y-0.5 lg:hover:shadow-[0_16px_32px_-16px_rgba(0,0,0,0.6)]"
     >
       <div className="relative max-sm:row-span-2 max-sm:[&_button]:hidden">
         {p.shots ? <Gallery plain shots={p.shots} sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 8rem" /> : <Tile p={p} />}
@@ -280,6 +298,8 @@ export default function Home() {
       </a>
       {/* Phones and tablets: section links in a bar at the bottom, within thumb reach (desktop uses the sidebar) */}
       <BottomNav items={nav} />
+      {/* Phones only: scroll-spy rail on the right edge; tap it for an outline of every section, project and job */}
+      <ScrollRail items={rail} />
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
@@ -363,7 +383,7 @@ export default function Home() {
             <SectionHeading id="experience" index="03" title="Experience & education" />
             <ol className="relative space-y-10 border-l border-line pl-8">
               {timeline.map((t) => (
-                <TimelineItem key={t.org + t.dates} t={t} />
+                <TimelineItem key={t.org + t.dates} t={t} anchor={timelineAnchor(t)} />
               ))}
             </ol>
 

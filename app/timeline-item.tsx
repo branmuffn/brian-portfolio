@@ -5,13 +5,14 @@ import type { TimelineItem as Entry } from "./content";
 
 // One job or school on the Experience timeline (Brian, 2026-11-14): date, organization and title show; the bullets fold
 // behind a ▸ on every screen size (click or tap the entry or the ▸ to open). Brian is trying "folded everywhere" first.
-export function TimelineItem({ t }: { t: Entry }) {
+export function TimelineItem({ t, anchor }: { t: Entry; anchor?: string }) {
   const [open, setOpen] = useState(false);
   const id = useId();
   const points = t.points ?? [];
   const toggle = () => setOpen((o) => !o);
   return (
-    <li className="relative">
+    // anchor: where the phone scroll rail's outline jumps to
+    <li id={anchor} className="relative scroll-mt-6">
       <span
         aria-hidden
         className={`absolute -left-[2.4rem] top-1.5 h-3 w-3 rounded-full ring-4 ring-navy ${t.kind === "work" ? "bg-accent" : "bg-ink"}`}
