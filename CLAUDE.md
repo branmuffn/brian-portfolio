@@ -13,8 +13,8 @@ Frontier Commons Build Bootcamp, Week 1. A one-page personal portfolio for Brian
 | Live site | https://briantea.vercel.app | Vercel project `branmuffn/brian-portfolio` (linked in `.vercel/`) |
 | Page text | `app/content.ts` | Profile, projects, timeline, skills, contact. Edit here first |
 | Layout / styles | `app/page.tsx`, `app/side-nav.tsx`, `app/globals.css`, `app/layout.tsx` | Color tokens in `globals.css` (`--color-navy`, `--color-accent` #f2b45a) · project screenshots in `public/projects/` |
-| Headshot | `public/headshot.jpg` (resized 714×1000) | The full-size original `Headshot.jpg` is git- and Vercel-ignored |
-| Source facts | `resume.pdf`, `about-me.md` in this folder | **Private: git-ignored and Vercel-ignored. Never commit or deploy them** |
+| Headshot | `public/headshot.jpg` (resized 714×1000) | The full-size original `Headshot.jpg` is git- and Vercel-ignored; removed from git history 2026-11-15 (filter-repo + force push) |
+| Source facts | `resume.pdf`, `about-me.md` in `~/Projects/portfolio-notes/private/portfolio-private/` (moved 2026-11-15) | **Private: never commit or deploy them** (still git- and Vercel-ignored here in case a copy lands in this folder) |
 
 No database, no env vars, no API keys. Supabase belongs to the Splitwise clone, not this site.
 
@@ -105,5 +105,5 @@ contradicts the resume and is ignored. The degree is "M.S. Analytics" (the resum
 - Optional: add the "two installable apps (worker + partner)" and "three privacy levels" details
   to the OnBoard card (both in the OnBoard README).
 - Optional: custom domain, social link-preview image, n8n repo links if they exist.
-- The original `Headshot.jpg` exists in early git history (no location data). Purging it would
-  need a force push; only do that if the user asks.
+- Done 2026-11-15 (Brian asked): the original `Headshot.jpg` was removed from git history (filter-repo, force push).
+  Clone fresh on other machines instead of pulling.

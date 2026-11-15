@@ -86,7 +86,7 @@ export const projects: Project[] = [
     role: "Set the vision, play-tested every build, and decided what to keep, cut, and fix. Claude wrote most of the code.",
     tools: ["three.js", "WebRTC", "Playwright", "Claude Code"],
     links: [
-      { href: "https://frontline-squad.netlify.app", label: "Play it" },
+      { href: "https://frontlinesquad.vercel.app", label: "Play it" },
       { href: "https://github.com/branmuffn/frontline-squad", label: "GitHub" },
     ],
   },
