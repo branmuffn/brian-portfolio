@@ -164,7 +164,7 @@ export const projects: Project[] = [
   },
   {
     title: "Cloud-based AI vendor risk assessment",
-    context: "Azure",
+    context: "Dow Chemical · Azure",
     oneLine: "An AI model on Azure that classifies unstructured vendor inspection reports.",
     summary: "Developed a model to analyze and categorize unstructured vendor inspection reports.",
     details: [
