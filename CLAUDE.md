@@ -55,7 +55,7 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
 
 - **Project panels must never scroll on desktop** (Brian, 2026-11-14). `fit()` in `app/clickable-card.tsx` shrinks the
   screenshot, picks where role/team/links go, and scales slightly as a last resort. After any panel or project-text
-  change, run `node ~/overnight/tools/check-panels.mjs /tmp` against the dev server on port 3123: every line must say "fits".
+  change, run `node ~/Projects/portfolio-notes/tools/check-panels.mjs /tmp` against the dev server on port 3123: every line must say "fits".
 - Projects (2026-11-14 redesign, Brian chose A1/A2 + B1): main page is a 2-column grid of short cards (`oneLine`).
   Panels show big screenshots with one caption each (`shots[].caption`); all projects with screenshots, OnBoard included, use
   desktop shots (`phones`/`Features` is unused). Projects without screenshots use `details` (plain sentences, max 3). Work in progress goes in `next`.
