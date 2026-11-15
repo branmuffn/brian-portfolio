@@ -3,8 +3,8 @@
 import { useId, useState } from "react";
 import type { TimelineItem as Entry } from "./content";
 
-// One job or school on the Experience timeline (Brian, 2026-11-14). Phones (below 640px): date, organization and title
-// show; the bullets fold behind a ▸ (tap the entry or the ▸ to open). Tablets and laptops: bullets always open, no ▸.
+// One job or school on the Experience timeline (Brian, 2026-11-14): date, organization and title show; the bullets fold
+// behind a ▸ on every screen size (click or tap the entry or the ▸ to open). Brian is trying "folded everywhere" first.
 export function TimelineItem({ t }: { t: Entry }) {
   const [open, setOpen] = useState(false);
   const id = useId();
@@ -16,7 +16,7 @@ export function TimelineItem({ t }: { t: Entry }) {
         aria-hidden
         className={`absolute -left-[2.4rem] top-1.5 h-3 w-3 rounded-full ring-4 ring-navy ${t.kind === "work" ? "bg-accent" : "bg-ink"}`}
       />
-      <div onClick={points.length ? toggle : undefined} className={points.length ? "max-sm:cursor-pointer" : undefined}>
+      <div onClick={points.length ? toggle : undefined} className={points.length ? "cursor-pointer" : undefined}>
         <p className="font-mono text-sm uppercase tracking-wider text-muted">
           {t.dates} · {t.kind === "work" ? "Work" : "Education"}
         </p>
@@ -32,7 +32,7 @@ export function TimelineItem({ t }: { t: Entry }) {
                 e.stopPropagation();
                 toggle();
               }}
-              className="-my-2.5 -mr-2 grid h-11 w-11 shrink-0 place-items-center text-lg text-accent sm:hidden"
+              className="-my-2.5 -mr-2 grid h-11 w-11 shrink-0 place-items-center text-lg text-accent"
             >
               <span aria-hidden className={`transition-transform motion-reduce:transition-none ${open ? "rotate-90" : ""}`}>
                 ▸
@@ -46,7 +46,7 @@ export function TimelineItem({ t }: { t: Entry }) {
         </p>
       </div>
       {points.length > 0 && (
-        <ul id={id} className={`mt-3 space-y-2 leading-relaxed ${open ? "" : "max-sm:hidden"}`}>
+        <ul id={id} className={`mt-3 space-y-2 leading-relaxed ${open ? "" : "hidden"}`}>
           {points.map((pt) => (
             <li key={pt} className="relative pl-5">
               <span aria-hidden className="absolute left-0 top-[0.6em] h-1.5 w-1.5 rotate-45 bg-accent" />

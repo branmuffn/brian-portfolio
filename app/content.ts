@@ -203,7 +203,9 @@ export const timeline: TimelineItem[] = [
     org: "Frontier Commons",
     points: [
       "Won Best of the Ministry Track ($20K team prize) at the 2026 Gloo AI Hackathon (1,000+ participants) with OnBoard, a privacy-first app for missionaries to send prayer updates and newsletters.",
-      "Led the OnBoard team. Built prototypes and demo pitches, shaped by feedback from missionaries, campus ministers, and mentors. Also shipped full-stack web apps with Claude Code, Next.js, Supabase, and Vercel.",
+      "Led the six-person OnBoard team, from the hackathon build to ongoing testing with missionaries and campus ministers.",
+      "Built prototypes and demo pitches, shaped by feedback from missionaries, campus ministers, and mentors.",
+      "Shipped full-stack web apps with Claude Code, Next.js, Supabase, and Vercel.",
     ],
     kind: "work",
   },
