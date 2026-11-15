@@ -57,6 +57,9 @@ export const projects: Project[] = [
       { src: "/projects/onboard.jpg", alt: "OnBoard worker home screen with recent moments and prayer requests (sample data)", width: 2400, height: 1500, title: "Home", caption: "Capture a moment in seconds, see today's prayers, and get AI suggestions for who to check in on." },
       { src: "/projects/onboard-letter.jpg", alt: "OnBoard letter editor with related notes from the notebook alongside (sample data)", width: 2400, height: 1500, title: "Letter editor", caption: "AI drafts prayer requests and newsletters only from your own notes, shown alongside. No added facts or verses." },
       { src: "/projects/onboard-privacy.jpg", alt: "OnBoard privacy check flagging a student's full name before a letter is sent (sample data)", width: 2400, height: 1500, title: "Privacy check", caption: "Flags a student's full name and suggests \"A.\" instead. Nothing is sent until you approve each flag." },
+      { src: "/projects/onboard-notebook.jpg", alt: "OnBoard notebook of captured moments with tags and search (sample data)", width: 2400, height: 1500, title: "Notebook", caption: "Every moment you captured, tagged and searchable by words, tags, or a student's name." },
+      { src: "/projects/onboard-journey.jpg", alt: "OnBoard student journey timeline with updates and praises (sample data)", width: 2400, height: 1500, title: "Student journey", caption: "Each student's story as a timeline of updates and praises, which supporters can follow." },
+      { src: "/projects/onboard-prayer.jpg", alt: "OnBoard prayer board with a request, its prayer thread, and Update and Answered buttons (sample data)", width: 2400, height: 1500, title: "Prayer board", caption: "Prayer requests on one board. Post updates and mark them answered." },
       { src: "/projects/onboard-partner.jpg", alt: "OnBoard partner home with the latest update and today's prayer requests (sample data)", width: 2400, height: 1500, title: "Supporter app", caption: "Supporters see the latest update and today's prayer requests, pray along, and reply." },
     ],
     metric: { value: "5 of 7", label: "testers said sending an update felt faster than what they do now" },
@@ -75,6 +78,8 @@ export const projects: Project[] = [
       "A first-person shooter that runs in the browser with no install, no account, and no game server. Inspired by Combat Arms, with some Halo and Call of Duty mixed in. Plays on phones too, with touch controls.",
     shots: [
       { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 2400, height: 1350, title: "Team deathmatch", caption: "One of 12 modes on 9 maps, with bots, vehicles, and up to 12 players peer to peer." },
+      desk("/projects/frontline-editor.jpg", "Frontline Squad map editor with blocks, walls and team spawns placed on an empty map", "Map editor", "Build a map from blocks, walls, ramps, and spawns, then test-play it with bots.", 1350),
+      desk("/projects/frontline-vehicles.jpg", "Frontline Squad vehicles on Cascade Gorge: a jeep with a gunner turret, an ATV and a helicopter", "Vehicles", "Optional vehicles: a jeep with a gunner turret, an ATV, and a helicopter.", 1350),
       desk("/projects/frontline-menu.jpg", "Frontline Squad main menu with game modes, maps, bot skill and the map editor", "Main menu", "Pick a mode, map, and bot skill. The whole game is one HTML file, with art and sound generated in code.", 1350),
     ],
     metric: { value: "68", label: "automated tests play the game in a real browser before every update goes live" },
@@ -102,6 +107,7 @@ export const projects: Project[] = [
     shots: [
       desk("/projects/scribe-bot-today.jpg", "Scribe Bot's Today page in Demo mode: next tasks and late promises from made-up meetings", "Today (demo data)", "Your next tasks and the promises others made to you, pulled from recorded conversations.", 1612),
       desk("/projects/scribe-bot-conversation.jpg", "A made-up Scribe Bot conversation with its summary, tasks and transcript", "A conversation", "Each conversation gets a summary, tasks both ways, decisions, and a transcript you can correct. Speech recognition runs on a home server.", 1612),
+      desk("/projects/scribe-bot-how-it-works.jpg", "Diagram of how Scribe Bot works: phone recording, speech to text on the home server, a privacy check, and the web app", "How it works", "Speech to text runs on the home server. Private conversations never reach a cloud AI; for the rest, Claude sees text only, within cost caps.", 1612),
       desk("/projects/scribe-bot-tasks.jpg", "Scribe Bot's task list across all conversations (demo data)", "Tasks", "Every task from every conversation in one list, with due dates and who is waiting on whom.", 1612),
     ],
     tools: ["Python", "FastAPI", "sherpa-onnx", "Claude"],
@@ -129,7 +135,7 @@ export const projects: Project[] = [
     status: "Live demo",
     oneLine: "Share costs in a group, split them five ways, and settle up in the fewest payments.",
     summary:
-      "A working clone of Splitwise, the app for sharing costs. Free to use, and no money moves through it: it only keeps track of who owes whom. Try the demo without signing up.",
+      "A working clone of Splitwise, the app for sharing costs. Free to use, and no money moves through it: it only keeps track of who owes whom. Start with just your name, add friends before they join, and invite them with a link. Or try the demo.",
     shots: [
       desk("/projects/splitwise-group.jpg", "Splitwise clone group page with balances in two currencies and suggested payments (demo data)", "Group page", "Balances in two currencies and the fewest payments to settle up, with Remind and Record buttons."),
       desk("/projects/splitwise-itemized.jpg", "Splitwise clone itemized grocery expense with each person's share (demo data)", "Itemized expense", "Split a bill item by item, with tax shared in proportion. Equal, exact, percent, and shares work too."),
