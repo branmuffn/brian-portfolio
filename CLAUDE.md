@@ -65,7 +65,11 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
   Screenshots are captured at 2x (2400px wide) so in-place zoom (2.5x) stays sharp.
 - **Phone scroll rail** (Brian picked B, 2026-11-15; `app/scroll-rail.tsx`, phones only via `sm:hidden`): a scroll-spy
   table-of-contents rail of ticks on the right edge (sections long, projects/jobs short, current one amber); tapping
-  opens an outline `<dialog>` that jumps to any item. Items come from `rail` in `app/page.tsx`: sections, project cards
+  opens an outline `<dialog>` that jumps to any item. **Press and drag** (Brian, 2026-11-15): pressing the rail opens the
+  outline at once, the row at the finger's height turns solid amber, letting go jumps there (let go above/below the list
+  = close, no move; a quick tap leaves it open). Touch events on the rail (`touch-none`, so swipes there don't scroll the
+  page). The outline sits between the top and the bottom bar and fits without scrolling on a Pixel 7 (412x790); smaller
+  screens scroll it when the finger holds near its top/bottom edge. Drag checks: `tools/rail-drag-check.mjs` in portfolio-notes. Items come from `rail` in `app/page.tsx`: sections, project cards
   (`id="project-<slug>"`), jobs (`job-<slug>`) and the first school (`education`), so new projects/jobs get ticks
   automatically. Short outline labels: `navLabel` in `content.ts`. The current item is the last one past
   min(25% of the screen, 150px) from the top (phone cards are short). Desktop keeps the sidebar; no rail there (Brian
