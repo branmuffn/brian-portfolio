@@ -179,7 +179,7 @@ export const projects: Project[] = [
     oneLine: "n8n automation workflows and local LLMs running in Docker on my own server.",
     summary: "Built and maintain n8n automation workflows running in Docker on my own server hardware, alongside local LLMs.",
     details: [
-      "Workflows include generating YouTube videos from Reddit posts and producing video ads from static assets.",
+      "Workflows include producing video ads from static assets.",
       "Compared Gemini, ChatGPT, and Claude on generating working n8n workflow code.",
     ],
     tools: ["n8n", "Docker", "Ollama"],
@@ -202,8 +202,7 @@ export const timeline: TimelineItem[] = [
     title: "Innovation Fellow",
     org: "Frontier Commons",
     points: [
-      "Won Best of the Ministry Track ($20K team prize) at the 2026 Gloo AI Hackathon (1,000+ participants) with OnBoard, a privacy-first app for missionaries to send prayer updates and newsletters.",
-      "Led the six-person OnBoard team, from the hackathon build to ongoing testing with missionaries and campus ministers.",
+      "Led the six-person OnBoard team to Best of the Ministry Track ($20K team prize) at the 2026 Gloo AI Hackathon (1,000+ participants). OnBoard is a privacy-first app for missionaries to send prayer updates and newsletters, now being tested with missionaries and campus ministers.",
       "Built prototypes and demo pitches, shaped by feedback from missionaries, campus ministers, and mentors.",
       "Shipped full-stack web apps with Claude Code, Next.js, Supabase, and Vercel.",
     ],
