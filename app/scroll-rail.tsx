@@ -25,6 +25,7 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
   const [pointed, setPointed] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const button = useRef<HTMLButtonElement>(null);
+  const byTouch = useRef(false); // opened with a finger: on close, don't put focus back on the rail (it drew an amber box)
 
   // Scroll-spy: the current item is the last one whose top has passed a line near the top of the screen (a quarter of
   // the height, at most 150px). Phone project cards are short, so a lower line would light up the next card instead.
@@ -99,6 +100,7 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
       e.preventDefault(); // no page scroll, no long-press menu, and no click afterwards (the outline is already open)
       const y = e.touches[0].clientY;
       if (!dlg.open) {
+        byTouch.current = true;
         dlg.showModal();
         dlg.focus({ preventScroll: true }); // focus the card, not the first row (which would show a focus ring)
       }
@@ -144,7 +146,10 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
         aria-label="Page outline"
         aria-haspopup="dialog"
         // Keyboard and mouse; touches are handled above.
-        onClick={() => dialog.current?.open || dialog.current?.showModal()}
+        onClick={() => {
+          byTouch.current = false;
+          if (!dialog.current?.open) dialog.current?.showModal();
+        }}
         // A wide, tall tap target; the ticks themselves sit 5px from the edge. touch-none: a drag here moves the
         // highlight, not the page (like the A-Z strip in a phone's contacts).
         className="fixed right-0 top-[30%] z-20 flex touch-none select-none flex-col items-end gap-[7px] py-2 pl-5 pr-[5px] [-webkit-touch-callout:none]"
@@ -168,12 +173,13 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
         ref={dialog}
         tabIndex={-1}
         aria-label="Page outline"
-        onClose={() => button.current?.focus({ preventScroll: true })}
+        // Keyboard: focus goes back to the rail. Finger: nowhere, so no focus box is left on the rail.
+        onClose={() => (byTouch.current ? button.current?.blur() : button.current?.focus({ preventScroll: true }))}
         // Clicks on the dim area outside the card land on the <dialog> itself: close.
         onClick={(e) => e.target === e.currentTarget && close()}
-        // Centred between the top of the screen and the bottom bar, as tall as it needs, so the whole list fits on
-        // most phones without scrolling.
-        className="fixed inset-auto bottom-[calc(64px_+_env(safe-area-inset-bottom))] right-2.5 top-2.5 mx-0 my-auto h-fit max-h-[calc(100dvh_-_74px_-_env(safe-area-inset-bottom))] w-64 overflow-y-auto overscroll-contain rounded-2xl border outline-none! border-white/10 bg-navy-raised p-0 text-ink shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop:bg-black/45"
+        // Centred between the top of the screen and the bottom bar, as tall as it needs (compact rows, ~420px), so the
+        // whole list fits on phones without scrolling and stays near the thumb.
+        className="fixed inset-auto bottom-[calc(64px_+_env(safe-area-inset-bottom))] right-2.5 top-2.5 mx-0 my-auto h-fit max-h-[calc(100dvh_-_74px_-_env(safe-area-inset-bottom))] w-56 overflow-y-auto overscroll-contain rounded-2xl border outline-none! border-white/10 bg-navy-raised p-0 text-ink shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop:bg-black/45"
       >
         <nav aria-label="Page outline" className="p-1.5">
           <ul>
@@ -186,9 +192,10 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
                     type="button"
                     onClick={() => jumpTo(dialog.current, item.id)}
                     aria-current={on ? "location" : undefined}
-                    className={`flex w-full items-center gap-2.5 rounded-lg py-2 text-left ${
+                    // Compact rows (Brian, 2026-11-15): the whole list sits near the middle, within thumb reach.
+                    className={`flex w-full items-center gap-2.5 rounded-lg text-left leading-5 ${
                       here ? "bg-accent text-navy" : on ? "bg-accent/10 text-accent" : item.sub ? "text-body" : "text-ink"
-                    } ${item.sub ? "pl-7 pr-3 text-sm" : "px-3 font-semibold"}`}
+                    } ${item.sub ? "py-[3px] pl-7 pr-3 text-[13px]" : "px-3 py-[5px] text-[15px] font-semibold"}`}
                   >
                     <span
                       aria-hidden
