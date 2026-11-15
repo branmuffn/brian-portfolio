@@ -5,7 +5,7 @@ export const profile = {
   tagline: "Engineer. Learner. Builder.",
   headline: "Tinkering with AI to make games, tools, and things that (mostly) work.",
   intro: [
-    "I spent six years at Dow Chemical leading engineering programs up to $55M, then spent this summer at TD Bank digging into synthetic identity fraud with Python, SQL, and SAS.",
+    "I spent six years at Dow Chemical leading engineering programs up to $55M, then spent summer 2026 at TD Bank digging into synthetic identity fraud with Python, SQL, and SAS.",
     "Now I'm finishing a Master's in Analytics at Georgia Tech and building with data, automation, and AI. Recent projects include an award-winning app for missionaries, a private transcription app, and a browser game.",
   ],
   location: "Boston, MA",
@@ -72,7 +72,7 @@ export const projects: Project[] = [
     status: "Live",
     oneLine: "A browser shooter with 13 modes, 9 maps, and 12-player multiplayer. No install, no account, no server.",
     summary:
-      "A first-person shooter that runs in the browser with no install, no account, and no game server. Inspired by Combat Arms, with some Halo and Call of Duty mixed in.",
+      "A first-person shooter that runs in the browser with no install, no account, and no game server. Inspired by Combat Arms, with some Halo and Call of Duty mixed in. Plays on phones too, with touch controls.",
     shots: [
       { src: "/projects/frontline.jpg", alt: "Frontline Squad gameplay: a team deathmatch on the Gorge map", width: 2400, height: 1350, title: "Team deathmatch", caption: "One of 13 modes on 9 maps, with bots, vehicles, and up to 12 players peer to peer." },
       desk("/projects/frontline-menu.jpg", "Frontline Squad main menu with game modes, maps, bot skill and the map editor", "Main menu", "Pick a mode, map, and bot skill. The whole game is one HTML file, with art and sound generated in code.", 1350),
@@ -90,24 +90,22 @@ export const projects: Project[] = [
     context: "TD Bank · Summer 2026",
     oneLine: "Found the small slice of card accounts behind an outsized share of fraud losses.",
     summary: "Investigated synthetic identity fraud in the Target Circle Card portfolio using portfolio and credit bureau data.",
-    details: [
-      "Segmented accounts and evaluated anomalous behaviors and loss patterns to surface fraud indicators.",
-      "Partnered with a fraud SME and consumer credit stakeholders to turn findings into business insights.",
-    ],
     metric: { value: "~7%", label: "of loss dollars came from ~0.25% of accounts" },
     tools: ["Python", "SQL", "SAS"],
   },
   {
     title: "Scribe Bot",
     context: "Self-hosted app · Personal project",
-    status: "Coming soon",
+    status: "Open source",
     oneLine: "A private app that turns recorded conversations into searchable transcripts, tasks, and decisions.",
     summary: "A private, self-hosted app that turns recorded conversations into searchable transcripts, tasks, decisions, and people notes.",
     shots: [
-      { src: "/projects/scribe-bot.jpg", alt: "Scribe Bot's Today page in Demo mode with sample meetings", width: 1200, height: 806, title: "Today page (demo data)", caption: "Conversations become transcripts, tasks, and decisions, with speech recognition running locally on a home server." },
+      desk("/projects/scribe-bot-today.jpg", "Scribe Bot's Today page in Demo mode: next tasks and late promises from made-up meetings", "Today (demo data)", "Your next tasks and the promises others made to you, pulled from recorded conversations.", 1612),
+      desk("/projects/scribe-bot-conversation.jpg", "A made-up Scribe Bot conversation with its summary, tasks and transcript", "A conversation", "Each conversation gets a summary, tasks both ways, decisions, and a transcript you can correct. Speech recognition runs on a home server.", 1612),
+      desk("/projects/scribe-bot-tasks.jpg", "Scribe Bot's task list across all conversations (demo data)", "Tasks", "Every task from every conversation in one list, with due dates and who is waiting on whom.", 1612),
     ],
     tools: ["Python", "FastAPI", "sherpa-onnx", "Claude"],
-    next: ["A public demo with sample data."],
+    links: [{ href: "https://github.com/branmuffn/scribe-bot-demo", label: "GitHub" }],
   },
   {
     title: "Downstream",
@@ -162,28 +160,6 @@ export const projects: Project[] = [
       { href: "https://github.com/branmuffn/fc-dashboard", label: "GitHub" },
     ],
   },
-  {
-    title: "Cloud-based AI vendor risk assessment",
-    context: "Dow Chemical · Azure",
-    oneLine: "An AI model on Azure that classifies unstructured vendor inspection reports.",
-    summary: "Developed a model to analyze and categorize unstructured vendor inspection reports.",
-    details: [
-      "Partnered with SMEs to define the taxonomy, evaluation criteria, and measurable outputs.",
-      "Documented workflows and repeatable analysis steps for consistent classification and reporting.",
-    ],
-    tools: ["Azure", "AI / ML"],
-  },
-  {
-    title: "Self-hosted automation and local AI",
-    context: "Personal infrastructure",
-    oneLine: "n8n automation workflows and local LLMs running in Docker on my own server.",
-    summary: "Built and maintain n8n automation workflows running in Docker on my own server hardware, alongside local LLMs.",
-    details: [
-      "Workflows include producing video ads from static assets.",
-      "Compared Gemini, ChatGPT, and Claude on generating working n8n workflow code.",
-    ],
-    tools: ["n8n", "Docker", "Ollama"],
-  },
 ];
 
 // How I build with AI (shown under Projects)
@@ -213,7 +189,11 @@ export const timeline: TimelineItem[] = [
     title: "Graduate Leadership Program Intern, Consumer Products & Credit Management",
     org: "TD Bank",
     place: "Boston, MA",
-    points: ["Found a synthetic-fraud segment: ~0.25% of accounts, ~7% of loss dollars."],
+    points: [
+      "Investigated synthetic identity fraud in the Target Circle Card portfolio, analyzing portfolio and credit bureau data with Python, SQL, and SAS to find a high-risk segment: ~0.25% of accounts but ~7% of loss dollars.",
+      "Segmented accounts and evaluated anomalous behaviors and loss patterns to surface potential fraud indicators for further investigation.",
+      "Partnered with a fraud SME and consumer credit stakeholders to turn the findings into insights for fraud detection and portfolio strategy.",
+    ],
     kind: "work",
   },
   {
@@ -225,6 +205,7 @@ export const timeline: TimelineItem[] = [
       "Led end-to-end delivery of 10+ programs, up to $55M.",
       "Delivered a project with 90% CO₂ reduction, recapturing 20,000 metric tons of flare gas CO₂.",
       "Technical SME for robotics and automation deployments.",
+      "Developed an AI model on Azure that classifies unstructured vendor inspection reports, with SMEs defining the categories and evaluation criteria.",
       "Aligned 20+ engineers and global stakeholders. Mentored 5+ interns and junior engineers.",
     ],
     kind: "work",
@@ -247,7 +228,7 @@ export const timeline: TimelineItem[] = [
 
 export const skills = {
   Data: ["Python", "SQL", "R", "SAS", "pandas", "Predictive modeling", "Regression", "Simulation"],
-  "Building with AI": ["Claude Code", "Claude", "ChatGPT", "Gemini", "Local LLMs (Ollama, MLX, llama.cpp)"],
-  "Build & automation": ["n8n", "Docker", "Streamlit", "APIs", "Azure"],
-  Leadership: ["Technical program management", "Cross-functional teams", "Requirements from ambiguity", "Professional Engineer"],
+  "Building with AI": ["Claude Code", "Local LLMs (Ollama, MLX, llama.cpp)"],
+  "Web & automation": ["Next.js", "TypeScript", "Supabase", "three.js", "Playwright", "Docker", "n8n", "Streamlit", "Azure"],
+  Leadership: ["Technical program management", "Cross-functional teams"],
 };

@@ -75,7 +75,7 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
 
 Hero (headshot, name, tagline "Engineer. Learner. Builder.", headline, intro, Resume button) → Projects →
 Experience & education timeline + skills → Contact (email, LinkedIn, GitHub, resume) → footer with "Source on GitHub".
-2026-11-14 (Brian): "How I build with AI" removed; headshot 224px laptop / 184px phone (160px under 880px tall, 112px
+2026-11-15 (Brian): 7 projects (Azure vendor-risk card moved into the Dow job as a bullet; self-hosted automation card removed; Scribe Bot is open source with clean 2x demo shots); skills are short text lines (trimmed); TD job has its 3 resume bullets (the TD card keeps summary + metric). 2026-11-14: "How I build with AI" removed; headshot 224px laptop / 184px phone (160px under 880px tall, 112px
 under 760px); Experience entries are `app/timeline-item.tsx`: bullets fold behind a ▸ on all screen sizes (Brian trying it; was phones only).
 
 Projects, in order:

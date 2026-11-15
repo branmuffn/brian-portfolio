@@ -62,18 +62,6 @@ function SectionHeading({ id, index, title }: { id: string; index: string; title
   );
 }
 
-function Chips({ list }: { list: string[] }) {
-  return (
-    <ul className="flex flex-wrap gap-2">
-      {list.map((t) => (
-        <li key={t} className="rounded-lg bg-accent/10 px-3 py-1 font-mono text-sm font-medium text-accent">
-          {t}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 // "Built with" describes the project, not a skills claim.
 function BuiltWith({ list }: { list: string[] }) {
   return (
@@ -380,14 +368,15 @@ export default function Home() {
             </ol>
 
             <h3 className="mt-20 font-mono text-sm font-semibold uppercase tracking-[0.2em] text-ink">Skills</h3>
-            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            {/* Short text lines instead of tags (Brian, 2026-11-15): same facts, about half a phone screen shorter */}
+            <dl className="mt-6 space-y-4 rounded-xl border border-line p-5">
               {Object.entries(skills).map(([group, list]) => (
-                <div key={group} className="rounded-xl border border-line p-5">
-                  <h4 className="mb-3 font-semibold text-ink">{group}</h4>
-                  <Chips list={list} />
+                <div key={group}>
+                  <dt className="font-semibold text-ink">{group}</dt>
+                  <dd className="mt-1 leading-relaxed">{list.join(" · ")}</dd>
                 </div>
               ))}
-            </div>
+            </dl>
           </section>
 
           <section id="contact" aria-labelledby="contact-title" className="scroll-mt-16 pb-16 lg:scroll-mt-20">
