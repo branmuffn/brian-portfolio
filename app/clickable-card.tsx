@@ -32,6 +32,7 @@ export function ClickableCard({
     if (!el) return;
     el.style.removeProperty("--fit-h");
     el.style.zoom = "";
+    delete el.dataset.wide;
     if (window.innerWidth < 1024) return;
     const over = () => el.scrollHeight > el.clientHeight + 1;
     const setH = (h: number) => el.style.setProperty("--fit-h", `${h}px`);
@@ -54,19 +55,42 @@ export function ClickableCard({
       }
       return { h, fits: !over(), extra: el.scrollHeight - el.clientHeight };
     };
-    const right = shrink("right");
-    const left = shrink("left");
-    const useLeft =
-      left.fits && right.fits ? left.h > right.h : left.fits ? true : right.fits ? false : left.extra < right.extra;
-    shrink(useLeft ? "left" : "right");
+    const place = () => {
+      const right = shrink("right");
+      const left = shrink("left");
+      const useLeft =
+        left.fits && right.fits ? left.h > right.h : left.fits ? true : right.fits ? false : left.extra < right.extra;
+      shrink(useLeft ? "left" : "right");
+    };
+    place();
+    // Short windows: if the text column is still too tall, widen it (40% instead of 30%, so fewer lines) and place
+    // again. Keep it only if that helps; panels that already fit never get here and keep their normal look.
+    if (over()) {
+      const extra = el.scrollHeight - el.clientHeight;
+      el.dataset.wide = "1";
+      place();
+      if (el.scrollHeight - el.clientHeight >= extra) {
+        delete el.dataset.wide;
+        place();
+      }
+    }
     let h = parseInt(el.style.getPropertyValue("--fit-h"));
-    // Short screens: scale the whole panel down a little, then shrink the screenshot further if still needed.
+    // Then scale the whole panel down a little, and as a last resort shrink the screenshot, but only while that
+    // actually helps (when the text column is the tall one, a smaller screenshot just leaves an empty gap).
     let z = 1;
     while (over() && z > 0.8) {
       z -= 0.025;
       el.style.zoom = String(z);
     }
-    while (over() && h > 160) setH((h -= 12));
+    while (over() && h > 160) {
+      const before = el.scrollHeight;
+      setH(h - 12);
+      if (el.scrollHeight >= before) {
+        setH(h);
+        break;
+      }
+      h -= 12;
+    }
   };
 
 
@@ -148,7 +172,8 @@ export function ClickableCard({
         >
           {/* The dark margin around the panel is a big target: clicking it closes the panel. */}
           <div
-            className="flex h-full w-full items-center justify-center p-2 sm:p-6 lg:px-16 lg:py-10"
+            // Laptops: the dark margin above/below the panel thins on short windows (40px at 800px tall, 16px at 660px).
+            className="flex h-full w-full items-center justify-center p-2 sm:p-6 lg:px-16 lg:py-[clamp(1rem,17.14dvh_-_97px,2.5rem)]"
             onClick={(e) => {
               if (e.target === e.currentTarget) close();
             }}

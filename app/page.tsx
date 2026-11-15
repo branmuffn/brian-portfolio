@@ -187,7 +187,7 @@ function ProjectPanel({ p }: { p: Project }) {
         {p.award && <p className="font-medium text-accent max-sm:mt-0.5 max-sm:text-[0.9rem] max-sm:leading-snug">{p.award}</p>}
       </div>
 
-      <div className={`mt-5 grid gap-x-8 gap-y-5 max-sm:mt-3.5 max-sm:gap-y-3 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-rows-[auto_1fr] lg:content-start" : "max-w-3xl"}`}>
+      <div className={`mt-5 grid gap-x-8 gap-y-5 max-sm:mt-3.5 max-sm:gap-y-3 ${visual ? "lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:group-data-[wide=1]/sheet:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:grid-rows-[auto_1fr] lg:content-start" : "max-w-3xl"}`}>
         {p.phones ? (
           <div className="lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:group-data-[meta=left]/sheet:row-span-1">
             <Features shots={p.phones} />

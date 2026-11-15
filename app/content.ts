@@ -67,7 +67,7 @@ export const projects: Project[] = [
     team: "Christopher Lee, Thanh Tran, Rita Dong, Javier Soto, Jedidiah Gabrielle Santos, and me",
     tools: ["React", "Gloo AI Studio", "Gemini", "Whisper"],
     links: [{ href: "https://gloo.com/ai/hackathon/2026-winners", label: "Hackathon winners" }],
-    next: ["Testing with missionaries and campus ministers."],
+    next: ["Working on upgrades internally before releasing more broadly."],
   },
   {
     title: "Frontline Squad",
@@ -137,7 +137,7 @@ export const projects: Project[] = [
     summary:
       "A working clone of Splitwise, the app for sharing costs. Free to use, and no money moves through it: it only keeps track of who owes whom. Start with just your name, add friends before they join, and invite them with a link. Or try the demo.",
     shots: [
-      desk("/projects/splitwise-group.jpg", "Splitwise clone group page with balances in two currencies and suggested payments (demo data)", "Group page", "Balances in two currencies and the fewest payments to settle up, with Remind and Record buttons."),
+      desk("/projects/splitwise-group.jpg", "Splitwise clone group page with a Copy invite link button, balances in two currencies and suggested payments (demo data)", "Group page", "Invite friends with a link, see balances in two currencies, and settle up in the fewest payments."),
       desk("/projects/splitwise-itemized.jpg", "Splitwise clone itemized grocery expense with each person's share (demo data)", "Itemized expense", "Split a bill item by item, with tax shared in proportion. Equal, exact, percent, and shares work too."),
       desk("/projects/splitwise-charts.jpg", "Splitwise clone spending charts by category and month (demo data)", "Spending charts", "Spending by category and by month, converted to one currency at today's rates."),
     ],
