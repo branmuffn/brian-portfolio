@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { openTimelineEntry } from "./timeline-item";
 
 export type RailItem = { id: string; label: string; sub?: boolean };
 
@@ -13,6 +14,7 @@ const EDGE_PX = 36; // small screens: holding this close to the list's top or bo
 
 function jumpTo(dialog: HTMLDialogElement | null, id: string) {
   dialog?.close();
+  openTimelineEntry(id); // a job: its details open (they unfold below its top, so the scroll target doesn't move)
   const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
   if (id === "top") window.scrollTo({ top: 0, behavior }); // the name row: the very top of the page, above About
   else document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });

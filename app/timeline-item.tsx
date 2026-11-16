@@ -1,7 +1,14 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import type { TimelineItem as Entry } from "./content";
+
+// The desktop sidebar's ticks and the phone outline call this when they jump to a job, so its details open
+// (Brian, 2026-11-15: jumping to a job opens it; a project stays a card). Ids that aren't jobs are ignored.
+const OPEN = "timeline-open";
+export function openTimelineEntry(id: string) {
+  window.dispatchEvent(new CustomEvent(OPEN, { detail: id }));
+}
 
 // One job or school on the Experience timeline (Brian, 2026-11-14): date, organization and title show; the bullets fold
 // behind a ▸ on every screen size (click or tap the entry or the ▸ to open). Brian is trying "folded everywhere" first.
@@ -10,6 +17,21 @@ export function TimelineItem({ t, anchor }: { t: Entry; anchor?: string }) {
   const id = useId();
   const points = t.points ?? [];
   const toggle = () => setOpen((o) => !o);
+
+  // Open when the outline jumps here, or when the page is opened with this job's link (/#job-...).
+  const folds = points.length > 0;
+  useEffect(() => {
+    if (!anchor || !folds) return;
+    const onJump = (e: Event) => (e as CustomEvent<string>).detail === anchor && setOpen(true);
+    const onHash = () => window.location.hash === `#${anchor}` && setOpen(true);
+    onHash();
+    window.addEventListener(OPEN, onJump);
+    window.addEventListener("hashchange", onHash);
+    return () => {
+      window.removeEventListener(OPEN, onJump);
+      window.removeEventListener("hashchange", onHash);
+    };
+  }, [anchor, folds]);
   return (
     // anchor: where the phone scroll rail's outline jumps to
     <li id={anchor} className="relative scroll-mt-6">

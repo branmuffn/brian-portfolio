@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { openTimelineEntry } from "./timeline-item";
 
 type NavItem = { href: string; label: string; short?: string };
 
@@ -112,30 +113,49 @@ function useCurrentSub(subs: Record<string, SubItem[]>) {
 // Desktop sidebar: highlights the section currently in view. Beside the current section, a small column of ticks, one
 // per project / job (Brian picked V2, 2026-11-15); the one in view is the long amber tick. A tick's name shows only on
 // hover or keyboard focus, and clicking a tick jumps there. The column floats beside the label, so the menu never moves.
+// Pointing at (or tabbing to) another section with ticks shows that section's column instead (Brian, 2026-11-15), so a
+// job can be picked straight from the Projects section; leaving the menu brings back the current section's column.
 export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<string, SubItem[]> }) {
   const active = useActive(items);
   const [currentSub, pick] = useCurrentSub(subs);
+  const [peek, setPeek] = useState<string | null>(null);
+  const shown = peek && subs[peek]?.length ? peek : active;
 
   return (
-    <nav aria-label="Sections" className="mt-8 hidden lg:block [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5">
+    <nav
+      aria-label="Sections"
+      className="mt-8 hidden lg:block [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5"
+      onMouseLeave={() => setPeek(null)}
+      onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setPeek(null)}
+    >
       <ul className="space-y-1">
         {items.map((item) => {
           const isActive = active === item.href;
-          const list = isActive ? subs[item.href] : undefined;
+          const list = item.href === shown ? subs[item.href] : undefined;
+          // Pointed-at section with ticks: its line stays long while the mouse moves over to the ticks (otherwise
+          // the line shrinks back and the column slides away from the mouse).
+          const peeked = Boolean(list) && !isActive;
           return (
-            <li key={item.href} className="flex items-center">
+            <li key={item.href} className="flex items-center" onFocus={() => setPeek(item.href)}>
               <a
                 href={item.href}
+                // Only the name and line switch columns (not the empty row beside them), so moving the mouse slantwise
+                // to a far tick of a tall column (Projects) can't switch to the next section on the way.
+                onMouseEnter={() => setPeek(item.href)}
                 aria-current={isActive ? "location" : undefined}
                 className="group flex items-center gap-4 py-2.5 font-mono text-base font-semibold uppercase tracking-[0.16em] [@media(max-height:760px)]:py-1.5"
               >
                 <span
                   aria-hidden
                   className={`h-px transition-all duration-300 ease-out motion-reduce:transition-none ${
-                    isActive ? "w-20 bg-accent" : "w-10 bg-muted group-hover:w-20 group-hover:bg-ink group-focus-visible:w-20"
+                    isActive
+                      ? "w-20 bg-accent"
+                      : peeked
+                        ? "w-20 bg-ink"
+                        : "w-10 bg-muted group-hover:w-20 group-hover:bg-ink group-focus-visible:w-20"
                   }`}
                 />
-                <span className={isActive ? "text-accent" : "text-muted group-hover:text-ink"}>{item.label}</span>
+                <span className={isActive ? "text-accent" : peeked ? "text-ink" : "text-muted group-hover:text-ink"}>{item.label}</span>
               </a>
               {list?.length ? (
                 // Zero-height holder: the column is centred on the label and takes no room in the menu.
@@ -143,12 +163,15 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
                   {/* While the mouse is over a tick, only that tick's name shows (not also a keyboard-focused one). */}
                   <ul aria-label={item.label} className="absolute left-0 top-1/2 -translate-y-1/2 [&:hover_a:not(:hover)_.tick-name]:opacity-0">
                     {list.map((s) => {
-                      const on = s.id === currentSub;
+                      const on = isActive && s.id === currentSub;
                       return (
                         <li key={s.id}>
                           <a
                             href={`#${s.id}`}
-                            onClick={() => pick(s.id)}
+                            onClick={() => {
+                              pick(s.id);
+                              openTimelineEntry(s.id); // a job: its details open
+                            }}
                             aria-current={on ? "location" : undefined}
                             className="group/t relative flex h-2.5 w-8 items-center px-1.5 outline-none"
                           >
