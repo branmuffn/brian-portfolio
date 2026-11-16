@@ -30,6 +30,14 @@ const rail: RailItem[] = [
   { id: "contact", label: "Contact" },
 ];
 
+// Desktop sidebar ticks (V2): the rail's projects and jobs, grouped under their section ("#projects", "#experience").
+const sideSubs: Record<string, RailItem[]> = {};
+let railSection = "";
+for (const item of rail) {
+  if (!item.sub) railSection = item.id;
+  else (sideSubs[`#${railSection}`] ??= []).push(item);
+}
+
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 function Icon({ name }: { name: "mail" | "github" | "linkedin" | "file" }) {
@@ -303,7 +311,7 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
-        <header className="pt-16 lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
+        <header className="pt-16 lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
           <div>
             <Image
               src={headshot}
@@ -319,7 +327,7 @@ export default function Home() {
               <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-accent" />
               {profile.location}
             </p>
-            <SideNav items={nav} />
+            <SideNav items={nav} subs={sideSubs} />
           </div>
 
           <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:[@media(max-height:760px)]:mt-6" aria-label="Links">

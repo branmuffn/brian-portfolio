@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type NavItem = { href: string; label: string; short?: string };
 
@@ -57,17 +57,73 @@ export function BottomNav({ items }: { items: NavItem[] }) {
   );
 }
 
-// Desktop sidebar: highlights the section currently in view.
-export function SideNav({ items }: { items: NavItem[] }) {
+export type SubItem = { id: string; label: string };
+
+// Which project / job is in view: the last one whose top has passed a line near the top of the screen. Desktop project
+// cards sit two to a row, so a row counts as its left card. A tick that was just clicked stays current until the
+// visitor scrolls on their own (wheel, keys, touch, click), even if it's the right-hand card or a short job entry.
+function useCurrentSub(subs: Record<string, SubItem[]>) {
+  const [current, setCurrent] = useState<string | null>(null);
+  const picked = useRef<string | null>(null);
+
+  useEffect(() => {
+    const ids = Object.values(subs).flat().map((s) => s.id);
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (picked.current) return setCurrent(picked.current);
+      const line = Math.min(window.innerHeight * 0.3, 200);
+      let best: string | null = null;
+      let bestTop = -Infinity;
+      for (const id of ids) {
+        const top = document.getElementById(id)?.getBoundingClientRect().top;
+        if (top !== undefined && top <= line && top > bestTop + 2) [best, bestTop] = [id, top];
+      }
+      setCurrent(best);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    const release = () => {
+      if (!picked.current) return;
+      picked.current = null;
+      schedule();
+    };
+    const releaseOn = ["wheel", "keydown", "touchmove", "pointerdown"] as const;
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    releaseOn.forEach((e) => window.addEventListener(e, release, { passive: true }));
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      releaseOn.forEach((e) => window.removeEventListener(e, release));
+      cancelAnimationFrame(frame);
+    };
+  }, [subs]);
+
+  const pick = (id: string) => {
+    picked.current = id;
+    setCurrent(id);
+  };
+  return [current, pick] as const;
+}
+
+// Desktop sidebar: highlights the section currently in view. Beside the current section, a small column of ticks, one
+// per project / job (Brian picked V2, 2026-11-15); the one in view is the long amber tick. A tick's name shows only on
+// hover or keyboard focus, and clicking a tick jumps there. The column floats beside the label, so the menu never moves.
+export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<string, SubItem[]> }) {
   const active = useActive(items);
+  const [currentSub, pick] = useCurrentSub(subs);
 
   return (
     <nav aria-label="Sections" className="mt-8 hidden lg:block [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5">
       <ul className="space-y-1">
         {items.map((item) => {
           const isActive = active === item.href;
+          const list = isActive ? subs[item.href] : undefined;
           return (
-            <li key={item.href}>
+            <li key={item.href} className="flex items-center">
               <a
                 href={item.href}
                 aria-current={isActive ? "location" : undefined}
@@ -81,6 +137,45 @@ export function SideNav({ items }: { items: NavItem[] }) {
                 />
                 <span className={isActive ? "text-accent" : "text-muted group-hover:text-ink"}>{item.label}</span>
               </a>
+              {list?.length ? (
+                // Zero-height holder: the column is centred on the label and takes no room in the menu.
+                <div className="relative ml-5 self-stretch">
+                  {/* While the mouse is over a tick, only that tick's name shows (not also a keyboard-focused one). */}
+                  <ul aria-label={item.label} className="absolute left-0 top-1/2 -translate-y-1/2 [&:hover_a:not(:hover)_.tick-name]:opacity-0">
+                    {list.map((s) => {
+                      const on = s.id === currentSub;
+                      return (
+                        <li key={s.id}>
+                          <a
+                            href={`#${s.id}`}
+                            onClick={() => pick(s.id)}
+                            aria-current={on ? "location" : undefined}
+                            className="group/t relative flex h-2.5 w-8 items-center px-1.5 outline-none"
+                          >
+                            <span
+                              aria-hidden
+                              className={`block h-[3px] rounded-full transition-[width,background-color] duration-200 motion-reduce:transition-none ${
+                                on
+                                  ? "w-5 bg-accent"
+                                  : "w-3 bg-white/40 group-hover/t:w-5 group-hover/t:bg-ink group-focus-visible/t:w-5 group-focus-visible/t:bg-ink"
+                              }`}
+                            />
+                            <span
+                              // A navy backing so the name stays readable where it reaches the page content on
+                              // narrow laptops (1024px wide).
+                              className={`tick-name pointer-events-none absolute left-full top-1/2 z-10 -translate-y-1/2 whitespace-nowrap rounded bg-navy px-1 text-[15px] leading-5 opacity-0 group-hover/t:opacity-100 group-focus-visible/t:opacity-100 ${
+                                on ? "text-accent" : "text-ink"
+                              }`}
+                            >
+                              {s.label}
+                            </span>
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null}
             </li>
           );
         })}
