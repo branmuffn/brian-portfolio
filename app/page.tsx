@@ -331,26 +331,27 @@ export default function Home() {
             <SideNav items={nav} subs={sideSubs} />
           </div>
 
-          {/* Narrow laptops (1024-1279px wide): tighter so the column fits the window (it ran up to 69px past the bottom) */}
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:max-xl:mt-8 lg:max-xl:gap-x-4 lg:max-xl:text-[15px] lg:[@media(max-height:760px)]:mt-6 lg:max-xl:[@media(max-height:700px)]:mt-3!" aria-label="Links">
+          {/* Narrow laptops (1024-1279px wide): tighter so the column fits the window (it ran up to 69px past the bottom), and the
+              four links fit one row (Brian picked B, 2026-11-15: "Resume" without "(PDF)", smaller gaps, same text size) */}
+          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:max-xl:mt-8 lg:max-xl:gap-x-[10px] lg:max-xl:text-[15px] lg:[@media(max-height:760px)]:mt-6 lg:max-xl:[@media(max-height:700px)]:mt-3!" aria-label="Links">
             <li>
-              <a href={`mailto:${profile.email}`} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
+              <a href={`mailto:${profile.email}`} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent lg:max-xl:gap-1.5">
                 <Icon name="mail" /> Email
               </a>
             </li>
             <li>
-              <a href={profile.linkedin} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
+              <a href={profile.linkedin} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent lg:max-xl:gap-1.5">
                 <Icon name="linkedin" /> LinkedIn
               </a>
             </li>
             <li>
-              <a href={profile.github} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
+              <a href={profile.github} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent lg:max-xl:gap-1.5">
                 <Icon name="github" /> GitHub
               </a>
             </li>
             <li>
-              <a href={profile.resume} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
-                <Icon name="file" /> Resume (PDF)
+              <a href={profile.resume} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent lg:max-xl:gap-1.5">
+                <Icon name="file" /> <span>Resume<span className="lg:max-xl:hidden"> (PDF)</span></span>
               </a>
             </li>
           </ul>
