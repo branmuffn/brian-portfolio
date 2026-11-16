@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { openTimelineEntry } from "./timeline-item";
+import { glowOnLanding } from "./land-glow";
 
 export type RailItem = { id: string; label: string; sub?: boolean };
 
@@ -18,6 +19,7 @@ function jumpTo(dialog: HTMLDialogElement | null, id: string) {
   const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
   if (id === "top") window.scrollTo({ top: 0, behavior }); // the name row: the very top of the page, above About
   else document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
+  glowOnLanding(id); // a project card or job lights up once you're there
 }
 
 // Phones only (Brian picked B, 2026-11-15): a scroll-spy table-of-contents rail. A thin column of ticks on the right

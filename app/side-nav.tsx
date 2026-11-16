@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { openTimelineEntry } from "./timeline-item";
+import { glowOnLanding } from "./land-glow";
 
 type NavItem = { href: string; label: string; short?: string };
 
@@ -171,6 +172,7 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
                             onClick={() => {
                               pick(s.id);
                               openTimelineEntry(s.id); // a job: its details open
+                              glowOnLanding(s.id); // and the card or job lights up once you're there
                             }}
                             aria-current={on ? "location" : undefined}
                             className="group/t relative flex h-2.5 w-8 items-center px-1.5 outline-none"
