@@ -21,6 +21,7 @@ const firstSchool = timeline.find((t) => t.kind === "education");
 const timelineAnchor = (t: (typeof timeline)[number]) =>
   t.kind === "work" ? `job-${slug(t.org)}` : t === firstSchool ? "education" : undefined;
 const rail: RailItem[] = [
+  { id: "top", label: profile.name.replace(/,.*$/, "") }, // "Brian Tea" (no ", P.E.") // the very top (headshot and name), above About (Brian picked T1, 2026-11-15)
   { id: "about", label: "About" },
   { id: "projects", label: "Projects" },
   ...projects.map((p) => ({ id: projectAnchor(p), label: p.navLabel ?? p.title, sub: true })),
@@ -311,7 +312,7 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
         {/* Left column: sticky on desktop */}
-        <header className="pt-16 lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
+        <header id="top" className="pt-16 lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
           <div>
             <Image
               src={headshot}

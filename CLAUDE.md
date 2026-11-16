@@ -73,7 +73,11 @@ Phone-width screenshot: headless Chrome won't go below ~500px wide, so load the 
   (`id="project-<slug>"`), jobs (`job-<slug>`) and the first school (`education`), so new projects/jobs get ticks
   automatically. Short outline labels: `navLabel` in `content.ts`. The current item is the last one past
   min(25% of the screen, 150px) from the top (phone cards are short). Desktop keeps the sidebar; no rail there (Brian
-  agreed it would be clutter).
+  agreed it would be clutter). 2026-11-15: sub-ticks S1 (short, thin, faint; sections longer and brighter) and a first
+  row "Brian Tea" (T1, `id="top"` on the header; jumps to the very top). Drag check limit: outline under 480px.
+- **Desktop sidebar V2** (Brian, 2026-11-15; `SideNav` in `app/side-nav.tsx`, `lg:` only): beside the current section a
+  column of ticks for its projects / jobs (from the same `rail` list), current = long amber tick, names on hover or
+  keyboard focus only, click jumps (stays current until the visitor scrolls). Two cards per row count as the left one.
 
 - **Next.js 16**: read `node_modules/next/dist/docs/` before using unfamiliar APIs (see AGENTS.md).
 - **macOS is case-insensitive:** an ignore rule `Headshot.jpg` also matched `public/headshot.jpg`

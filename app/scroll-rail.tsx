@@ -13,8 +13,9 @@ const EDGE_PX = 36; // small screens: holding this close to the list's top or bo
 
 function jumpTo(dialog: HTMLDialogElement | null, id: string) {
   dialog?.close();
-  const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  document.getElementById(id)?.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "start" });
+  const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  if (id === "top") window.scrollTo({ top: 0, behavior }); // the name row: the very top of the page, above About
+  else document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
 }
 
 // Phones only (Brian picked B, 2026-11-15): a scroll-spy table-of-contents rail. A thin column of ticks on the right
@@ -161,8 +162,9 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
             <span
               key={item.id}
               aria-hidden
-              className={`block h-[3px] rounded-full transition-[width,background-color] duration-200 motion-reduce:transition-none ${
-                on ? "w-4 bg-accent" : item.sub ? "w-2 bg-white/30" : "w-3 bg-white/55"
+              // Sub-ticks (projects, jobs) short, thin and faint; sections longer and brighter (Brian picked S1, 2026-11-15).
+              className={`block rounded-full transition-[width,background-color] duration-200 motion-reduce:transition-none ${
+                on ? "h-[3px] w-4 bg-accent" : item.sub ? "h-[2px] w-1.5 bg-white/[0.22]" : "h-[3px] w-3.5 bg-white/[0.62]"
               }`}
             />
           );
@@ -194,12 +196,12 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
                     aria-current={on ? "location" : undefined}
                     // Compact rows (Brian, 2026-11-15): the whole list sits near the middle, within thumb reach.
                     className={`flex w-full items-center gap-2.5 rounded-lg text-left leading-5 ${
-                      here ? "bg-accent text-navy" : on ? "bg-accent/10 text-accent" : item.sub ? "text-body" : "text-ink"
+                      here ? "bg-accent text-navy" : on ? "bg-accent/10 text-accent" : item.sub ? "text-muted" : "text-ink"
                     } ${item.sub ? "py-[3px] pl-7 pr-3 text-[13px]" : "px-3 py-[5px] text-[15px] font-semibold"}`}
                   >
                     <span
                       aria-hidden
-                      className={`block h-[3px] shrink-0 rounded-full ${item.sub ? "w-2.5" : "w-3.5"} ${here ? "bg-navy" : on ? "bg-accent" : "bg-white/35"}`}
+                      className={`block shrink-0 rounded-full ${item.sub ? "h-[2px] w-2" : "h-[3px] w-3.5"} ${here ? "bg-navy" : on ? "bg-accent" : "bg-white/35"}`}
                     />
                     {item.label}
                   </button>
