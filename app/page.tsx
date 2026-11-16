@@ -319,11 +319,11 @@ export default function Home() {
               alt="Headshot of Brian Tea"
               priority
               sizes="224px"
-              className="h-[184px] w-[184px] rounded-full lg:h-[224px] lg:w-[224px] lg:[@media(max-height:880px)]:h-[160px] lg:[@media(max-height:880px)]:w-[160px] lg:[@media(max-height:760px)]:h-[112px] lg:[@media(max-height:760px)]:w-[112px] object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
+              className="h-[184px] w-[184px] rounded-full lg:h-[224px] lg:w-[224px] lg:[@media(max-height:880px)]:h-[160px] lg:[@media(max-height:880px)]:w-[160px] lg:[@media(max-height:760px)]:h-[112px] lg:[@media(max-height:760px)]:w-[112px] lg:max-xl:[@media(max-height:740px)]:h-[112px]! lg:max-xl:[@media(max-height:740px)]:w-[112px]! object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
             />
-            <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:[@media(max-height:760px)]:mt-5 lg:[@media(max-height:760px)]:text-4xl">{profile.name}</h1>
+            <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:max-xl:mt-6 lg:max-xl:text-4xl lg:[@media(max-height:760px)]:mt-5 lg:[@media(max-height:760px)]:text-4xl">{profile.name}</h1>
             <p className="mt-3 text-lg font-medium text-accent sm:text-xl">{profile.tagline}</p>
-            <p className="mt-4 max-w-sm text-lg leading-relaxed lg:[@media(max-height:760px)]:mt-2">{profile.headline}</p>
+            <p className="mt-4 max-w-sm text-lg leading-relaxed lg:max-xl:mt-3 lg:max-xl:text-base lg:[@media(max-height:760px)]:mt-2">{profile.headline}</p>
             <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted">
               <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-accent" />
               {profile.location}
@@ -331,7 +331,8 @@ export default function Home() {
             <SideNav items={nav} subs={sideSubs} />
           </div>
 
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:[@media(max-height:760px)]:mt-6" aria-label="Links">
+          {/* Narrow laptops (1024-1279px wide): tighter so the column fits the window (it ran up to 69px past the bottom) */}
+          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:max-xl:mt-8 lg:max-xl:gap-x-4 lg:max-xl:text-[15px] lg:[@media(max-height:760px)]:mt-6 lg:max-xl:[@media(max-height:700px)]:mt-3!" aria-label="Links">
             <li>
               <a href={`mailto:${profile.email}`} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent">
                 <Icon name="mail" /> Email
