@@ -122,10 +122,63 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
   const [peek, setPeek] = useState<string | null>(null);
   const shown = peek && subs[peek]?.length ? peek : active;
 
+  // Phones held sideways (Brian, 2026-11-19): press and drag over the menu. Touching a section shows its ticks, sliding
+  // over a tick shows its name, and lifting the finger jumps to whatever is under it (like the right-hand rail).
+  const drag = useRef<string | null | undefined>(undefined); // undefined = no touch drag
+  const eatClick = useRef(false);
+  const [dragTick, setDragTick] = useState<string | null>(null);
+  const under = (x: number, y: number) =>
+    (document.elementFromPoint(x, y) as Element | null)?.closest('nav[aria-label="Sections"] a[href^="#"]')?.getAttribute("href") ?? null;
+  const follow = (x: number, y: number) => {
+    const href = under(x, y);
+    drag.current = href;
+    if (href && items.some((i) => i.href === href)) {
+      setPeek(href);
+      setDragTick(null);
+    } else setDragTick(href ? href.slice(1) : null);
+  };
+  const jump = (href: string) => {
+    const id = href.slice(1);
+    const isTick = !items.some((i) => i.href === href);
+    if (isTick) {
+      pick(id);
+      openTimelineEntry(id);
+      glowOnLanding(id);
+    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", href);
+  };
+
   return (
     <nav
       aria-label="Sections"
-      className="mt-8 hidden lg:block land:col-span-2 land:mt-2 land:block [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5"
+      className="mt-8 hidden lg:block land:col-span-2 land:mt-2 land:block land:touch-none land:select-none [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5"
+      onPointerDown={(e) => {
+        if (e.pointerType !== "touch") return;
+        follow(e.clientX, e.clientY);
+      }}
+      onPointerMove={(e) => {
+        if (e.pointerType === "touch" && drag.current !== undefined) follow(e.clientX, e.clientY);
+      }}
+      onPointerUp={(e) => {
+        if (e.pointerType !== "touch" || drag.current === undefined) return;
+        const href = drag.current;
+        drag.current = undefined;
+        setDragTick(null);
+        eatClick.current = true;
+        setTimeout(() => (eatClick.current = false), 400);
+        if (href) jump(href);
+      }}
+      onPointerCancel={() => {
+        drag.current = undefined;
+        setDragTick(null);
+      }}
+      onClickCapture={(e) => {
+        if (eatClick.current) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }}
       onMouseLeave={() => setPeek(null)}
       onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setPeek(null)}
     >
@@ -165,6 +218,7 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
                   <ul aria-label={item.label} className="absolute left-0 top-1/2 -translate-y-1/2 [&:hover_a:not(:hover)_.tick-name]:opacity-0">
                     {list.map((s) => {
                       const on = isActive && s.id === currentSub;
+                      const touched = s.id === dragTick;
                       return (
                         <li key={s.id}>
                           <a
@@ -180,15 +234,15 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
                             <span
                               aria-hidden
                               className={`block h-[3px] rounded-full transition-[width,background-color] duration-200 motion-reduce:transition-none ${
-                                on
-                                  ? "w-5 bg-accent"
+                                on || touched
+                                  ? `w-5 ${touched ? "bg-ink" : "bg-accent"}`
                                   : "w-3 bg-white/40 group-hover/t:w-5 group-hover/t:bg-ink group-focus-visible/t:w-5 group-focus-visible/t:bg-ink"
                               }`}
                             />
                             <span
                               // A navy backing so the name stays readable where it reaches the page content on
                               // narrow laptops (1024px wide).
-                              className={`tick-name pointer-events-none absolute left-full top-1/2 z-10 -translate-y-1/2 whitespace-nowrap rounded bg-navy px-1 text-[15px] leading-5 opacity-0 group-hover/t:opacity-100 group-focus-visible/t:opacity-100 ${
+                              className={`tick-name pointer-events-none absolute left-full top-1/2 z-10 -translate-y-1/2 whitespace-nowrap rounded bg-navy px-1 text-[15px] leading-5 group-hover/t:opacity-100 group-focus-visible/t:opacity-100 ${touched ? "opacity-100" : "opacity-0"} ${
                                 on ? "text-accent" : "text-ink"
                               }`}
                             >

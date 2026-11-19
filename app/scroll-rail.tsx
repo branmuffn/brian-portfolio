@@ -144,7 +144,7 @@ export function ScrollRail({ items }: { items: RailItem[] }) {
   const close = () => dialog.current?.close();
 
   return (
-    <div className="sm:hidden print:hidden">
+    <div className="sm:hidden land:block! print:hidden">
       <button
         ref={button}
         type="button"

@@ -312,7 +312,7 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16 land:flex land:justify-between land:gap-8 land:px-[max(2rem,env(safe-area-inset-left))]">
         {/* Left column: sticky on desktop */}
-        <header id="top" className="pt-16 lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6 land:sticky land:top-0 land:flex land:h-dvh land:w-[42%] land:shrink-0 land:flex-col land:justify-between land:overflow-y-auto land:py-3">
+        <header id="top" className="pt-16 lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6 land:sticky land:top-0 land:flex land:h-dvh land:w-[42%] land:shrink-0 land:flex-col land:justify-between land:overflow-hidden land:py-3">
           <div className="land:grid land:grid-cols-[auto_minmax(0,1fr)] land:items-center land:gap-x-4">
             <Image
               src={headshot}
@@ -324,7 +324,7 @@ export default function Home() {
             <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:max-xl:mt-6 lg:max-xl:text-4xl lg:[@media(max-height:760px)]:mt-5 lg:[@media(max-height:760px)]:text-4xl land:mt-0 land:self-end land:text-[1.6rem]">{profile.name}</h1>
             <p className="mt-3 text-lg font-medium text-accent sm:text-xl land:mt-0.5 land:text-base land:leading-snug">{profile.tagline}</p>
             <p className="mt-4 max-w-sm text-lg leading-relaxed lg:max-xl:mt-3 lg:max-xl:text-base lg:[@media(max-height:760px)]:mt-2 land:hidden">{profile.headline}</p>
-            <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted land:col-start-2 land:mt-1.5">
+            <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted land:col-start-2 land:mt-1.5 land:[@media(max-height:350px)]:hidden">
               <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-accent" />
               {profile.location}
             </p>
@@ -359,7 +359,7 @@ export default function Home() {
         </header>
 
         {/* Right column: scrolls */}
-        <main id="content" className="pb-20 pt-6 lg:w-[54%] lg:py-20 land:min-w-0 land:flex-1 land:pb-10 land:pt-8 land:pr-[env(safe-area-inset-right)]">
+        <main id="content" className="pb-20 pt-6 lg:w-[54%] lg:py-20 land:min-w-0 land:flex-1 land:pb-10 land:pt-8 land:pr-[max(2.25rem,env(safe-area-inset-right))]">
 
           <section id="about" aria-labelledby="about-title" className="scroll-mt-16 pb-24 lg:scroll-mt-20">
             <SectionHeading id="about" index="01" title="About" />
@@ -431,7 +431,7 @@ export default function Home() {
               >
                 {profile.email}
               </a>
-              <div className="mt-6 flex flex-col gap-6 font-medium sm:flex-row sm:gap-8">
+              <div className="mt-6 flex flex-col gap-6 font-medium sm:flex-row sm:gap-8 land:flex-wrap land:gap-x-6 land:gap-y-4">
                 <a href={profile.linkedin} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted hover:text-accent">
                   <Icon name="linkedin" /> {profile.linkedinLabel} <span aria-hidden>↗</span>
                 </a>
