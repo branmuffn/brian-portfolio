@@ -213,7 +213,9 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
               </a>
               {list?.length ? (
                 // Zero-height holder: the column is centred on the label and takes no room in the menu.
-                <div className="relative ml-5 self-stretch">
+                // Phones held sideways (land:) show no ticks (Brian 2026-11-19, option A: names were cut off and the
+                // right-hand rail already jumps to each project/job).
+                <div className="relative ml-5 self-stretch land:hidden">
                   {/* While the mouse is over a tick, only that tick's name shows (not also a keyboard-focused one). */}
                   <ul aria-label={item.label} className="absolute left-0 top-1/2 -translate-y-1/2 [&:hover_a:not(:hover)_.tick-name]:opacity-0">
                     {list.map((s) => {
