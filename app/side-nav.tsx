@@ -36,7 +36,7 @@ export function BottomNav({ items }: { items: NavItem[] }) {
   return (
     <nav
       aria-label="Sections"
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-navy/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-navy/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden land:hidden"
     >
       <ul className="mx-auto flex max-w-xl justify-between px-2">
         {items.map((n) => {
@@ -125,7 +125,7 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
   return (
     <nav
       aria-label="Sections"
-      className="mt-8 hidden lg:block [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5"
+      className="mt-8 hidden lg:block land:col-span-2 land:mt-2 land:block [@media(max-height:880px)]:mt-6 [@media(max-height:760px)]:mt-5"
       onMouseLeave={() => setPeek(null)}
       onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setPeek(null)}
     >
@@ -144,7 +144,7 @@ export function SideNav({ items, subs = {} }: { items: NavItem[]; subs?: Record<
                 // to a far tick of a tall column (Projects) can't switch to the next section on the way.
                 onMouseEnter={() => setPeek(item.href)}
                 aria-current={isActive ? "location" : undefined}
-                className="group flex items-center gap-4 py-2.5 font-mono text-base font-semibold uppercase tracking-[0.16em] [@media(max-height:760px)]:py-1.5"
+                className="group flex items-center gap-4 py-2.5 font-mono text-base font-semibold uppercase tracking-[0.16em] [@media(max-height:760px)]:py-1.5 land:py-[3px] land:text-sm"
               >
                 <span
                   aria-hidden

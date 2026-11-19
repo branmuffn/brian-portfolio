@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Phones turned sideways (2026-11-19): wide but short, below the desktop breakpoint. Gets a compact desktop-style sidebar. */
+@custom-variant land {
+  @media (orientation: landscape) and (max-height: 540px) and (min-width: 600px) and (max-width: 1023.98px) {
+    @slot;
+  }
+}
+
 /* Design A: sidebar classic, dark navy */
 @theme inline {
   --color-navy: #0b1324;

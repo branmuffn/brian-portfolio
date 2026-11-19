@@ -310,21 +310,21 @@ export default function Home() {
       {/* Phones only: scroll-spy rail on the right edge; tap it for an outline of every section, project and job */}
       <ScrollRail items={rail} />
 
-      <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16">
+      <div className="relative mx-auto max-w-7xl px-6 sm:px-10 lg:flex lg:justify-between lg:gap-16 lg:px-16 land:flex land:justify-between land:gap-8 land:px-[max(2rem,env(safe-area-inset-left))]">
         {/* Left column: sticky on desktop */}
-        <header id="top" className="pt-16 lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6">
-          <div>
+        <header id="top" className="pt-16 lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-screen lg:w-[42%] lg:flex-col lg:justify-between lg:pb-20 lg:pt-12 lg:[@media(max-height:880px)]:py-10 lg:[@media(max-height:760px)]:py-6 land:sticky land:top-0 land:flex land:h-dvh land:w-[42%] land:shrink-0 land:flex-col land:justify-between land:overflow-y-auto land:py-3">
+          <div className="land:grid land:grid-cols-[auto_minmax(0,1fr)] land:items-center land:gap-x-4">
             <Image
               src={headshot}
               alt="Headshot of Brian Tea"
               priority
               sizes="224px"
-              className="h-[184px] w-[184px] rounded-full lg:h-[224px] lg:w-[224px] lg:[@media(max-height:880px)]:h-[160px] lg:[@media(max-height:880px)]:w-[160px] lg:[@media(max-height:760px)]:h-[112px] lg:[@media(max-height:760px)]:w-[112px] lg:max-xl:[@media(max-height:740px)]:h-[112px]! lg:max-xl:[@media(max-height:740px)]:w-[112px]! object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
+              className="h-[184px] w-[184px] rounded-full lg:h-[224px] lg:w-[224px] lg:[@media(max-height:880px)]:h-[160px] lg:[@media(max-height:880px)]:w-[160px] lg:[@media(max-height:760px)]:h-[112px] lg:[@media(max-height:760px)]:w-[112px] lg:max-xl:[@media(max-height:740px)]:h-[112px]! lg:max-xl:[@media(max-height:740px)]:w-[112px]! land:row-span-3 land:h-[64px]! land:w-[64px]! land:ring-offset-2 object-cover object-top ring-2 ring-accent/70 ring-offset-4 ring-offset-navy"
             />
-            <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:max-xl:mt-6 lg:max-xl:text-4xl lg:[@media(max-height:760px)]:mt-5 lg:[@media(max-height:760px)]:text-4xl">{profile.name}</h1>
-            <p className="mt-3 text-lg font-medium text-accent sm:text-xl">{profile.tagline}</p>
-            <p className="mt-4 max-w-sm text-lg leading-relaxed lg:max-xl:mt-3 lg:max-xl:text-base lg:[@media(max-height:760px)]:mt-2">{profile.headline}</p>
-            <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted">
+            <h1 className="mt-8 text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:max-xl:mt-6 lg:max-xl:text-4xl lg:[@media(max-height:760px)]:mt-5 lg:[@media(max-height:760px)]:text-4xl land:mt-0 land:self-end land:text-[1.6rem]">{profile.name}</h1>
+            <p className="mt-3 text-lg font-medium text-accent sm:text-xl land:mt-0.5 land:text-base land:leading-snug">{profile.tagline}</p>
+            <p className="mt-4 max-w-sm text-lg leading-relaxed lg:max-xl:mt-3 lg:max-xl:text-base lg:[@media(max-height:760px)]:mt-2 land:hidden">{profile.headline}</p>
+            <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted land:col-start-2 land:mt-1.5">
               <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-accent" />
               {profile.location}
             </p>
@@ -332,25 +332,26 @@ export default function Home() {
           </div>
 
           {/* Narrow laptops (1024-1279px wide): tighter so the column fits the window (it ran up to 69px past the bottom), and the
-              four links fit one row (Brian picked B, 2026-11-15; 2026-11-16: "Resume" without "(PDF)" at every size) */}
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:max-xl:mt-8 max-xl:gap-x-[10px] max-xl:text-[15px] lg:[@media(max-height:760px)]:mt-6 lg:max-xl:[@media(max-height:700px)]:mt-3!" aria-label="Links">
+              four links fit one row (Brian picked B, 2026-11-15; 2026-11-16: "Resume" without "(PDF)" at every size).
+              Below 1024px (2026-11-19, Brian: "3 and 1 doesn't look good"): equal buttons, 2x2 on phones, 4 across on tablets. */}
+          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-6 font-medium lg:mt-12 lg:max-xl:mt-8 max-xl:gap-x-[10px] max-xl:text-[15px] lg:[@media(max-height:760px)]:mt-6 lg:max-xl:[@media(max-height:700px)]:mt-3! max-lg:grid max-lg:grid-cols-4 max-lg:gap-3 max-sm:grid-cols-2 land:mt-2 land:grid-cols-4 land:gap-2" aria-label="Links">
             <li>
-              <a href={`mailto:${profile.email}`} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5">
+              <a href={`mailto:${profile.email}`} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5 max-lg:my-0 max-lg:justify-center max-lg:rounded-xl max-lg:border max-lg:border-line max-lg:bg-navy-raised/60 max-lg:px-3 max-lg:text-ink max-lg:hover:border-accent/60 land:flex-col land:gap-0.5! land:px-1 land:py-1.5 land:text-[13px]">
                 <Icon name="mail" /> Email
               </a>
             </li>
             <li>
-              <a href={profile.linkedin} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5">
+              <a href={profile.linkedin} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5 max-lg:my-0 max-lg:justify-center max-lg:rounded-xl max-lg:border max-lg:border-line max-lg:bg-navy-raised/60 max-lg:px-3 max-lg:text-ink max-lg:hover:border-accent/60 land:flex-col land:gap-0.5! land:px-1 land:py-1.5 land:text-[13px]">
                 <Icon name="linkedin" /> LinkedIn
               </a>
             </li>
             <li>
-              <a href={profile.github} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5">
+              <a href={profile.github} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5 max-lg:my-0 max-lg:justify-center max-lg:rounded-xl max-lg:border max-lg:border-line max-lg:bg-navy-raised/60 max-lg:px-3 max-lg:text-ink max-lg:hover:border-accent/60 land:flex-col land:gap-0.5! land:px-1 land:py-1.5 land:text-[13px]">
                 <Icon name="github" /> GitHub
               </a>
             </li>
             <li>
-              <a href={profile.resume} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5">
+              <a href={profile.resume} {...ext} className="relative -my-3 flex items-center gap-2 py-3 text-muted transition-colors hover:text-accent max-xl:gap-1.5 max-lg:my-0 max-lg:justify-center max-lg:rounded-xl max-lg:border max-lg:border-line max-lg:bg-navy-raised/60 max-lg:px-3 max-lg:text-ink max-lg:hover:border-accent/60 land:flex-col land:gap-0.5! land:px-1 land:py-1.5 land:text-[13px]">
                 <Icon name="file" /> <span>Resume</span>
               </a>
             </li>
@@ -358,7 +359,7 @@ export default function Home() {
         </header>
 
         {/* Right column: scrolls */}
-        <main id="content" className="pb-20 pt-6 lg:w-[54%] lg:py-20">
+        <main id="content" className="pb-20 pt-6 lg:w-[54%] lg:py-20 land:min-w-0 land:flex-1 land:pb-10 land:pt-8 land:pr-[env(safe-area-inset-right)]">
 
           <section id="about" aria-labelledby="about-title" className="scroll-mt-16 pb-24 lg:scroll-mt-20">
             <SectionHeading id="about" index="01" title="About" />
@@ -383,7 +384,7 @@ export default function Home() {
 
           <section id="projects" aria-labelledby="projects-title" className="scroll-mt-16 border-t border-line pb-24 pt-20 lg:scroll-mt-20">
             <SectionHeading id="projects" index="02" title="Projects" />
-            <div className="grid gap-5 max-sm:gap-3 sm:grid-cols-2">
+            <div className="grid gap-5 max-sm:gap-3 sm:grid-cols-2 land:grid-cols-1">
               {projects.map((p) => (
                 <ProjectCard key={p.title} p={p} />
               ))}
